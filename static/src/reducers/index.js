@@ -1,8 +1,4 @@
-const initialState={
-	time:"",
-	timeRate:"PAUSED",
-	countryShapes:{},
-}
+const initialState = {}
 
 const mainReducer = (state=initialState, action) => {
 	switch(action.type){
