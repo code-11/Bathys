@@ -1,67 +1,31 @@
-// dispatch(requestPosts(subreddit))
+const receiveBoard = (board) =>{
 
-const requestTime = () => {
-    return {
-        type:"SEND_GET_TIME",
-    };
-};
+    const restructuredBoard={};
+    for (let [key, value] of Object.entries(board)) {
+        const xy=key.split(",");
+        const x=xy[0];
+        const y=xy[1];
 
-const receiveTime = (time) => {
-    return {
-        type:"RECEIVE_GET_TIME",
-        time: time
-    };
-};
+        if(!(x in restructuredBoard)){
+          restructuredBoard[x]={}
+        }
+        const yMap=restructuredBoard[x];
+        yMap[y]=value;
+    }
 
-const receiveShapes = (shapes) =>{
     return {
-        type:"RECEIVE_GET_SHAPES",
-        shapes: shapes,
+        type:"RECEIVE_GET_BOARD",
+        board: restructuredBoard,
     }
 }
 
-export const getCountryShapes = () =>{
+export const getBoard = () =>{
     return (dispatch) =>{
-        dispatch({type:"SEND_GET_SHAPES"});
-        return fetch("/getCountryShapes")
+        dispatch({type:"SEND_GET_BOARD"});
+        return fetch("/board")
         .then((response)=>response.json())
-        .then((shapes)=>{
-            dispatch(receiveShapes(shapes));
+        .then((board)=>{
+            dispatch(receiveBoard(board));
         });
     };
 }
-
-export const getTime = () =>{
-    return (dispatch) =>{
-        dispatch({type:"SEND_GET_TIME"});
-        return fetch("/time")
-        .then((response)=>response.json())
-        .then((time)=>{
-            dispatch(receiveTime(time));
-        });
-    };
-};
-
-export const pauseTime = () =>{
-    return (dispatch) =>{
-        dispatch({type:"SEND_PAUSE_TIME"});
-        return fetch("/pauseTime")
-        .then((response)=>response.json())
-        .then((success)=>{
-            console.log("Stopped server clock");
-            dispatch(()=>{type:"RECEIVE_PAUSE_TIME"});
-        });
-    };
-};
-
-export const startTime = () =>{
-    return (dispatch) =>{
-        dispatch({type:"SEND_START_TIME"});
-        return fetch("/startTime")
-        .then((response)=>response.json())
-        .then((success)=>{
-            console.log("Started server clock");
-            dispatch(()=>{type:"RECEIVE_START_TIME"});
-        });
-    };
-};

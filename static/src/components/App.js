@@ -1,18 +1,25 @@
+import {getBoard} from '../actions/index';
 import React, { Component } from "react";
+import { connect } from 'react-redux'
+import Grid from "./Grid"
 
-export default class App extends Component {
+function mapStateToProps(state) {
+  return {}
+}
+
+class App extends Component {
   constructor(props) {
     super(props);
+    this.props.dispatch(getBoard()).then( board=>{
+      const y=0;
+    });
   };
 
   render() {
-    const size=5;
-    const line=[];
-    for(let i=0;i<size;i+=1){
-      line.push(<div key={i} style={{width:"200px", height:"200px",backgroundColor:"red", margin:"0px 25px 0px 25px"}}></div>);
-    }
   	return (
-      <div style={{display: "flex"}}> {line} </div>
+      <Grid xTiles={20} yTiles={10} bufferRatio={.07}/>
   	);
   }
 }
+
+export default connect(mapStateToProps)(App)

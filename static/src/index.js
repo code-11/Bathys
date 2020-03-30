@@ -10,9 +10,9 @@ import App from './components/App';
 // import initialData from '../data';
 
 const initialState={
-	time:"",
-	timeRate:"PAUSED",
-	countryShapes:{},
+	// time:"",
+	// timeRate:"PAUSED",
+	// countryShapes:{},
 }
 
 const store = createStore(
