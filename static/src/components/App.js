@@ -4,20 +4,19 @@ import { connect } from 'react-redux'
 import Grid from "./Grid"
 
 function mapStateToProps(state) {
-  return {}
+  const { board } = state;
+  return {board};
 }
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.props.dispatch(getBoard()).then( board=>{
-      const y=0;
-    });
+    this.props.dispatch(getBoard());
   };
 
   render() {
   	return (
-      <Grid xTiles={20} yTiles={10} bufferRatio={.07}/>
+      <Grid board={this.props.board} xSize={1250} ySize={500} bufferRatio={.07}/>
   	);
   }
 }

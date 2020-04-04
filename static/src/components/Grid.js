@@ -4,9 +4,16 @@ import {render} from 'react-dom'
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { screenWidth: 0, screenHeight: 0 };
     this.updateDimensions = this.updateDimensions.bind(this);
   };
+
+  getXTiles(board){
+    return Object.keys(board).length;
+  }
+
+  getYTiles(board){
+    return Object.keys(board[0]).length;
+  }
 
   componentDidMount() {
     this.updateDimensions();
@@ -24,30 +31,35 @@ export default class App extends Component {
   }
 
   render() {
-    return <h1>TEST</h1>;
-    // const {xTiles, yTiles, bufferRatio} = this.props;
+    // return <h1>TEST</h1>;
+    const {board, bufferRatio} = this.props;
+    if(board==undefined){
+      return null;
+    }
+    const xTiles = this.getXTiles(board);
+    const yTiles = this.getYTiles(board);
     // const {screenWidth, screenHeight} = this.state;
-    //
-    // const fatTileWidth = screenWidth/xTiles;
-    // const bufferWidth =Math.round(bufferRatio * fatTileWidth/2);
-    // const tileWidth = Math.round(((1-bufferRatio) * fatTileWidth)-1);
-    //
-    // const fatTileHeight = screenHeight/yTiles;
-    // const bufferHeight =Math.round(bufferRatio * fatTileHeight/2);
-    // const tileHeight = Math.round(((1-bufferRatio) * fatTileHeight)-1);
-    //
-    // const marginStr = bufferHeight+"px "+bufferWidth+"px "+bufferHeight+"px "+bufferWidth+"px";
-    //
-    // const grid=[];
-    // for(let i=0;i<xTiles;i+=1){
-    //   const line=[];
-    //   for(let j=0;j<yTiles;j+=1){
-    //     line.push(<div key={j} style={{width:tileWidth, height:tileHeight,backgroundColor:"red", margin:marginStr}}></div>);
-    //   }
-    //   grid.push(<div key={i}>{line}</div>)
-    // }
-    // return (
-    //   <div ref={ (divElement) => { this.divElement = divElement } } style={{display: "flex"}}> {grid} </div>
-    // );
+
+    const fatTileWidth = this.props.xSize/xTiles;
+    const bufferWidth =Math.round(bufferRatio * fatTileWidth/2);
+    const tileWidth = Math.round(((1-bufferRatio) * fatTileWidth)-1);
+
+    const fatTileHeight = this.props.ySize/yTiles;
+    const bufferHeight =Math.round(bufferRatio * fatTileHeight/2);
+    const tileHeight = Math.round(((1-bufferRatio) * fatTileHeight)-1);
+
+    const marginStr = bufferHeight+"px "+bufferWidth+"px "+bufferHeight+"px "+bufferWidth+"px";
+
+    const grid=[];
+    for(let i=0;i<xTiles;i+=1){
+      const line=[];
+      for(let j=0;j<yTiles;j+=1){
+        line.push(<div key={j} style={{width:tileWidth, height:tileHeight,backgroundColor:"red", margin:marginStr}}></div>);
+      }
+      grid.push(<div key={i}>{line}</div>)
+    }
+    return (
+      <div style={{display: "flex"}}> {grid} </div>
+    );
   }
 }

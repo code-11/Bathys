@@ -3,7 +3,7 @@ from flask import jsonify
 from flask import Flask, send_from_directory
 app = Flask(__name__, static_folder='static')
 
-board_x_size = 10
+board_x_size = 25
 board_y_size = 10
 board = {}
 for x in range(board_x_size):
