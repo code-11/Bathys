@@ -27,6 +27,9 @@ def board_func():
 def bundle():
     return app.send_static_file('./bundle.js')
 
+@app.route('/index.css')
+def style():
+    return app.send_static_file('./index.css')
 
 @app.route('/')
 def root():

@@ -4,7 +4,7 @@ import {render} from 'react-dom'
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.updateDimensions = this.updateDimensions.bind(this);
+    // this.updateDimensions = this.updateDimensions.bind(this);
   };
 
   getXTiles(board){
@@ -15,14 +15,14 @@ export default class App extends Component {
     return Object.keys(board[0]).length;
   }
 
-  componentDidMount() {
-    this.updateDimensions();
-    window.addEventListener('resize', this.updateDimensions);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions);
-  }
+  // componentDidMount() {
+  //   this.updateDimensions();
+  //   window.addEventListener('resize', this.updateDimensions);
+  // }
+  //
+  // componentWillUnmount() {
+  //   window.removeEventListener('resize', this.updateDimensions);
+  // }
 
   updateDimensions() {
     // const height = this.divElement.clientHeight;
@@ -40,26 +40,31 @@ export default class App extends Component {
     const yTiles = this.getYTiles(board);
     // const {screenWidth, screenHeight} = this.state;
 
-    const fatTileWidth = this.props.xSize/xTiles;
-    const bufferWidth =Math.round(bufferRatio * fatTileWidth/2);
-    const tileWidth = Math.round(((1-bufferRatio) * fatTileWidth)-1);
+    const auWidth  = 1000;
+    const auHeight = 1000;
 
-    const fatTileHeight = this.props.ySize/yTiles;
-    const bufferHeight =Math.round(bufferRatio * fatTileHeight/2);
-    const tileHeight = Math.round(((1-bufferRatio) * fatTileHeight)-1);
 
-    const marginStr = bufferHeight+"px "+bufferWidth+"px "+bufferHeight+"px "+bufferWidth+"px";
+    const fatTileWidth = auWidth/xTiles;
+    const bufferWidth =bufferRatio * fatTileWidth/2;
+    const tileWidth = ((1-bufferRatio) * fatTileWidth)-1;
+
+    const fatTileHeight = auHeight/yTiles;
+    const bufferHeight =bufferRatio * fatTileHeight/2;
+    const tileHeight = ((1-bufferRatio) * fatTileHeight)-1;
+
+    const tileWidthPerc = (tileWidth /auWidth)*100;
+    const tileHeightPerc= (tileHeight/auHeight)*100;
 
     const grid=[];
     for(let i=0;i<xTiles;i+=1){
-      const line=[];
       for(let j=0;j<yTiles;j+=1){
-        line.push(<div key={j} style={{width:tileWidth, height:tileHeight,backgroundColor:"red", margin:marginStr}}></div>);
+        const xPos = ((i)/(xTiles));
+        const yPos = ((j)/(yTiles));
+        grid.push(<div key={i+"-"+j} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:"red", position:"absolute"}}></div>);
       }
-      grid.push(<div key={i}>{line}</div>)
     }
     return (
-      <div style={{display: "flex"}}> {grid} </div>
+      <div style={{width:"100%", height:"100%"}}> {grid} </div>
     );
   }
 }
