@@ -29,3 +29,27 @@ export const getBoard = () =>{
         });
     };
 }
+
+const receiveSubMove = (subMoveResponse) => {
+  return{
+    type:"RECEIVE_MOVE_SUB",
+    board: subMoveResponse,
+  }
+}
+
+export const moveSub = (direction) =>{
+  return (dispatch) => {
+    dispatch({type: "SEND_MOVE_SUB"});
+    return fetch("/moveSub",{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(direction)
+    })
+    .then((response)=>response.json())
+    .then((subMoveResponse) =>{
+      dispatch(receiveSubMove(subMoveResponse))
+    });
+  }
+}

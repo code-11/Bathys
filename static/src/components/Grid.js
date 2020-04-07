@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 import {render} from 'react-dom'
+import {moveSub} from '../actions/index';
+import { connect } from 'react-redux'
 
-export default class App extends Component {
+function mapStateToProps(state) {
+  const { board } = state;
+  return {board};
+}
+
+class Grid extends Component {
   constructor(props) {
     super(props);
     // this.updateDimensions = this.updateDimensions.bind(this);
+    this.tileOnClick = this.tileOnClick.bind(this);
   };
 
   getXTiles(board){
@@ -28,6 +36,10 @@ export default class App extends Component {
     // const height = this.divElement.clientHeight;
     // const width = this.divElement.clientWidth;
     // this.setState({ screenWidth:width, screenHeight:height });
+  }
+
+  tileOnClick(){
+    this.props.dispatch(moveSub("DOWN"));
   }
 
   render() {
@@ -60,7 +72,7 @@ export default class App extends Component {
       for(let j=0;j<yTiles;j+=1){
         const xPos = ((i)/(xTiles));
         const yPos = ((j)/(yTiles));
-        grid.push(<div key={i+"-"+j} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:"red", position:"absolute"}}></div>);
+        grid.push(<div key={i+"-"+j} onClick={this.tileOnClick} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:"red", position:"absolute"}}></div>);
       }
     }
     return (
@@ -68,3 +80,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(Grid)

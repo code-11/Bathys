@@ -1,7 +1,9 @@
 import os
-from flask import jsonify
+from flask import jsonify, request
 from flask import Flask, send_from_directory
 app = Flask(__name__, static_folder='static')
+
+sub_loc = (0,0)
 
 board_x_size = 25
 board_y_size = 10
@@ -9,6 +11,11 @@ board = {}
 for x in range(board_x_size):
     for y in range(board_y_size):
         board[(x, y)] = 0
+
+@app.route("/moveSub/", methods=['GET','POST'])
+def subMove(test):
+    content = request.json
+    print()
 
 @app.route("/favicon.ico")
 def favicon():
