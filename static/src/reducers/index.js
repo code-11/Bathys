@@ -10,6 +10,10 @@ const mainReducer = (state=initialState, action) => {
 			return { ...state, subLoc:action.subLoc};
 		case "SEND_MOVE_SUB":
 			return {...state};
+		case "RECEIVE_GET_SUB_LOC":
+			return { ...state, subLoc:action.subLoc};
+		case "SEND_GET_SUB_LOC":
+			return {...state};
 		default:
 			console.error(action);
 			return {...state};

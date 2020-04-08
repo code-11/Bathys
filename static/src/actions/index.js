@@ -30,6 +30,24 @@ export const getBoard = () =>{
     };
 }
 
+const receiveSubLoc = (subLocReponse) => {
+  return{
+    type:"RECEIVE_GET_SUB_LOC",
+    subLoc: subLocReponse
+  }
+}
+
+export const getSubLoc = () =>{
+    return (dispatch) =>{
+        dispatch({type:"SEND_GET_SUB_LOC"});
+        return fetch("/getSubLoc")
+        .then((response)=>response.json())
+        .then((subLoc)=>{
+            dispatch(receiveSubLoc(subLoc));
+        });
+    };
+}
+
 const receiveSubMove = (subMoveResponse) => {
   return{
     type:"RECEIVE_MOVE_SUB",

@@ -6,7 +6,7 @@ app = Flask(__name__, static_folder='static')
 board_x_size = 25
 board_y_size = 10
 
-sub_loc = (0,board_y_size)
+sub_loc = (0, board_y_size-1)
 
 board = {}
 for x in range(board_x_size):
@@ -45,6 +45,12 @@ def moveSub():
     move_map[direction]()
     x, y = sub_loc
     return jsonify({"x":x,"y":y})
+
+@app.route("/getSubLoc")
+def getSubLoc():
+    global sub_loc
+    x, y = sub_loc
+    return jsonify({"x": x, "y": y})
 
 @app.route("/favicon.ico")
 def favicon():

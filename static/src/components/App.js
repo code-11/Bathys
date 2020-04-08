@@ -1,4 +1,4 @@
-import {getBoard} from '../actions/index';
+import {getBoard, getSubLoc} from '../actions/index';
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import Grid from "./Grid"
@@ -12,6 +12,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(getBoard());
+    this.props.dispatch(getSubLoc());
   };
 
   render() {
