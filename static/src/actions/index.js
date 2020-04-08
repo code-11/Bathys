@@ -57,7 +57,7 @@ const receiveSubMove = (subMoveResponse) => {
 
 export const moveSub = (direction) =>{
   return (dispatch) => {
-    dispatch({type: "SEND_MOVE_SUB"});
+    dispatch({type: "SEND_MOVE_SUB", direction:direction});
     return fetch("/moveSub",{
       method: 'POST',
       headers: {

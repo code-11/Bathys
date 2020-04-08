@@ -41,12 +41,11 @@ class Grid extends Component {
   }
 
   tileOnClick(){
-    this.props.dispatch(moveSub("DOWN"));
   }
 
   render() {
     // return <h1>TEST</h1>;
-    const {subLocX,subLocY,board, bufferRatio} = this.props;
+    const {className,style,subLocX,subLocY,board, bufferRatio} = this.props;
     if(board==undefined){
       return null;
     }
@@ -74,15 +73,15 @@ class Grid extends Component {
       for(let j=0;j<yTiles;j+=1){
         const xPos = ((i)/(xTiles));
         const yPos = ((j)/(yTiles));
-        grid.push(<div key={i+"-"+j} onClick={this.tileOnClick} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:"red", position:"absolute"}}></div>);
+        grid.push(<div key={i+"-"+j} onClick={this.tileOnClick} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:"#1A73E8", position:"absolute"}}></div>);
 
         if(subLocX==i && subLocY==j){
-          grid.push(<div key="sub" style={{left:(xPos*100)+(tileWidthPerc/3)+"%", top:(yPos*100)+(tileHeightPerc/3)+"%", width:(tileWidthPerc/3)+"%", height:(tileHeightPerc/3)+"%",backgroundColor:"blue", position:"absolute"}}></div>);
+          grid.push(<div key="sub" style={{left:(xPos*100)+(tileWidthPerc/3)+"%", top:(yPos*100)+(tileHeightPerc/3)+"%", width:(tileWidthPerc/3)+"%", height:(tileHeightPerc/3)+"%",backgroundColor:"black", position:"absolute"}}></div>);
         }
       }
     }
     return (
-      <div style={{width:"100%", height:"100%"}}> {grid} </div>
+      <div className={className} style={style}> {grid} </div>
     );
   }
 }
