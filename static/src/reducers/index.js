@@ -7,7 +7,7 @@ const mainReducer = (state=initialState, action) => {
 		case "SEND_GET_BOARD":
 			return {...state};
 		case "RECEIVE_MOVE_SUB":
-			return { ...state};
+			return { ...state, subLoc:action.subLoc};
 		case "SEND_MOVE_SUB":
 			return {...state};
 		default:

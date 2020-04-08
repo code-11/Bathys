@@ -4,8 +4,10 @@ import {moveSub} from '../actions/index';
 import { connect } from 'react-redux'
 
 function mapStateToProps(state) {
-  const { board } = state;
-  return {board};
+  const { board,subLoc } = state;
+  const subLocX=subLoc!=undefined ? subLoc.x : 0;
+  const subLocY=subLoc!=undefined ? subLoc.y : 0;
+  return {board,subLocX,subLocY};
 }
 
 class Grid extends Component {
@@ -44,7 +46,7 @@ class Grid extends Component {
 
   render() {
     // return <h1>TEST</h1>;
-    const {board, bufferRatio} = this.props;
+    const {subLocX,subLocY,board, bufferRatio} = this.props;
     if(board==undefined){
       return null;
     }
@@ -73,6 +75,10 @@ class Grid extends Component {
         const xPos = ((i)/(xTiles));
         const yPos = ((j)/(yTiles));
         grid.push(<div key={i+"-"+j} onClick={this.tileOnClick} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:"red", position:"absolute"}}></div>);
+
+        if(subLocX==i && subLocY==j){
+          grid.push(<div key="sub" style={{left:(xPos*100)+(tileWidthPerc/3)+"%", top:(yPos*100)+(tileHeightPerc/3)+"%", width:(tileWidthPerc/3)+"%", height:(tileHeightPerc/3)+"%",backgroundColor:"blue", position:"absolute"}}></div>);
+        }
       }
     }
     return (

@@ -3,19 +3,48 @@ from flask import jsonify, request
 from flask import Flask, send_from_directory
 app = Flask(__name__, static_folder='static')
 
-sub_loc = (0,0)
-
 board_x_size = 25
 board_y_size = 10
+
+sub_loc = (0,board_y_size)
+
 board = {}
 for x in range(board_x_size):
     for y in range(board_y_size):
         board[(x, y)] = 0
 
-@app.route("/moveSub/", methods=['GET','POST'])
-def subMove(test):
+def moveSubDown():
+    global sub_loc
+    x,y = sub_loc
+    y -= 1
+    sub_loc = (x,y)
+
+def moveSubUp():
+    global sub_loc
+    x, y = sub_loc
+    y += 1
+    sub_loc = (x, y)
+
+def moveSubLeft():
+    global sub_loc
+    x, y = sub_loc
+    x -= 1
+    sub_loc = (x, y)
+
+def moveSubRight():
+    global sub_loc
+    x, y = sub_loc
+    x += 1
+    sub_loc = (x, y)
+
+@app.route("/moveSub", methods=['GET','POST'])
+def moveSub():
+    move_map = {"DOWN":moveSubDown, "UP":moveSubUp,  "LEFT":moveSubLeft, "RIGHT":moveSubLeft}
     content = request.json
-    print()
+    direction = content["direction"]
+    move_map[direction]()
+    x, y = sub_loc
+    return jsonify({"x":x,"y":y})
 
 @app.route("/favicon.ico")
 def favicon():

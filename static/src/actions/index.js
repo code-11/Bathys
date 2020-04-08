@@ -33,7 +33,7 @@ export const getBoard = () =>{
 const receiveSubMove = (subMoveResponse) => {
   return{
     type:"RECEIVE_MOVE_SUB",
-    board: subMoveResponse,
+    subLoc: subMoveResponse,
   }
 }
 
@@ -45,7 +45,7 @@ export const moveSub = (direction) =>{
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(direction)
+      body: JSON.stringify({direction})
     })
     .then((response)=>response.json())
     .then((subMoveResponse) =>{
