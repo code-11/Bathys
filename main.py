@@ -1,7 +1,11 @@
 import os
+import json
+from tile import Tile
+from bathysEncoder import BathysEncoder
 from flask import jsonify, request
 from flask import Flask, send_from_directory
 app = Flask(__name__, static_folder='static')
+app.json_encoder = BathysEncoder
 
 board_x_size = 25
 board_y_size = 10
@@ -11,7 +15,7 @@ sub_loc = (0, board_y_size-1)
 board = {}
 for x in range(board_x_size):
     for y in range(board_y_size):
-        board[(x, y)] = 0
+        board[(x, y)] = Tile()
 
 
 def moveSubDown():
@@ -74,7 +78,8 @@ def board_func():
     for key, val in board.items():
         x, y = key
         new_key = str(x)+","+str(y)
-        jsoned_board[new_key] = val
+        new_val = val
+        jsoned_board[new_key] = new_val
     return jsonify(jsoned_board)
 
 

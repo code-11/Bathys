@@ -73,7 +73,8 @@ class Grid extends Component {
       for(let j=0;j<yTiles;j+=1){
         const xPos = ((i)/(xTiles));
         const yPos = ((j)/(yTiles));
-        grid.push(<div key={i+"-"+j} onClick={this.tileOnClick} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:"#1A73E8", position:"absolute"}}></div>);
+        const tile = board[i][j];
+        grid.push(<div key={i+"-"+j} onClick={this.tileOnClick} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:tile.color, position:"absolute"}}></div>);
 
         if(subLocX==i && subLocY==j){
           grid.push(<div key="sub" style={{left:(xPos*100)+(tileWidthPerc/3)+"%", top:(yPos*100)+(tileHeightPerc/3)+"%", width:(tileWidthPerc/3)+"%", height:(tileHeightPerc/3)+"%",backgroundColor:"black", position:"absolute"}}></div>);
