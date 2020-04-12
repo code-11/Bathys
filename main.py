@@ -2,6 +2,7 @@ import os
 import json
 from tile import Tile
 from bathysEncoder import BathysEncoder
+from sub import Sub
 from flask import jsonify, request
 from flask import Flask, send_from_directory
 app = Flask(__name__, static_folder='static')
@@ -10,7 +11,8 @@ app.json_encoder = BathysEncoder
 board_x_size = 25
 board_y_size = 10
 
-sub_loc = (0, board_y_size-1)
+sub = Sub((0, board_y_size-1))
+# sub_loc = (0, board_y_size-1)
 
 board = {}
 for x in range(board_x_size):
@@ -19,35 +21,35 @@ for x in range(board_x_size):
 
 
 def moveSubDown():
-    global sub_loc
-    x, y = sub_loc
+    global sub
+    x, y = sub.loc
     if y < board_y_size-1:
         y += 1
-    sub_loc = (x, y)
+    sub.loc = (x, y)
 
 
 def moveSubUp():
-    global sub_loc
-    x, y = sub_loc
+    global sub
+    x, y = sub.loc
     if y > 0:
         y -= 1
-    sub_loc = (x, y)
+    sub.loc = (x, y)
 
 
 def moveSubLeft():
-    global sub_loc
-    x, y = sub_loc
+    global sub
+    x, y = sub.loc
     if x > 0:
         x -= 1
-    sub_loc = (x, y)
+    sub.loc = (x, y)
 
 
 def moveSubRight():
-    global sub_loc
-    x, y = sub_loc
+    global sub
+    x, y = sub.loc
     if x<board_x_size-1:
         x += 1
-    sub_loc = (x, y)
+    sub.loc = (x, y)
 
 
 @app.route("/moveSub", methods=['GET','POST'])
@@ -56,14 +58,14 @@ def moveSub():
     content = request.json
     direction = content["direction"]
     move_map[direction]()
-    x, y = sub_loc
+    x, y = sub.loc
     return jsonify({"x": x, "y": y})
 
 
 @app.route("/getSubLoc")
 def getSubLoc():
-    global sub_loc
-    x, y = sub_loc
+    global sub
+    x, y = sub.loc
     return jsonify({"x": x, "y": y})
 
 
