@@ -49,9 +49,11 @@ export const getSubLoc = () =>{
 }
 
 const receiveSubMove = (subMoveResponse) => {
+  const {x,y,new_tile}=subMoveResponse;
   return{
     type:"RECEIVE_MOVE_SUB",
-    subLoc: subMoveResponse,
+    subLoc: {x,y},
+    newTile:new_tile,
   }
 }
 

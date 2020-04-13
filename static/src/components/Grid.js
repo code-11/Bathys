@@ -43,6 +43,14 @@ class Grid extends Component {
   tileOnClick(){
   }
 
+  getColor(tile){
+      if(!tile.explored){
+        return "grey";
+      }else{
+        return tile.color
+      }
+  }
+
   render() {
     // return <h1>TEST</h1>;
     const {className,style,subLocX,subLocY,board, bufferRatio} = this.props;
@@ -74,7 +82,7 @@ class Grid extends Component {
         const xPos = ((i)/(xTiles));
         const yPos = ((j)/(yTiles));
         const tile = board[i][j];
-        grid.push(<div key={i+"-"+j} onClick={this.tileOnClick} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:tile.color, position:"absolute"}}></div>);
+        grid.push(<div key={i+"-"+j} onClick={this.tileOnClick} style={{left:(xPos*100)+"%", top:(yPos*100)+"%", width:(tileWidthPerc)+"%", height:(tileHeightPerc)+"%",backgroundColor:this.getColor(tile), position:"absolute"}}></div>);
 
         if(subLocX==i && subLocY==j){
           grid.push(<div key="sub" style={{left:(xPos*100)+(tileWidthPerc/3)+"%", top:(yPos*100)+(tileHeightPerc/3)+"%", width:(tileWidthPerc/3)+"%", height:(tileHeightPerc/3)+"%",backgroundColor:"black", position:"absolute"}}></div>);
