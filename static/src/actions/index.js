@@ -30,6 +30,24 @@ export const getBoard = () =>{
     };
 }
 
+const receivePositions = (positions) =>{
+  return {
+    type:"RECEIVE_GET_POSITIONS",
+    positions: positions,
+  };
+};
+
+export const getPositions = ()=>{
+    return (dispatch) => {
+      dispatch({type:"SEND_GET_POSITIONS"});
+      return fetch("/getPositions")
+      .then((response)=>response.json())
+      .then((positions) =>{
+        dispatch(receivePositions(positions));
+      });
+    }
+}
+
 const receiveSubLoc = (subLocReponse) => {
   return{
     type:"RECEIVE_GET_SUB_LOC",

@@ -2,6 +2,7 @@ import os
 import json
 import random
 from tile import *
+from position import *
 from bathysEncoder import BathysEncoder
 from sub import Sub
 from flask import jsonify, request
@@ -20,6 +21,23 @@ sub = Sub((0, board_y_size-1))
 board = {}
 
 
+def gen_positions():
+    navigator = Position()
+    navigator.uniq = "navigator"
+    navigator.name = "Navigator"
+
+    operator = Position()
+    operator.uniq = "operator"
+    operator.name = "Sonar Operator"
+    return [navigator, operator]
+
+
+positions = gen_positions()
+position_to_player = {}
+for position in positions:
+    position_to_player[position.uniq] = None
+
+
 def gen_board():
     global board
     # class types of the tiles
@@ -32,7 +50,7 @@ def gen_board():
 
 gen_board()
 
-board[sub.loc].explored=True
+board[sub.loc].explored = True
 
 
 def reveal_tile(x, y):
@@ -92,6 +110,12 @@ def getSubLoc():
     global sub
     x, y = sub.loc
     return jsonify({"x": x, "y": y})
+
+
+@app.route("/getPositions")
+def getPositions():
+    global positions
+    return jsonify(positions)
 
 
 @app.route("/favicon.ico")

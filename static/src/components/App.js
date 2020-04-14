@@ -1,4 +1,4 @@
-import {moveSub, getBoard, getSubLoc} from '../actions/index';
+import {moveSub, getBoard, getSubLoc, getPositions} from '../actions/index';
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import Grid from "./Grid"
@@ -13,6 +13,7 @@ class App extends Component {
     super(props);
     this.props.dispatch(getBoard());
     this.props.dispatch(getSubLoc());
+    this.props.dispatch(getPositions());
     this.moveSubUp = this.moveSubUp.bind(this);
     this.moveSubDown = this.moveSubDown.bind(this);
     this.moveSubLeft = this.moveSubLeft.bind(this);
