@@ -94,6 +94,18 @@ def moveSubRight():
         x += 1
     common_move_eval(x, y)
 
+@app.route("/requestPosition",methods=['GET','POST'])
+def requestPosition():
+    content = request.json
+    player_id = content["playerId"]
+    position_uniq = content["positionUniq"]
+    if position_to_player[position_uniq] is None:
+        position_to_player[position_uniq] = player_id
+        print("Assigning "+player_id+" to "+position_uniq)
+        return jsonify(True)
+    else:
+        return jsonify(False)
+
 
 @app.route("/moveSub", methods=['GET','POST'])
 def moveSub():

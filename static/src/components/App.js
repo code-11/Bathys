@@ -1,11 +1,12 @@
-import {moveSub, getBoard, getSubLoc, getPositions} from '../actions/index';
+import {moveSub, getBoard, getSubLoc, getPositions, requestPosition} from '../actions/index';
+import { v4 as uuidv4 } from 'uuid'
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import Grid from "./Grid"
 
 function mapStateToProps(state) {
-  const { board } = state;
-  return {board};
+  const { board,positions } = state;
+  return {board,positions};
 }
 
 class App extends Component {
@@ -18,6 +19,10 @@ class App extends Component {
     this.moveSubDown = this.moveSubDown.bind(this);
     this.moveSubLeft = this.moveSubLeft.bind(this);
     this.moveSubRight = this.moveSubRight.bind(this);
+    this.requestPosition = this.requestPosition.bind(this);
+
+    this.uuid=uuidv4();
+    this.state={position:null}
   };
 
   moveSubUp(){
@@ -36,8 +41,15 @@ class App extends Component {
     this.props.dispatch(moveSub("RIGHT"))
   }
 
-  render() {
-  	return (
+  requestPosition(playerId,position){
+    this.props.dispatch(requestPosition(playerId,position))
+    .then((response) =>{
+      console.log(response);
+    });
+  }
+
+  renderMainView(){
+    return(
       <div id="app-root">
         <Grid className="tile-view" board={this.props.board} bufferRatio={.07}/>
         <div className="control-view">
@@ -46,8 +58,22 @@ class App extends Component {
           <div onClick={this.moveSubRight} style={{margin:"0px", width:"33.3333%", height:"33.3333%", display:"inline-block", backgroundColor:"red"}}/>
           <div onClick={this.moveSubDown} style={{margin:"0% 33.3333% 0% 33.3333%", width:"33.3333%", height:"33.3333%",display:"inline-block", backgroundColor:"red"}}/>
         </div>
-      </div>
-  	);
+      </div>);
+  }
+
+  renderPositionSelection(){
+    const positions = this.props.positions;
+    if(positions!=undefined){
+      const positionBtns = positions.map((el, i)=> <div className={"opening-menu-item"} key={i} onClick={()=>this.requestPosition(this.uuid,el.uniq)}> {el.name} </div>);
+      return <div> {positionBtns} </div>;
+    }else{
+      return null;
+    }
+  }
+
+  render() {
+    const view = this.state.position == undefined ? this.renderPositionSelection() : this.renderMainView();
+  	return view;
   }
 }
 

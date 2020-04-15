@@ -30,6 +30,32 @@ export const getBoard = () =>{
     };
 }
 
+// const receiveRequestPosition = (requestPositionResponse) =>{
+//   return {
+//     type: "RECEIVE_REQUEST_POSITION",
+//     positionMap:requestPositionResponse.positionMap,
+//     success:requestPositionResponse.success
+//   }
+// }
+
+export const requestPosition = (playerId,positionUniq) =>{
+    return (dispatch) =>{
+        dispatch({type:"SEND_REQUEST_POSITION", playerId:playerId, positionUniq:positionUniq});
+        return fetch("/requestPosition",{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({playerId,positionUniq})
+        })
+        .then((response) => response.json())
+        .then((success)=>{
+          return success;
+          // dispatch(receiveRequestPosition(requestPositionResponse));
+        });
+    }
+}
+
 const receivePositions = (positions) =>{
   return {
     type:"RECEIVE_GET_POSITIONS",

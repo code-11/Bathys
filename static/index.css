@@ -19,3 +19,7 @@ div{
   height: 100%;
   display:inline-block;
 }
+
+.opening-menu-item{
+  cursor:pointer;
+}

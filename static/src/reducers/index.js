@@ -19,6 +19,10 @@ const mainReducer = (state=initialState, action) => {
 			return {...state, positions:action.positions};
 		case "SEND_GET_POSITIONS":
 			return {...state};
+		case "SEND_REQUEST_POSITION":
+			return {...state};
+		case "RECEIVE_REQUEST_POSITION":
+			return {...state};
 		default:
 			console.error(action);
 			return {...state};
