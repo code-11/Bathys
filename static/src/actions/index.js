@@ -56,6 +56,24 @@ export const requestPosition = (playerId,positionUniq) =>{
     }
 }
 
+const receivePositionMapping = (positionMapping) =>{
+  return {
+    type:"RECEIVE_GET_POSITION_MAPPING",
+    positionMapping:positionMapping,
+  }
+}
+
+export const getPositionMapping = ()=>{
+    return (dispatch) => {
+      dispatch({type:"SEND_GET_POSITION_MAPPING"});
+      return fetch("/getPositionMapping")
+      .then((response)=>response.json())
+      .then((positionMapping) =>{
+        dispatch(receivePositionMapping(positionMapping));
+      });
+    }
+}
+
 const receivePositions = (positions) =>{
   return {
     type:"RECEIVE_GET_POSITIONS",

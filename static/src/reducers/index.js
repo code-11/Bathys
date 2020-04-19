@@ -23,6 +23,10 @@ const mainReducer = (state=initialState, action) => {
 			return {...state};
 		case "RECEIVE_REQUEST_POSITION":
 			return {...state};
+		case "SEND_GET_POSITION_MAPPING":
+			return {...state};
+		case "RECEIVE_GET_POSITION_MAPPING":
+			return {...state, positionMapping: action.positionMapping};
 		default:
 			console.error(action);
 			return {...state};

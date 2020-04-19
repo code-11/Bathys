@@ -130,6 +130,12 @@ def getPositions():
     return jsonify(positions)
 
 
+@app.route("/getPositionMapping")
+def getPositionMapping():
+    global position_to_player
+    return jsonify(position_to_player)
+
+
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')

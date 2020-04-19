@@ -1,12 +1,12 @@
-import {moveSub, getBoard, getSubLoc, getPositions, requestPosition} from '../actions/index';
+import {moveSub, getBoard, getSubLoc, getPositions, getPositionMapping, requestPosition} from '../actions/index';
 import { v4 as uuidv4 } from 'uuid'
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import Grid from "./Grid"
 
 function mapStateToProps(state) {
-  const { board,positions } = state;
-  return {board,positions};
+  const { board,positions, positionMapping } = state;
+  return {board,positions, positionMapping};
 }
 
 class App extends Component {
@@ -15,6 +15,7 @@ class App extends Component {
     this.props.dispatch(getBoard());
     this.props.dispatch(getSubLoc());
     this.props.dispatch(getPositions());
+    this.props.dispatch(getPositionMapping());
     this.moveSubUp = this.moveSubUp.bind(this);
     this.moveSubDown = this.moveSubDown.bind(this);
     this.moveSubLeft = this.moveSubLeft.bind(this);
@@ -22,7 +23,7 @@ class App extends Component {
     this.requestPosition = this.requestPosition.bind(this);
 
     this.uuid=uuidv4();
-    this.state={position:null}
+    this.state={requestingPosition:false, position:null}
   };
 
   moveSubUp(){
@@ -42,9 +43,15 @@ class App extends Component {
   }
 
   requestPosition(playerId,position){
+    this.setState({requestingPosition:true});
     this.props.dispatch(requestPosition(playerId,position))
     .then((response) =>{
-      console.log(response);
+      if(response){
+        this.setState({requestingPosition:false,position});
+      }else{
+        this.setState({requestingPosition:false});
+        alert("This position is taken.");
+      }
     });
   }
 
@@ -62,12 +69,33 @@ class App extends Component {
   }
 
   renderPositionSelection(){
+    const positionMapping = this.props.positionMapping;
     const positions = this.props.positions;
-    if(positions!=undefined){
-      const positionBtns = positions.map((el, i)=> <div className={"opening-menu-item"} key={i} onClick={()=>this.requestPosition(this.uuid,el.uniq)}> {el.name} </div>);
-      return <div> {positionBtns} </div>;
+    if(this.state.requestingPosition){
+      return <div> Requesting Position... </div>;
     }else{
-      return null;
+      const positionBtns=[];
+      if(positionMapping!=undefined && positions!=undefined){
+        let i=0;
+        for(let positionID in positionMapping){
+          const position = positions.find(pos=>pos.uniq==positionID);
+          const playerID=positionMapping[position.uniq];
+          const playerString=playerID==undefined ? "Untaken" : playerID;
+          const positionBtn=
+            <div className={"opening-menu-item"}
+                 key={i}
+                 onClick={()=>{
+                      if(playerID==undefined){this.requestPosition(this.uuid,position.uniq)}
+                 }}>
+                 {position.name+" : "+playerString}
+            </div>;
+          positionBtns.push(positionBtn);
+          i+=1;
+        }
+        return <div> {positionBtns} </div>;
+      }else{
+        return null;
+      }
     }
   }
 
