@@ -31,3 +31,11 @@ class CoralTile(Tile):
         self.desc = "Coral Reef"
         self.uniq = "coral"
         self.color = "#F87661"
+
+
+class RockTile(Tile):
+    def __init__(self):
+        super().__init__()
+        self.desc = "Rock"
+        self.uniq = "rock"
+        self.color = "#989898"

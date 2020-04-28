@@ -5,9 +5,9 @@ from tile import *
 from position import *
 from bathysEncoder import BathysEncoder
 from sub import Sub
-from flask import jsonify, request
-from flask import Flask, send_from_directory
-app = Flask(__name__, static_folder='static')
+from quart import jsonify, request
+from quart import Quart, send_from_directory
+app = Quart(__name__, static_folder='static')
 app.json_encoder = BathysEncoder
 
 random.seed("bathys")
@@ -41,7 +41,7 @@ for position in positions:
 def gen_board():
     global board
     # class types of the tiles
-    tile_choices = [OpenTile, CoralTile]
+    tile_choices = [OpenTile, CoralTile, RockTile]
     for x in range(board_x_size):
         for y in range(board_y_size):
             # Choose a tile type and instantiate
@@ -94,8 +94,9 @@ def moveSubRight():
         x += 1
     common_move_eval(x, y)
 
+
 @app.route("/requestPosition",methods=['GET','POST'])
-def requestPosition():
+async def requestPosition():
     content = request.json
     player_id = content["playerId"]
     position_uniq = content["positionUniq"]
@@ -108,7 +109,7 @@ def requestPosition():
 
 
 @app.route("/moveSub", methods=['GET','POST'])
-def moveSub():
+async def moveSub():
     move_map = {"DOWN": moveSubDown, "UP": moveSubUp,  "LEFT": moveSubLeft, "RIGHT": moveSubRight}
     content = request.json
     direction = content["direction"]
@@ -118,31 +119,31 @@ def moveSub():
 
 
 @app.route("/getSubLoc")
-def getSubLoc():
+async def getSubLoc():
     global sub
     x, y = sub.loc
     return jsonify({"x": x, "y": y})
 
 
 @app.route("/getPositions")
-def getPositions():
+async def getPositions():
     global positions
     return jsonify(positions)
 
 
 @app.route("/getPositionMapping")
-def getPositionMapping():
+async def getPositionMapping():
     global position_to_player
     return jsonify(position_to_player)
 
 
 @app.route("/favicon.ico")
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
+async def favicon():
+    return await send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
 
 @app.route("/board")
-def board_func():
+async def board_func():
     jsoned_board = {}
     for key, val in board.items():
         x, y = key
@@ -153,19 +154,19 @@ def board_func():
 
 
 @app.route('/bundle.js')
-def bundle():
-    return app.send_static_file('./bundle.js')
+async def bundle():
+    return await app.send_static_file('./bundle.js')
 
 
 @app.route('/index.css')
-def style():
-    return app.send_static_file('./index.css')
+async def style():
+    return await app.send_static_file('./index.css')
 
 
 @app.route('/')
-def root():
-    return app.send_static_file('./index.html')
+async def root():
+     return await app.send_static_file('./index.html')
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='localhost', port=5000)
