@@ -97,7 +97,7 @@ def moveSubRight():
 
 @app.route("/requestPosition",methods=['GET','POST'])
 async def requestPosition():
-    content = request.json
+    content = await request.json
     player_id = content["playerId"]
     position_uniq = content["positionUniq"]
     if position_to_player[position_uniq] is None:
@@ -111,7 +111,7 @@ async def requestPosition():
 @app.route("/moveSub", methods=['GET','POST'])
 async def moveSub():
     move_map = {"DOWN": moveSubDown, "UP": moveSubUp,  "LEFT": moveSubLeft, "RIGHT": moveSubRight}
-    content = request.json
+    content = await request.json
     direction = content["direction"]
     move_map[direction]()
     x, y = sub.loc
