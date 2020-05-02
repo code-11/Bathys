@@ -7,6 +7,8 @@ from bathysEncoder import BathysEncoder
 from sub import Sub
 from quart import jsonify, request
 from quart import Quart, send_from_directory
+from asyncio import Event
+
 app = Quart(__name__, static_folder='static')
 app.json_encoder = BathysEncoder
 
@@ -32,6 +34,8 @@ def gen_positions():
     return [navigator, operator]
 
 
+players=[]
+
 positions = gen_positions()
 position_to_player = {}
 for position in positions:
@@ -52,6 +56,7 @@ gen_board()
 
 board[sub.loc].explored = True
 
+request_position_events = {}
 
 def reveal_tile(x, y):
     board[(x, y)].explored = True
@@ -95,6 +100,15 @@ def moveSubRight():
     common_move_eval(x, y)
 
 
+@app.route("/registerPlayer",methods=['GET','POST'])
+async def registerPlayer():
+    content = await request.json
+    player_id = content["playerId"]
+    players.append(player_id)
+    request_position_events[player_id] = Event()
+    return jsonify(True)
+
+
 @app.route("/requestPosition",methods=['GET','POST'])
 async def requestPosition():
     content = await request.json
@@ -103,6 +117,10 @@ async def requestPosition():
     if position_to_player[position_uniq] is None:
         position_to_player[position_uniq] = player_id
         print("Assigning "+player_id+" to "+position_uniq)
+        for other_player_id in players:
+            if other_player_id != player_id:
+                request_position_events[other_player_id].set()
+                request_position_events[other_player_id].clear()
         return jsonify(True)
     else:
         return jsonify(False)
@@ -129,6 +147,16 @@ async def getSubLoc():
 async def getPositions():
     global positions
     return jsonify(positions)
+
+
+@app.route("/getPositionMappingLong",methods=['GET','POST'])
+async def getPositionMappingLong():
+    global position_to_player
+    global request_position_events
+    content = await request.json
+    player_id = content["playerId"]
+    await request_position_events[player_id].wait()
+    return jsonify(position_to_player)
 
 
 @app.route("/getPositionMapping")

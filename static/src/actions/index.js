@@ -38,6 +38,23 @@ export const getBoard = () =>{
 //   }
 // }
 
+export const registerPlayer = (playerId) =>{
+    return (dispatch) =>{
+        dispatch({type:"SEND_REGISTER_PLAYER", playerId:playerId});
+        return fetch("/registerPlayer",{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({playerId})
+        })
+        .then((response) => response.json())
+        .then((success)=>{
+          return success;
+        });
+    }
+}
+
 export const requestPosition = (playerId,positionUniq) =>{
     return (dispatch) =>{
         dispatch({type:"SEND_REQUEST_POSITION", playerId:playerId, positionUniq:positionUniq});
@@ -56,6 +73,25 @@ export const requestPosition = (playerId,positionUniq) =>{
     }
 }
 
+export const getPositionMappingLong = (playerId) =>{
+  return (dispatch) =>{
+      dispatch({type:"SEND_GET_POSITION_MAPPING_LONG", playerId:playerId});
+      return fetch("/getPositionMappingLong",{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({playerId})
+      })
+      .then((response) => response.json())
+      .then((positionMapping)=>{
+        dispatch(receivePositionMapping(positionMapping));
+        return true;
+      });
+  }
+}
+
+
 const receivePositionMapping = (positionMapping) =>{
   return {
     type:"RECEIVE_GET_POSITION_MAPPING",
@@ -63,7 +99,7 @@ const receivePositionMapping = (positionMapping) =>{
   }
 }
 
-export const getPositionMapping = ()=>{
+export const getPositionMapping = (long=false)=>{
     return (dispatch) => {
       dispatch({type:"SEND_GET_POSITION_MAPPING"});
       return fetch("/getPositionMapping")

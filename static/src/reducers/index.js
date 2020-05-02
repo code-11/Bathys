@@ -19,10 +19,14 @@ const mainReducer = (state=initialState, action) => {
 			return {...state, positions:action.positions};
 		case "SEND_GET_POSITIONS":
 			return {...state};
+		case "SEND_REGISTER_PLAYER":
+			return {...state};
 		case "SEND_REQUEST_POSITION":
 			return {...state};
 		case "RECEIVE_REQUEST_POSITION":
 			return {...state};
+		case "SEND_GET_POSITION_MAPPING_LONG":
+				return {...state};
 		case "SEND_GET_POSITION_MAPPING":
 			return {...state};
 		case "RECEIVE_GET_POSITION_MAPPING":

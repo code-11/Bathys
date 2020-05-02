@@ -1,4 +1,4 @@
-import {getPositions, getPositionMapping, requestPosition} from '../actions/index';
+import {getPositions, getPositionMapping, getPositionMappingLong, requestPosition, registerPlayer} from '../actions/index';
 import { v4 as uuidv4 } from 'uuid'
 import React, { Component } from "react";
 import { connect } from 'react-redux'
@@ -11,8 +11,6 @@ function mapStateToProps(state) {
 class PositionSelectionView extends Component {
   constructor(props) {
     super(props);
-    this.props.dispatch(getPositions());
-    this.props.dispatch(getPositionMapping());
     this.requestPosition = this.requestPosition.bind(this);
 
     this.positionSetter=this.props.positionSetter;
@@ -20,6 +18,20 @@ class PositionSelectionView extends Component {
 
     this.state={requestingPosition:false}
   };
+
+  positionMappingAsyncPoll(){
+    this.props.dispatch(getPositionMappingLong(this.uuid)).then((response)=>{
+      this.positionMappingAsyncPoll();
+    });
+  }
+
+  componentDidMount(){
+    this.props.dispatch(registerPlayer(this.uuid)).then((response)=>{
+      this.props.dispatch(getPositions());
+      this.props.dispatch(getPositionMapping());
+      this.positionMappingAsyncPoll();
+    });
+  }
 
   requestPosition(playerId,position){
     this.setState({requestingPosition:true});

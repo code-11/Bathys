@@ -1,4 +1,4 @@
-import {moveSub, getBoard, getSubLoc, getPositions, getPositionMapping, requestPosition} from '../actions/index';
+import {registerPlayer} from '../actions/index';
 import { v4 as uuidv4 } from 'uuid'
 import React, { Component } from "react";
 import { connect } from 'react-redux'
