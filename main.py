@@ -3,6 +3,7 @@ import json
 import random
 from tile import *
 from position import *
+from board import Board
 from bathysEncoder import BathysEncoder
 from sub import Sub
 from quart import jsonify, request
@@ -14,14 +15,10 @@ app.json_encoder = BathysEncoder
 
 random.seed("bathys")
 
-board_x_size = 25
-board_y_size = 10
+board = Board(25, 10)
 
-sub = Sub((0, board_y_size-1))
+sub = Sub((0, board.size_y-1))
 # sub_loc = (0, board_y_size-1)
-
-board = {}
-
 
 def gen_positions():
     navigator = Position()
@@ -34,44 +31,28 @@ def gen_positions():
     return [navigator, operator]
 
 
-players=[]
+players = []
 
 positions = gen_positions()
 position_to_player = {}
 for position in positions:
     position_to_player[position.uniq] = None
 
-
-def gen_board():
-    global board
-    # class types of the tiles
-    tile_choices = [OpenTile, CoralTile, RockTile]
-    for x in range(board_x_size):
-        for y in range(board_y_size):
-            # Choose a tile type and instantiate
-            board[(x, y)] = random.choice(tile_choices)()
-
-
-gen_board()
-
-board[sub.loc].explored = True
+board.reveal_tile(tup=sub.loc)
 
 request_position_events = {}
-
-def reveal_tile(x, y):
-    board[(x, y)].explored = True
 
 
 def common_move_eval(x, y):
     new_loc = (x, y)
-    reveal_tile(x, y)
+    board.reveal_tile(x, y)
     sub.loc = new_loc
 
 
 def moveSubDown():
     global sub
     x, y = sub.loc
-    if y < board_y_size-1:
+    if y < board.size_y-1:
         y += 1
     common_move_eval(x, y)
 
@@ -95,7 +76,7 @@ def moveSubLeft():
 def moveSubRight():
     global sub
     x, y = sub.loc
-    if x < board_x_size-1:
+    if x < board.size_x-1:
         x += 1
     common_move_eval(x, y)
 
@@ -172,13 +153,7 @@ async def favicon():
 
 @app.route("/board")
 async def board_func():
-    jsoned_board = {}
-    for key, val in board.items():
-        x, y = key
-        new_key = str(x)+","+str(y)
-        new_val = val
-        jsoned_board[new_key] = new_val
-    return jsonify(jsoned_board)
+    return jsonify(board)
 
 
 @app.route('/bundle.js')
