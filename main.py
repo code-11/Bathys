@@ -172,4 +172,6 @@ async def root():
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000)
+    test = Board.GenTree(10,25)
+    print(test)
+    # app.run(host='localhost', port=5000)
