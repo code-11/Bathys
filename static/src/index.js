@@ -1,9 +1,3 @@
-import React from 'react';
-import { render } from 'react-dom';
-// import tasks from './reducers';
-import App from './space-components/App';
+import ExcelsiorApp from './space-components/ExcelsiorApp';
 
-render(
-        <App/>,
-    document.getElementById('app')
-);
+const excelsior=new ExcelsiorApp();
