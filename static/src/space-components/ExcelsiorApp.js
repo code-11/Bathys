@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import EXPolygonObj from "./EXPolygonObj";
 import EXCircleObj from "./EXCircleObj";
+import LandingChecker from "./LandingChecker";
 import MouseMovementController from "./MouseMovementController";
 
 export default class ExcelsiorApp{
@@ -25,6 +26,25 @@ export default class ExcelsiorApp{
     moveCtrlTargetObj.setColor(0xDE3249);
     moveCtrlTargetObj.init();
 
+    const base = new EXCircleObj();
+    base._origin = new PIXI.Point(500,500);
+    base._radius=15;
+    base.setColor(0x00FF00);
+    base.init();
+
+    const baseLandingCheckerIndicator = new EXCircleObj();
+    base.addChild(baseLandingCheckerIndicator);
+    baseLandingCheckerIndicator._origin =new PIXI.Point(base._origin.x+30,base._origin.y-30);
+    baseLandingCheckerIndicator._radius=5;
+    baseLandingCheckerIndicator.setColor(0x0000FF);
+    baseLandingCheckerIndicator.visible=false;
+    baseLandingCheckerIndicator.init();
+
+    const baseLandingChecker= new LandingChecker();
+    baseLandingChecker._checkingIndicator=baseLandingCheckerIndicator;
+    baseLandingChecker._parent=base;
+
+
     const moveCtrl= new MouseMovementController();
     moveCtrl._ctrlObj=triangle; //PIXI.Graphics
     moveCtrl._speed=2;
@@ -32,6 +52,7 @@ export default class ExcelsiorApp{
     moveCtrl._targetObj = moveCtrlTargetObj;
     moveCtrl.init();
 
+    graphics.addChild(base);
     graphics.addChild(triangle);
     graphics.addChild(moveCtrlTargetObj);
     // graphics.drawRect(50, 50, 100, 100);
@@ -39,6 +60,7 @@ export default class ExcelsiorApp{
 
     this.app.ticker.add(delta => {
       moveCtrl.update();
+      baseLandingChecker.checkLanding(triangle,moveCtrlTargetObj);
     });
   }
 }
