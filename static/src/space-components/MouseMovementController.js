@@ -5,6 +5,7 @@ export default class MouseMovementController{
     this._target=null;  //PIXI.Point
     this._targetObj=null;
     this._speed=2;
+    this._epsilon=2;
   }
 
   init(){
@@ -27,13 +28,17 @@ export default class MouseMovementController{
       const x_diff=target_x-ctrl_x;
       const y_diff=target_y-ctrl_y;
 
-      const mag=Math.sqrt(Math.pow(x_diff, 2)+Math.pow(y_diff, 2))/this._speed;
+      if(Math.abs(x_diff)>this._epsilon && Math.abs(y_diff)>this._epsilon){
+        this._ctrlObj.rotation = Math.PI/2+Math.atan2(y_diff,x_diff);
 
-      const x_apply=(x_diff/mag);
-      const y_apply=(y_diff/mag);
+        const mag=Math.sqrt(Math.pow(x_diff, 2)+Math.pow(y_diff, 2))/this._speed;
 
-      this._ctrlObj.x+=x_apply;
-      this._ctrlObj.y+=y_apply;
+        const x_apply=(x_diff/mag);
+        const y_apply=(y_diff/mag);
+
+        this._ctrlObj.x+=x_apply;
+        this._ctrlObj.y+=y_apply;
+      }
     }
   }
 }

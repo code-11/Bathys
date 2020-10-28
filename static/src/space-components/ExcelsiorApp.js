@@ -16,7 +16,7 @@ export default class ExcelsiorApp{
     graphics.interactive = true;
 
     const triangle=new EXPolygonObj();
-    triangle.setPoints([[10,0],[20,20],[0,20]]);
+    triangle.setPoints([[0,-15],[-10,15],[10,15]]);
     triangle.setColor(0xDE3249);
     triangle.init();
 
