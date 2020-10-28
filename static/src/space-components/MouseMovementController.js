@@ -28,13 +28,15 @@ export default class MouseMovementController{
       const x_diff=target_x-ctrl_x;
       const y_diff=target_y-ctrl_y;
 
-      if(Math.abs(x_diff)>this._epsilon && Math.abs(y_diff)>this._epsilon){
+      const mag=Math.sqrt(Math.pow(x_diff, 2)+Math.pow(y_diff, 2));
+
+      if(mag>this._epsilon){
         this._ctrlObj.rotation = Math.PI/2+Math.atan2(y_diff,x_diff);
 
-        const mag=Math.sqrt(Math.pow(x_diff, 2)+Math.pow(y_diff, 2))/this._speed;
+        const mag_speed=mag/this._speed;
 
-        const x_apply=(x_diff/mag);
-        const y_apply=(y_diff/mag);
+        const x_apply=(x_diff/mag_speed);
+        const y_apply=(y_diff/mag_speed);
 
         this._ctrlObj.x+=x_apply;
         this._ctrlObj.y+=y_apply;
