@@ -19,6 +19,10 @@ export default class EXCircleObj extends EXObj{
     this.drawCircle(this._origin.x,this._origin.y,this._radius);
   }
 
+  setHitArea(){
+    this.hitArea=this._polygon;
+  }
+
   containsFunc(x,y){
     return this._polygon.contains(x,y);
   }

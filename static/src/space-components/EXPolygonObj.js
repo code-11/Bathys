@@ -21,4 +21,8 @@ export default class EXPolygonObj extends EXObj{
     }
   }
 
+  setHitArea(){
+    this.hitArea=this._polygon;
+  }
+
 }

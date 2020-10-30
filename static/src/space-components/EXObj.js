@@ -14,10 +14,13 @@ export default class EXObj extends PIXI.Graphics{
     console.err("drawFunc not implemented");
   }
 
+  setHitArea(){}
+
   init(){
     this.beginFill(this._color);
     this.drawFunc();
     this.endFill();
+    this.setHitArea();
   }
 
   setColor(color){

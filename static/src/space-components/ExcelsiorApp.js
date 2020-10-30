@@ -1,4 +1,5 @@
-import * as PIXI from 'pixi.js'
+import * as PIXI from 'pixi.js';
+// import * as GOWN from "gown";
 import EXPolygonObj from "./EXPolygonObj";
 import EXCircleObj from "./EXCircleObj";
 import LandingChecker from "./LandingChecker";
@@ -14,6 +15,7 @@ export default class ExcelsiorApp{
 
     const graphics = new PIXI.Graphics();
     graphics.interactive = true;
+    graphics.hitArea = new PIXI.Rectangle(0, 0, 5000, 5000);
 
     const triangle=new EXPolygonObj();
     triangle.setPoints([[0,-15],[-10,15],[10,15]]);
@@ -27,7 +29,7 @@ export default class ExcelsiorApp{
     moveCtrlTargetObj.init();
 
     const base = new EXCircleObj();
-    base._origin = new PIXI.Point(500,500);
+    base._origin = new PIXI.Point(500,50);
     base._radius=15;
     base.setColor(0x00FF00);
     base.init();
@@ -38,16 +40,23 @@ export default class ExcelsiorApp{
     baseLandingCheckerIndicator._radius=5;
     baseLandingCheckerIndicator.setColor(0x0000FF);
     baseLandingCheckerIndicator.visible=false;
+    baseLandingCheckerIndicator.buttonMode = true;
+    baseLandingCheckerIndicator.interactive = true;
+    baseLandingCheckerIndicator.on("click",(e)=>{
+      e.stopPropagation();
+    });
     baseLandingCheckerIndicator.init();
 
     const baseLandingChecker= new LandingChecker();
     baseLandingChecker._checkingIndicator=baseLandingCheckerIndicator;
     baseLandingChecker._parent=base;
 
+    const all_landing_checkers=[baseLandingChecker];
 
-    const moveCtrl= new MouseMovementController();
+    const moveCtrl= new MouseMovementController(all_landing_checkers);
     moveCtrl._ctrlObj=triangle; //PIXI.Graphics
     moveCtrl._speed=2;
+    moveCtrl._parent_graphic = graphics;
     moveCtrl._renderer = this.app.renderer;
     moveCtrl._targetObj = moveCtrlTargetObj;
     moveCtrl.init();
@@ -62,5 +71,8 @@ export default class ExcelsiorApp{
       moveCtrl.update();
       baseLandingChecker.checkLanding(triangle,moveCtrlTargetObj);
     });
+
+    // const aeonTheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
+
   }
 }

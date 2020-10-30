@@ -8,8 +8,7 @@ export default class LandingChecker{
   // ShipLocation=Pixi.Point
   // ShipDestination=Pixi.Point
   checkLanding(shipLocation,shipDestination){
-    if(this._parent.containsFunc(shipLocation.x,shipLocation.y) &&
-      this._parent.containsFunc(shipDestination.x,shipDestination.y)){
+    if(this._parent.containsFunc(shipLocation.x,shipLocation.y)){
       this.onLanding();
     }else{
       this.onNotLanding();

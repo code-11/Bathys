@@ -1,15 +1,18 @@
 import * as PIXI from 'pixi.js'
 export default class MouseMovementController{
-  constructor(){
+  constructor(all_landing_checkers){
     this._ctrlObj=null; //PIXI.Graphics
     this._target=null;  //PIXI.Point
     this._targetObj=null;
     this._speed=2;
     this._epsilon=2;
+
+    this._all_landing_checkers=all_landing_checkers;
   }
 
   init(){
-    this._renderer.plugins.interaction.on("mousedown", event => {
+
+    this._parent_graphic.on("click", (evt)=>{
       const mouse_pos=this._renderer.plugins.interaction.mouse.global;
       this._target=new PIXI.Point(mouse_pos.x,mouse_pos.y);
       this._targetObj.x=mouse_pos.x;
