@@ -1,7 +1,10 @@
 import * as PIXI from 'pixi.js';
 // import * as GOWN from "gown";
-import EXPolygonObj from "./EXPolygonObj";
-import EXCircleObj from "./EXCircleObj";
+
+import Button from "./gui/Button";
+
+import EXPolygonObj from "./core/EXPolygonObj";
+import EXCircleObj from "./core/EXCircleObj";
 import LandingChecker from "./LandingChecker";
 import MouseMovementController from "./MouseMovementController";
 
@@ -61,9 +64,31 @@ export default class ExcelsiorApp{
     moveCtrl._targetObj = moveCtrlTargetObj;
     moveCtrl.init();
 
+    const btn = new Button("TEST", {
+      fontFamily : 'Arial',
+      fontSize: 24,
+      fill : 0xff1010,
+      align : 'center'
+    });
+    btn._thickness=2;
+    btn._border_color=0xff1010;
+    btn._padding=5;
+    btn.buttonMode=true;
+    btn.interactive=true;
+    btn.position.x=100;
+    btn.position.y=100;
+    btn.on("click",(e)=>{
+      console.log("test");
+      e.stopPropagation();
+    });
+    btn.init();
+
     graphics.addChild(base);
     graphics.addChild(triangle);
     graphics.addChild(moveCtrlTargetObj);
+
+    graphics.addChild(btn);
+
     // graphics.drawRect(50, 50, 100, 100);
     this.app.stage.addChild(graphics);
 
