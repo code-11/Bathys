@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 // import * as GOWN from "gown";
 
 import Button from "./gui/Button";
+import Slider from "./gui/Slider";
 
 import EXPolygonObj from "./core/EXPolygonObj";
 import EXCircleObj from "./core/EXCircleObj";
@@ -83,11 +84,18 @@ export default class ExcelsiorApp{
     });
     btn.init();
 
+    const slider= new Slider();
+    slider.position.x=200;
+    slider.position.y=200;
+    slider._renderer=this.app.renderer;
+    slider.init();
+
     graphics.addChild(base);
     graphics.addChild(triangle);
     graphics.addChild(moveCtrlTargetObj);
 
     graphics.addChild(btn);
+    graphics.addChild(slider);
 
     // graphics.drawRect(50, 50, 100, 100);
     this.app.stage.addChild(graphics);
