@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 
 import Button from "./gui/Button";
 import Slider from "./gui/Slider";
+import Container from "./gui/Container";
 
 import EXPolygonObj from "./core/EXPolygonObj";
 import EXCircleObj from "./core/EXCircleObj";
@@ -90,12 +91,20 @@ export default class ExcelsiorApp{
     slider._renderer=this.app.renderer;
     slider.init();
 
+    const container = new Container(100,100);
+    container.position.x=70;
+    container.position.y=200;
+    container._border_color=0xFF0000;
+    container._thickness=1
+    container.init();
+
     graphics.addChild(base);
     graphics.addChild(triangle);
     graphics.addChild(moveCtrlTargetObj);
 
     graphics.addChild(btn);
     graphics.addChild(slider);
+    graphics.addChild(container);
 
     // graphics.drawRect(50, 50, 100, 100);
     this.app.stage.addChild(graphics);
