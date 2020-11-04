@@ -86,16 +86,51 @@ export default class ExcelsiorApp{
     btn.init();
 
     const slider= new Slider();
-    slider.position.x=200;
-    slider.position.y=200;
+    // slider.position.x=200;
+    // slider.position.y=200;
     slider._renderer=this.app.renderer;
-    slider.init();
+    // slider.init();
 
-    const container = new Container(100,100);
+    const btn2 = new Button("TEST", {
+      fontFamily : 'Arial',
+      fontSize: 24,
+      fill : 0xff1010,
+      align : 'center'
+    });
+    btn2._thickness=2;
+    btn2._border_color=0xff1010;
+    btn2._padding=5;
+
+    const btn3 = new Button("TEST2", {
+      fontFamily : 'Arial',
+      fontSize: 24,
+      fill : 0xff1010,
+      align : 'center'
+    });
+    btn3._thickness=2;
+    btn3._border_color=0xff1010;
+    btn3._padding=5;
+
+    const btn4 = new Button("TEST3", {
+      fontFamily : 'Arial',
+      fontSize: 24,
+      fill : 0xff1010,
+      align : 'center'
+    });
+    btn4._thickness=2;
+    btn4._border_color=0xff1010;
+    btn4._padding=5;
+
+    const container = new Container(3,3);
     container.position.x=70;
     container.position.y=200;
     container._border_color=0xFF0000;
     container._thickness=1
+    container._padding=2;
+    container.addElement(0,0,0,0,btn2);
+    container.addElement(1,1,1,1,btn3);
+    container.addElement(2,2,2,2,btn4);
+    container.addElement(1,0,2,0,slider);
     container.init();
 
     graphics.addChild(base);
@@ -103,7 +138,7 @@ export default class ExcelsiorApp{
     graphics.addChild(moveCtrlTargetObj);
 
     graphics.addChild(btn);
-    graphics.addChild(slider);
+    // graphics.addChild(slider);
     graphics.addChild(container);
 
     // graphics.drawRect(50, 50, 100, 100);

@@ -32,9 +32,10 @@ export default class Button extends EXPolygonObj{
       new PIXI.Point(width+2*padding,height+2*padding),
       new PIXI.Point(width+2*padding,0),
     ]);
+    this._height=height+2*padding;
+    this._width = width+2*padding;
 
-
-    this.drawFunc();
+    // this.drawFunc();
     this.addChild(textObj);
     this.setHitArea();
     // let text = new PIXI.Text('This is a PixiJS text',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
