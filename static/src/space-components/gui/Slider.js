@@ -74,7 +74,7 @@ export default class Slider extends EXPolygonObj{
   }
 
   init(){
-    const border =new PIXI.Polygon([
+    this._border =new PIXI.Polygon([
           new PIXI.Point(0,0),
           new PIXI.Point(0,this._height),
           new PIXI.Point(this._width,this._height),
@@ -87,8 +87,6 @@ export default class Slider extends EXPolygonObj{
 
     this._innerBox= new PIXI.Graphics();
 
-    this.refreshSlide(this._slideBox);
-    this.refreshInner(this._innerBox);
 
     const self=this;
     this._slideBox.on("mousedown",(e1)=>{
@@ -107,10 +105,14 @@ export default class Slider extends EXPolygonObj{
       e4.stopPropagation();
     });
 
-    this.lineStyle(this._thickness, this._outerColor);
-    this.drawPolygon(border);
-
     this.addChild(this._innerBox);
     this.addChild(this._slideBox);
+  }
+
+  drawFunc(){
+    this.refreshSlide(this._slideBox);
+    this.refreshInner(this._innerBox);
+    this.lineStyle(this._thickness, this._outerColor);
+    this.drawPolygon(this._border);
   }
 }

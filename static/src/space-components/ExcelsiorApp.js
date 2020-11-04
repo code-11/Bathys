@@ -126,12 +126,13 @@ export default class ExcelsiorApp{
     container.position.y=200;
     container._border_color=0xFF0000;
     container._thickness=1
-    container._padding=2;
+    container._padding=10;
     container.addElement(0,0,0,0,btn2);
     container.addElement(1,1,1,1,btn3);
     container.addElement(2,2,2,2,btn4);
     container.addElement(1,0,2,0,slider);
     container.init();
+    container.drawFunc();
 
     graphics.addChild(base);
     graphics.addChild(triangle);

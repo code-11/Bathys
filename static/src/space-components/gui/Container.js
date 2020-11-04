@@ -32,8 +32,8 @@ export default class Container extends EXPolygonObj{
           involved_widths.push(widget_prorated_width);
         }
       });
-      const column_width=Math.max(...involved_widths);
-      cumulative_width+=column_width;
+      const column_width=involved_widths!=involved_widths.length>0 ? Math.max(...involved_widths) : 0;
+      cumulative_width+= column_width != 0 ? column_width+2*this._padding : 0;
       this._columnStarts.push(cumulative_width);
     }
   }
@@ -51,8 +51,8 @@ export default class Container extends EXPolygonObj{
           involved_heights.push(widget_prorated_height);
         }
       });
-      const row_height=Math.max(...involved_heights);
-      cumulative_height+=row_height;
+      const row_height=involved_heights.length>0 ? Math.max(...involved_heights) : 0;
+      cumulative_height+=row_height != 0 ? row_height+2*this._padding : 0;
       this._rowStarts.push(cumulative_height);
     }
   }
@@ -96,16 +96,14 @@ export default class Container extends EXPolygonObj{
     this._widgets.forEach(widget=>{
       const x=widget.x;
       const y=widget.y;
-      widget.el.position.x=this._columnStarts[x];
-      widget.el.position.y=this._rowStarts[y];
+      widget.el.position.x=this._columnStarts[x]+this._padding;
+      widget.el.position.y=this._rowStarts[y]+this._padding;;
       this.addChild(widget.el);
     })
-
-
-    // this.beginFill(this._color);
-    this.lineStyle(this._thickness, this._border_color);
-    // this.drawFunc();
-    // this.endFill();
-    this.setHitArea();
+  }
+  drawFunc(){
+    this._widgets.forEach(widget=>{
+          widget.el.drawFunc();
+    });
   }
 }
