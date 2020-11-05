@@ -39,6 +39,57 @@ export default class ExcelsiorApp{
     base.setColor(0x00FF00);
     base.init();
 
+
+        const slider= new Slider();
+        // slider.position.x=200;
+        // slider.position.y=200;
+        slider._renderer=this.app.renderer;
+        // slider.init();
+
+        const btn2 = new Button("TEST", {
+          fontFamily : 'Arial',
+          fontSize: 24,
+          fill : 0xff1010,
+          align : 'center'
+        });
+        btn2._thickness=2;
+        btn2._border_color=0xff1010;
+        btn2._padding=5;
+
+        const btn3 = new Button("TEST2", {
+          fontFamily : 'Arial',
+          fontSize: 24,
+          fill : 0xff1010,
+          align : 'center'
+        });
+        btn3._thickness=2;
+        btn3._border_color=0xff1010;
+        btn3._padding=5;
+
+        const btn4 = new Button("TEST3", {
+          fontFamily : 'Arial',
+          fontSize: 24,
+          fill : 0xff1010,
+          align : 'center'
+        });
+        btn4._thickness=2;
+        btn4._border_color=0xff1010;
+        btn4._padding=5;
+
+        const container = new Container(3,3);
+        container.position.x=base._origin.x+35;
+        container.position.y=base._origin.y-25;
+        container._border_color=0xAAAAAA;
+        container._thickness=1
+        container._padding=10;
+        container.visible=false;
+        container.addElement(0,0,0,0,btn2);
+        container.addElement(1,1,1,1,btn3);
+        container.addElement(2,2,2,2,btn4);
+        container.addElement(1,0,2,0,slider);
+        container.init();
+        container.drawFunc();
+
     const baseLandingCheckerIndicator = new EXCircleObj();
     base.addChild(baseLandingCheckerIndicator);
     baseLandingCheckerIndicator._origin =new PIXI.Point(base._origin.x+30,base._origin.y-30);
@@ -48,6 +99,7 @@ export default class ExcelsiorApp{
     baseLandingCheckerIndicator.buttonMode = true;
     baseLandingCheckerIndicator.interactive = true;
     baseLandingCheckerIndicator.on("click",(e)=>{
+      container.visible=!container.visible;
       e.stopPropagation();
     });
     baseLandingCheckerIndicator.init();
@@ -84,55 +136,6 @@ export default class ExcelsiorApp{
       e.stopPropagation();
     });
     btn.init();
-
-    const slider= new Slider();
-    // slider.position.x=200;
-    // slider.position.y=200;
-    slider._renderer=this.app.renderer;
-    // slider.init();
-
-    const btn2 = new Button("TEST", {
-      fontFamily : 'Arial',
-      fontSize: 24,
-      fill : 0xff1010,
-      align : 'center'
-    });
-    btn2._thickness=2;
-    btn2._border_color=0xff1010;
-    btn2._padding=5;
-
-    const btn3 = new Button("TEST2", {
-      fontFamily : 'Arial',
-      fontSize: 24,
-      fill : 0xff1010,
-      align : 'center'
-    });
-    btn3._thickness=2;
-    btn3._border_color=0xff1010;
-    btn3._padding=5;
-
-    const btn4 = new Button("TEST3", {
-      fontFamily : 'Arial',
-      fontSize: 24,
-      fill : 0xff1010,
-      align : 'center'
-    });
-    btn4._thickness=2;
-    btn4._border_color=0xff1010;
-    btn4._padding=5;
-
-    const container = new Container(3,3);
-    container.position.x=70;
-    container.position.y=200;
-    container._border_color=0xFF0000;
-    container._thickness=1
-    container._padding=10;
-    container.addElement(0,0,0,0,btn2);
-    container.addElement(1,1,1,1,btn3);
-    container.addElement(2,2,2,2,btn4);
-    container.addElement(1,0,2,0,slider);
-    container.init();
-    container.drawFunc();
 
     graphics.addChild(base);
     graphics.addChild(triangle);

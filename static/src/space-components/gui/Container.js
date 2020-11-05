@@ -13,6 +13,7 @@ export default class Container extends EXPolygonObj{
     this._iwidth=iwidth;
     this._iheight=iheight;
     this._widgets=[];
+    this.interactive=true;
   }
 
   addElement(x,y,x2,y2,el){
@@ -57,14 +58,7 @@ export default class Container extends EXPolygonObj{
     }
   }
 
-  init(){
-    this._widgets.forEach(widget=>{
-          widget.el.init();
-    });
-
-    this.determineColumnExtents();
-    this.determineRowExtents();
-
+  debugDraw(){
     this.lineStyle(this._thickness, 0x0000FF);
     for(let i=1;i<this._columnStarts.length;i+=1){
       const start=this._columnStarts[i-1]+1;
@@ -92,6 +86,18 @@ export default class Container extends EXPolygonObj{
       ]);
       this.drawPolygon(rowPoly);
     }
+  }
+
+  init(){
+    this._widgets.forEach(widget=>{
+          widget.el.init();
+    });
+
+    this.determineColumnExtents();
+    this.determineRowExtents();
+
+    this._height=this._rowStarts[this._rowStarts.length-1];
+    this._width=this._columnStarts[this._columnStarts.length-1];
 
     this._widgets.forEach(widget=>{
       const x=widget.x;
@@ -100,10 +106,28 @@ export default class Container extends EXPolygonObj{
       widget.el.position.y=this._rowStarts[y]+this._padding;;
       this.addChild(widget.el);
     })
+
+    this._border=new PIXI.Polygon([
+      new PIXI.Point(0,0),
+      new PIXI.Point(0,this._height),
+      new PIXI.Point(this._width,this._height),
+      new PIXI.Point(this._width,0),
+    ]);
+    this.hitArea=this._border;
+    this.on("mousedown",(e1)=>{
+      console.log("herperp");
+      e1.stopPropagation();
+    });
   }
+
   drawFunc(){
     this._widgets.forEach(widget=>{
           widget.el.drawFunc();
     });
+
+    this.lineStyle(this._thickness, this._border_color);
+    this.drawPolygon(this._border);
+    //Draw the border
+
   }
 }
