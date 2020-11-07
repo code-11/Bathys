@@ -3,6 +3,7 @@ export default class LandingChecker{
   constructor(){
     this._checkingIndicator=null;
     this._parent=null;
+    this._container=null;
   }
 
   // ShipLocation=Pixi.Point
@@ -21,5 +22,8 @@ export default class LandingChecker{
 
   onNotLanding(){
     this._checkingIndicator.visible=false;
+    if(this._container!=null){
+      this._container.visible=false;
+    }
   }
 }

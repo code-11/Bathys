@@ -107,6 +107,7 @@ export default class ExcelsiorApp{
     const baseLandingChecker= new LandingChecker();
     baseLandingChecker._checkingIndicator=baseLandingCheckerIndicator;
     baseLandingChecker._parent=base;
+    baseLandingChecker._container=container;
 
     const all_landing_checkers=[baseLandingChecker];
 

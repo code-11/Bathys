@@ -103,7 +103,7 @@ export default class Container extends EXPolygonObj{
       const x=widget.x;
       const y=widget.y;
       widget.el.position.x=this._columnStarts[x]+this._padding;
-      widget.el.position.y=this._rowStarts[y]+this._padding;;
+      widget.el.position.y=this._rowStarts[y]+this._padding;
       this.addChild(widget.el);
     })
 
@@ -114,7 +114,7 @@ export default class Container extends EXPolygonObj{
       new PIXI.Point(this._width,0),
     ]);
     this.hitArea=this._border;
-    this.on("mousedown",(e1)=>{
+    this.on("click",(e1)=>{
       console.log("herperp");
       e1.stopPropagation();
     });
