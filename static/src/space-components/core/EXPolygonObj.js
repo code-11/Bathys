@@ -1,4 +1,4 @@
-import EXObj from "./ExObj";
+import EXObj from "./EXObj";
 import * as PIXI from 'pixi.js'
 
 export default class EXPolygonObj extends EXObj{
