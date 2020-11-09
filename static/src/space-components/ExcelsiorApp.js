@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 // import * as GOWN from "gown";
+import { Viewport } from 'pixi-viewport'
 
 import Button from "./gui/Button";
 import Slider from "./gui/Slider";
@@ -19,6 +20,15 @@ export default class ExcelsiorApp{
     this.app.renderer.autoResize = true;
     this.app.renderer.resize(window.innerWidth, window.innerHeight);
 
+    const viewport = new Viewport({
+        screenWidth: window.innerWidth,
+        screenHeight: window.innerHeight,
+        worldWidth: 1000,
+        worldHeight: 1000,
+
+        interaction: this.app.renderer.plugins.interaction // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+    })
+
     const graphics = new PIXI.Graphics();
     graphics.interactive = true;
     graphics.hitArea = new PIXI.Rectangle(0, 0, 5000, 5000);
@@ -28,6 +38,8 @@ export default class ExcelsiorApp{
     triangle.setColor(0xDE3249);
     triangle.init();
 
+    viewport.follow(triangle);
+
     const moveCtrlTargetObj = new EXCircleObj();
     moveCtrlTargetObj._radius=5;
     moveCtrlTargetObj.setColor(0xDE3249);
@@ -36,6 +48,8 @@ export default class ExcelsiorApp{
     // const all_landing_checkers=[baseLandingChecker];
 
     const moveCtrl= new MouseMovementController([]);
+    moveCtrl.viewport=viewport;
+    moveCtrl.top_graphic=graphics;
     moveCtrl._ctrlObj=triangle; //PIXI.Graphics
     moveCtrl._speed=2;
     moveCtrl._parent_graphic = graphics;
@@ -44,14 +58,18 @@ export default class ExcelsiorApp{
     moveCtrl.init();
 
     const planet1= new Planet(this.app.renderer);
+    planet1.viewport=viewport;
     planet1.init();
     planet1.x=500;
     planet1.y=100;
 
+
     const planet2= new Planet(this.app.renderer);
+    planet2.viewport=viewport;
     planet2.init();
     planet2.x=300;
     planet2.y=300;
+
 
     // graphics.addChild(base);
     graphics.addChild(planet1);
@@ -66,7 +84,10 @@ export default class ExcelsiorApp{
     // graphics.addChild(container);
 
     // graphics.drawRect(50, 50, 100, 100);
-    this.app.stage.addChild(graphics);
+    viewport.addChild(graphics);
+    // this.app.stage.addChild(graphics);
+    this.app.stage.addChild(viewport);
+    // this.app.stage.addChild(graphics);
 
     this.app.ticker.add(delta => {
       moveCtrl.update();

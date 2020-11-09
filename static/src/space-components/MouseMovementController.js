@@ -7,13 +7,17 @@ export default class MouseMovementController{
     this._speed=2;
     this._epsilon=2;
 
+    this.viewport=null;
+
     this._all_landing_checkers=all_landing_checkers;
   }
 
   init(){
 
     this._parent_graphic.on("click", (evt)=>{
-      const mouse_pos=this._renderer.plugins.interaction.mouse.global;
+      const global_mouse_pos=this._renderer.plugins.interaction.mouse.global;
+      const global_diff= this.viewport.toWorld(0,0);
+      const mouse_pos=new PIXI.Point(global_mouse_pos.x+global_diff.x,global_mouse_pos.y+global_diff.y);
       this._target=new PIXI.Point(mouse_pos.x,mouse_pos.y);
       this._targetObj.x=mouse_pos.x;
       this._targetObj.y=mouse_pos.y;

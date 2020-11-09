@@ -18,6 +18,7 @@ export default class Planet extends EXObj{
     this.container=null;
 
     this.renderer=renderer;
+    this.viewport=null;
   }
 
   checkLanding(ship,moveCtrlTargetObj){
@@ -86,6 +87,7 @@ export default class Planet extends EXObj{
     base._radius=15;
     base.setColor(0x00FF00);
     base.init();
+    base.viewport=this.viewport
     this.base=base;
 
     this.initTradeMenu();
