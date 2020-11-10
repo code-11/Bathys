@@ -5,6 +5,7 @@ import { Viewport } from 'pixi-viewport'
 import Button from "./gui/Button";
 import Slider from "./gui/Slider";
 import Container from "./gui/Container";
+import TimeControls from "./gui/TimeControls";
 
 import EXPolygonObj from "./core/EXPolygonObj";
 import EXCircleObj from "./core/EXCircleObj";
@@ -73,7 +74,7 @@ export default class ExcelsiorApp{
     planet2.x=300;
     planet2.y=300;
 
-
+    const timeControls = new TimeControls();
 
     // graphics.addChild(base);
     graphics.addChild(planet1);
@@ -91,6 +92,7 @@ export default class ExcelsiorApp{
     viewport.addChild(graphics);
     // this.app.stage.addChild(graphics);
     this.app.stage.addChild(viewport);
+    this.app.stage.addChild(timeControls);
     // this.app.stage.addChild(graphics);
 
     this.app.ticker.add(delta => {
