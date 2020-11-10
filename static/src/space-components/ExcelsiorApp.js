@@ -59,16 +59,20 @@ export default class ExcelsiorApp{
 
     const planet1= new Planet(this.app.renderer);
     planet1.viewport=viewport;
+    planet1.name="planet1";
     planet1.init();
     planet1.x=500;
     planet1.y=100;
 
 
+
     const planet2= new Planet(this.app.renderer);
     planet2.viewport=viewport;
+    planet2.name="planet2";
     planet2.init();
     planet2.x=300;
     planet2.y=300;
+
 
 
     // graphics.addChild(base);

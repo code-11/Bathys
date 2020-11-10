@@ -86,6 +86,7 @@ export default class Planet extends EXObj{
     // base._origin = new PIXI.Point(500,50);
     base._radius=15;
     base.setColor(0x00FF00);
+    base.name=this.name;
     base.init();
     base.viewport=this.viewport
     this.base=base;

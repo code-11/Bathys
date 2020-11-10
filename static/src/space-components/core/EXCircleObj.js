@@ -6,6 +6,7 @@ export default class EXCircleObj extends EXObj{
     super();
     this._radius=0;
     this.viewport=null;
+    this.name="unnamed";
   }
 
   init(){
@@ -23,11 +24,10 @@ export default class EXCircleObj extends EXObj{
   }
 
   containsFunc(x,y){
-    const global_diff= this.viewport.toWorld(0,0);
-    const globalPoint=new PIXI.Point(x+global_diff.x,y+global_diff.y);
-
-    const globalPos=this.toGlobal(new PIXI.Point(0,0));
-    const circle=new PIXI.Circle (globalPos.x,globalPos.y,this._radius);
-    return circle.contains(globalPoint.x,globalPoint.y);
+    const origin=this.toGlobal(new PIXI.Point(0,0));
+    const view_correction= this.viewport.toWorld(0,0);
+    const globalPoint=new PIXI.Point(origin.x+view_correction.x,origin.y+view_correction.y);
+    const circle = new PIXI.Circle(globalPoint.x,globalPoint.y,this._radius);
+    return circle.contains(x,y);
   }
 }
