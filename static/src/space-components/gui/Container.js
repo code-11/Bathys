@@ -115,7 +115,6 @@ export default class Container extends EXPolygonObj{
     ]);
     this.hitArea=this._border;
     this.on("click",(e1)=>{
-      console.log("herperp");
       e1.stopPropagation();
     });
   }

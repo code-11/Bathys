@@ -96,7 +96,8 @@ export default class ExcelsiorApp{
     // this.app.stage.addChild(graphics);
 
     this.app.ticker.add(delta => {
-      moveCtrl.update();
+      moveCtrl.update(timeControls,delta);
+      timeControls.update(delta);
       planet1.checkLanding(triangle,moveCtrlTargetObj);
       planet2.checkLanding(triangle,moveCtrlTargetObj);
     });

@@ -4,8 +4,8 @@ export default class MouseMovementController{
     this._ctrlObj=null; //PIXI.Graphics
     this._target=null;  //PIXI.Point
     this._targetObj=null;
-    this._speed=2;
-    this._epsilon=2;
+    // this._speed=2;
+    this._epsilon=3;
 
     this.viewport=null;
 
@@ -24,7 +24,7 @@ export default class MouseMovementController{
     });
   }
 
-  update(){
+  update(timeControls,delta){
     if(this._ctrlObj!=undefined && this._target!=undefined){
       const ctrl_x=this._ctrlObj.x;
       const ctrl_y=this._ctrlObj.y;
@@ -40,7 +40,9 @@ export default class MouseMovementController{
       if(mag>this._epsilon){
         this._ctrlObj.rotation = Math.PI/2+Math.atan2(y_diff,x_diff);
 
-        const mag_speed=mag/this._speed;
+        //now that we have things normalized, multiply a bunch of stuff together!
+        //The range of this number should be "around" 1-5.
+        const mag_speed=(mag/(timeControls.getSpeed()))*delta;
 
         const x_apply=(x_diff/mag_speed);
         const y_apply=(y_diff/mag_speed);
