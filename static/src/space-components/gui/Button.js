@@ -6,7 +6,7 @@ export default class Button extends EXPolygonObj{
   constructor(text, text_opt){
     super();
     this._text=text;
-    this._textObj;
+    this._textObj=null;
     this._text_opt=text_opt;
   }
 

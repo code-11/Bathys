@@ -1,9 +1,12 @@
 import * as PIXI from 'pixi.js';
 import EXPolygonObj from "../core/EXPolygonObj";
 export default class Slider extends EXPolygonObj{
-  constructor(){
+  constructor(minVal=0,maxVal=1){
     super();
     this._normVal=.5;
+    this._minVal=minVal;
+    this._maxVal=maxVal;
+
     this._thickness=1;
     this._outerColor=0xFFFFFF;
     this._innerColor=0xAAAAAA;
@@ -16,6 +19,22 @@ export default class Slider extends EXPolygonObj{
 
   reposition(newVal){
 
+  }
+
+  getMult(){
+    return this._maxVal-this._minVal;
+  }
+
+  getShift(){
+    return this._minVal;
+  }
+
+  getVal(){
+    return (this._normVal * this.getMult()) + this._minVal;
+  }
+
+  refreshValLbl(lblBox){
+    lblBox.clear();
   }
 
   refreshSlide(slideBox){
@@ -59,6 +78,8 @@ export default class Slider extends EXPolygonObj{
       this._innerBox.endFill();
   }
 
+  onSlide(normVal){}
+
   trackMouse(shouldTrack){
     if(shouldTrack){
       const mouse_pos=this._renderer.plugins.interaction.mouse.global;
@@ -67,6 +88,7 @@ export default class Slider extends EXPolygonObj{
       almostNormVal=Math.max(almostNormVal,0);
       almostNormVal=Math.min(almostNormVal,1);
       this._normVal=almostNormVal;
+      this.onSlide(this._normVal, this.getVal());
       // console.log(almostNormVal);
       this.refreshSlide(this._slideBox);
       this.refreshInner();

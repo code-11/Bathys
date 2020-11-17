@@ -76,6 +76,38 @@ export default class ExcelsiorApp{
 
     const timeControls = new TimeControls();
 
+    const slider= new Slider(-20,100);
+    slider._renderer=this.app.renderer;
+    slider.init();
+    slider.x=200;
+    slider.y=200;
+    slider.drawFunc();
+
+    const btn = new Button("TEST", {
+      fontFamily : 'Arial',
+      fontSize: 24,
+      fill : 0xff1010,
+      align : 'center'
+    });
+    btn._thickness=2;
+    btn._border_color=0xff1010;
+    btn._padding=5;
+    btn.init();
+    btn.x=300;
+    btn.y=100;
+    btn.drawFunc();
+
+    slider.onSlide = (normVal,val)=>{
+      const txt=Number.parseFloat(val).toFixed(2);
+      btn.clear();
+      btn._textObj.visible=false;
+      btn.setText(txt);
+      btn.init();
+      btn.drawFunc();
+      btn._textObj.visible=true;
+    };
+
+
     // graphics.addChild(base);
     graphics.addChild(planet1);
     graphics.addChild(planet2);
@@ -85,7 +117,8 @@ export default class ExcelsiorApp{
 
 
 
-    // graphics.addChild(slider);
+    graphics.addChild(slider);
+    graphics.addChild(btn);
     // graphics.addChild(container);
 
     // graphics.drawRect(50, 50, 100, 100);
