@@ -49,4 +49,21 @@ export default class Button extends EXPolygonObj{
     this._textObj.text=text;
   }
 
+  rapidTextRefresh(txt){
+    this.rapidTextRefresh1(txt);
+    this.rapidTextRefresh2(txt);
+  }
+
+  rapidTextRefresh1(txt){
+    this.clear();
+    this._textObj.visible=false;
+    this.setText(txt);
+    this.init();
+  }
+
+  rapidTextRefresh2(txt){
+    this.drawFunc();
+    this._textObj.visible=true;
+  }
+
 }

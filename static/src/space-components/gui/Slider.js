@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import EXPolygonObj from "../core/EXPolygonObj";
+import Button from "./Button";
 export default class Slider extends EXPolygonObj{
   constructor(minVal=0,maxVal=1){
     super();
@@ -33,8 +34,13 @@ export default class Slider extends EXPolygonObj{
     return (this._normVal * this.getMult()) + this._minVal;
   }
 
-  refreshValLbl(lblBox){
-    lblBox.clear();
+  refreshValLbl(){
+    const txt=Number.parseFloat(this.getVal()).toFixed(2);
+    this._valLbl.rapidTextRefresh1(txt);
+    const innerWidth=this._width*this._normVal;
+    const half_text_width=this._valLbl._width/2;
+    this._valLbl.x = innerWidth- half_text_width;
+    this._valLbl.rapidTextRefresh2(txt);
   }
 
   refreshSlide(slideBox){
@@ -59,6 +65,8 @@ export default class Slider extends EXPolygonObj{
     this._slideBox.hitArea=slide;
     this._slideBox.interactive=true;
     this._slideBox.buttonMode=true;
+
+    this.refreshValLbl();
   }
 
   refreshInner(){
@@ -109,10 +117,23 @@ export default class Slider extends EXPolygonObj{
 
     this._innerBox= new PIXI.Graphics();
 
+    this._valLbl = new Button(this.getVal(), {
+      fontFamily : 'Arial',
+      fontSize: 18,
+      fill : 0xff1010,
+      align : 'center'
+    });
+    this._valLbl._thickness=2;
+    this._valLbl._border_color=0xff1010;
+    this._valLbl._padding=5;
+    this._valLbl.init();
+    this._valLbl.y=this._height+4;
+    // this._valLbl.visible=false;
 
     const self=this;
     this._slideBox.on("mousedown",(e1)=>{
       self._shouldTrack=true;
+      // this._valLbl.visible=true;
       this._slideBox.on("mousemove",(e2)=>{
         this.trackMouse(self._shouldTrack);
       });
@@ -120,15 +141,18 @@ export default class Slider extends EXPolygonObj{
     });
     this._slideBox.on("mouseup",(e3)=>{
       this._shouldTrack=false;
+      // this._valLbl.visible=false;
       e3.stopPropagation();
     });
     this._slideBox.on("mouseupoutside",(e4)=>{
       this._shouldTrack=false;
+      // this._valLbl.visible=false;
       e4.stopPropagation();
     });
 
     this.addChild(this._innerBox);
     this.addChild(this._slideBox);
+    this.addChild(this._valLbl);
   }
 
   drawFunc(){
