@@ -13,7 +13,7 @@ export default class Slider extends EXPolygonObj{
     this._innerColor=0xAAAAAA;
 
     this._width=150; //pixels
-    this._height=15; //pixels
+    this._heightWithoutValLbl=15; //pixels
 
     this._shouldTrack=false;
   }
@@ -52,8 +52,8 @@ export default class Slider extends EXPolygonObj{
     const slideMarginY=2;
     const slide = new PIXI.Polygon([
       new PIXI.Point(innerWidth-slideMarginX,-slideMarginY),
-      new PIXI.Point(innerWidth-slideMarginX, this._height+slideMarginY),
-      new PIXI.Point(innerWidth+slideMarginX, this._height+slideMarginY),
+      new PIXI.Point(innerWidth-slideMarginX, this._heightWithoutValLbl+slideMarginY),
+      new PIXI.Point(innerWidth+slideMarginX, this._heightWithoutValLbl+slideMarginY),
       new PIXI.Point(innerWidth+slideMarginX, -slideMarginY),
     ]);
 
@@ -75,8 +75,8 @@ export default class Slider extends EXPolygonObj{
 
       const inner = new PIXI.Polygon([
             new PIXI.Point(0,0),
-            new PIXI.Point(0,this._height),
-            new PIXI.Point(innerWidth,this._height),
+            new PIXI.Point(0,this._heightWithoutValLbl),
+            new PIXI.Point(innerWidth,this._heightWithoutValLbl),
             new PIXI.Point(innerWidth,0),
       ]);
 
@@ -106,8 +106,8 @@ export default class Slider extends EXPolygonObj{
   init(){
     this._border =new PIXI.Polygon([
           new PIXI.Point(0,0),
-          new PIXI.Point(0,this._height),
-          new PIXI.Point(this._width,this._height),
+          new PIXI.Point(0,this._heightWithoutValLbl),
+          new PIXI.Point(this._width,this._heightWithoutValLbl),
           new PIXI.Point(this._width,0),
     ]);
 
@@ -127,8 +127,10 @@ export default class Slider extends EXPolygonObj{
     this._valLbl._border_color=0xff1010;
     this._valLbl._padding=5;
     this._valLbl.init();
-    this._valLbl.y=this._height+4;
+    this._valLbl.y=this._heightWithoutValLbl+4;
     // this._valLbl.visible=false;
+
+    this._height =this._valLbl._height + this._heightWithoutValLbl+4
 
     const self=this;
     this._slideBox.on("mousedown",(e1)=>{

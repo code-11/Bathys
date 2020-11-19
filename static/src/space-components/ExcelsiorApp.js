@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport'
 
 import Button from "./gui/Button";
-import Slider from "./gui/Slider";
+import DualSlider from "./gui/DualSlider";
 import Container from "./gui/Container";
 import TimeControls from "./gui/TimeControls";
 
@@ -76,7 +76,7 @@ export default class ExcelsiorApp{
 
     const timeControls = new TimeControls();
 
-    const slider= new Slider(-20,100);
+    const slider= new DualSlider(-20,100);
     slider._renderer=this.app.renderer;
     slider.init();
     slider.x=200;
