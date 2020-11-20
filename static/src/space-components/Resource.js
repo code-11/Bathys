@@ -1,6 +1,5 @@
 export default class Resource{
   constructor(name){
-    super();
     this.name=name;
   }
 //   20

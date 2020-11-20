@@ -9,9 +9,12 @@ import TimeControls from "./gui/TimeControls";
 
 import EXPolygonObj from "./core/EXPolygonObj";
 import EXCircleObj from "./core/EXCircleObj";
+
 import Planet from "./Planet"
+import ResourceManager from "./ResourceManager";
 // import LandingChecker from "./LandingChecker";
 import MouseMovementController from "./MouseMovementController";
+import SpecifiedResourceAssignmentStrategy from "./SpecifiedResourceAssignmentStrategy";
 
 export default class ExcelsiorApp{
   constructor(){
@@ -58,23 +61,33 @@ export default class ExcelsiorApp{
     moveCtrl._targetObj = moveCtrlTargetObj;
     moveCtrl.init();
 
+    const timeControls = new TimeControls();
+
+    const resourceManager = new ResourceManager();
+    resourceManager.initResources();
+
     const planet1= new Planet(this.app.renderer);
     planet1.viewport=viewport;
     planet1.name="planet1";
-    planet1.init();
-    planet1.x=500;
-    planet1.y=100;
-
-
 
     const planet2= new Planet(this.app.renderer);
     planet2.viewport=viewport;
     planet2.name="planet2";
+
+    const planets=[planet1,planet2];
+
+    const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,resourceManager);
+    resourceAssigner.assignResources();
+
+    planet1.init();
+    planet1.x=500;
+    planet1.y=100;
+
     planet2.init();
     planet2.x=300;
     planet2.y=300;
 
-    const timeControls = new TimeControls();
+
 
     const slider= new DualSlider(-20,100);
     slider._renderer=this.app.renderer;
