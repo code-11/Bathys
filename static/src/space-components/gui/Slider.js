@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import EXPolygonObj from "../core/EXPolygonObj";
 import Button from "./Button";
 export default class Slider extends EXPolygonObj{
-  constructor(minVal=0,maxVal=1){
+  constructor(minVal=0,maxVal=1, hasInner=true, hasValLbl=true){
     super();
     this._normVal=.5;
     this._minVal=minVal;
@@ -16,6 +16,11 @@ export default class Slider extends EXPolygonObj{
     this._heightWithoutValLbl=15; //pixels
 
     this._shouldTrack=false;
+    this.hasValLbl=hasValLbl;
+    this.hasInner=hasInner;
+
+    this.slideMarginX=3;
+    this.slideMarginY=2;
   }
 
   reposition(newVal){
@@ -48,8 +53,8 @@ export default class Slider extends EXPolygonObj{
 
     const innerWidth=this._width*this._normVal;
 
-    const slideMarginX=3;
-    const slideMarginY=2;
+    const slideMarginX=this.slideMarginX;
+    const slideMarginY=this.slideMarginY;
     const slide = new PIXI.Polygon([
       new PIXI.Point(innerWidth-slideMarginX,-slideMarginY),
       new PIXI.Point(innerWidth-slideMarginX, this._heightWithoutValLbl+slideMarginY),
@@ -66,7 +71,9 @@ export default class Slider extends EXPolygonObj{
     this._slideBox.interactive=true;
     this._slideBox.buttonMode=true;
 
-    this.refreshValLbl();
+    if(this.hasValLbl){
+      this.refreshValLbl();
+    }
   }
 
   refreshInner(){
@@ -99,7 +106,9 @@ export default class Slider extends EXPolygonObj{
       this.onSlide(this._normVal, this.getVal());
       // console.log(almostNormVal);
       this.refreshSlide(this._slideBox);
-      this.refreshInner();
+      if (this.hasInner){
+        this.refreshInner();
+      }
     }
   }
 
@@ -130,7 +139,11 @@ export default class Slider extends EXPolygonObj{
     this._valLbl.y=this._heightWithoutValLbl+4;
     // this._valLbl.visible=false;
 
-    this._height =this._valLbl._height + this._heightWithoutValLbl+4
+    if(this.hasvalLbl){
+      this._height =this._valLbl._height + this._heightWithoutValLbl+4;
+    }else{
+      this._height=this._heightWithoutValLbl;
+    }
 
     const self=this;
     this._slideBox.on("mousedown",(e1)=>{
@@ -154,12 +167,16 @@ export default class Slider extends EXPolygonObj{
 
     this.addChild(this._innerBox);
     this.addChild(this._slideBox);
-    this.addChild(this._valLbl);
+    if(this.hasValLbl){
+      this.addChild(this._valLbl);
+    }
   }
 
   drawFunc(){
     this.refreshSlide(this._slideBox);
-    this.refreshInner(this._innerBox);
+    if(this.hasInner){
+      this.refreshInner(this._innerBox);
+    }
     this.lineStyle(this._thickness, this._outerColor);
     this.drawPolygon(this._border);
   }

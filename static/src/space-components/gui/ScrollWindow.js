@@ -1,0 +1,42 @@
+import * as PIXI from 'pixi.js';
+import EXPolygonObj from "../core/EXPolygonObj";
+import VerticalScroll from "./VerticalScroll";
+import GuiUtil from "./GuiUtil"
+
+export default class VerticalScrollWindow extends EXPolygonObj{
+  constructor(widget){
+    super();
+    this.widget=widget;
+    this.scroll=new VerticalScroll();
+  }
+
+  drawFunc(){
+    this.lineStyle(this._thickness, this._border_color);
+    this.drawPolygon(this._polygon);
+    this.widget.drawFunc();
+  }
+
+  init(){
+    this.widget.init();
+    this.scroll.innerSlider._height=this.widget._height;
+    this.scroll.init();
+
+    this.innerWidth=this.widget._width;
+    this.innerHeight=this.widget._height;
+
+    this._width=this.innerWidth+this.scroll._width;
+    this._height=this.innerHeight;
+
+    this._polygon=new PIXI.Polygon([
+      new PIXI.Point(0,0),
+      new PIXI.Point(0,this._height),
+      new PIXI.Point(this._width,this._height),
+      new PIXI.Point(this._width,0),
+    ]);
+
+    this.addChild(this.widget);
+    this.addChild(this.scroll)
+
+  }
+
+}

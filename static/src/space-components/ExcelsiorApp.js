@@ -6,6 +6,7 @@ import Button from "./gui/Button";
 import DualSlider from "./gui/DualSlider";
 import Container from "./gui/Container";
 import TimeControls from "./gui/TimeControls";
+import VerticalScroll from "./gui/VerticalScroll";
 
 import EXPolygonObj from "./core/EXPolygonObj";
 import EXCircleObj from "./core/EXCircleObj";
@@ -95,6 +96,13 @@ export default class ExcelsiorApp{
     slider.x=200;
     slider.y=200;
     slider.drawFunc();
+
+    // const slider = new VerticalScroll();
+    // slider._renderer= this.app.renderer;
+    // slider.init();
+    // slider.x=200;
+    // slider.y=200;
+    // slider.drawFunc();
 
     // graphics.addChild(base);
     graphics.addChild(planet1);

@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import Button from "./gui/Button";
 import Slider from "./gui/Slider";
 import Container from "./gui/Container";
+import ScrollWindow from "./gui/ScrollWindow";
 
 import LandingChecker from "./LandingChecker";
 import PlanetResourceManager from "./PlanetResourceManager";
@@ -87,9 +88,15 @@ export default class Planet extends EXObj{
       container.addElement(2,i,2,i,priceLbl);
       container.addElement(3,i,3,i,planetAmountLbl);
     });
-    container.init();
-    container.drawFunc();
-    this.container=container;
+
+    const scrollWindow = new ScrollWindow(container);
+    scrollWindow.init();
+    scrollWindow.drawFunc();
+    this.container=scrollWindow;
+
+    // container.init();
+    // container.drawFunc();
+    // this.container=container;
 
 
     // const slider= new Slider();
