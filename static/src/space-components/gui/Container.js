@@ -13,6 +13,7 @@ export default class Container extends EXPolygonObj{
     this._iwidth=iwidth;
     this._iheight=iheight;
     this._widgets=[];
+    this._thickness=0;
     this.interactive=true;
   }
 

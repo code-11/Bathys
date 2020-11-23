@@ -139,7 +139,7 @@ export default class Slider extends EXPolygonObj{
     this._valLbl.y=this._heightWithoutValLbl+4;
     // this._valLbl.visible=false;
 
-    if(this.hasvalLbl){
+    if(this.hasValLbl){
       this._height =this._valLbl._height + this._heightWithoutValLbl+4;
     }else{
       this._height=this._heightWithoutValLbl;

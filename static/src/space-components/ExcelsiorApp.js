@@ -7,6 +7,7 @@ import DualSlider from "./gui/DualSlider";
 import Container from "./gui/Container";
 import TimeControls from "./gui/TimeControls";
 import VerticalScroll from "./gui/VerticalScroll";
+import VerticalScrollWindow from "./gui/ScrollWindow";
 
 import EXPolygonObj from "./core/EXPolygonObj";
 import EXCircleObj from "./core/EXCircleObj";
@@ -92,10 +93,26 @@ export default class ExcelsiorApp{
 
     const slider= new DualSlider(-20,100);
     slider._renderer=this.app.renderer;
-    slider.init();
-    slider.x=200;
-    slider.y=200;
-    slider.drawFunc();
+
+    const slider2= new DualSlider(-20,100);
+    slider2._renderer=this.app.renderer;
+
+    const container = new Container(1,2);
+
+    container._border_color=0x00AA00;
+    container._thickness=0;
+    container._padding=5;
+
+    const scrollWindow = new VerticalScrollWindow(container,this.app.renderer);
+    scrollWindow._height=100;
+    scrollWindow._border_color=0xFF0000;
+    scrollWindow._thickness=1
+
+    container.addElement(0,0,0,0,slider);
+    container.addElement(0,1,0,1,slider2);
+
+    scrollWindow.init();
+    scrollWindow.drawFunc();
 
     // const slider = new VerticalScroll();
     // slider._renderer= this.app.renderer;
@@ -104,7 +121,7 @@ export default class ExcelsiorApp{
     // slider.y=200;
     // slider.drawFunc();
 
-    // graphics.addChild(base);
+    graphics.addChild(scrollWindow);
     graphics.addChild(planet1);
     graphics.addChild(planet2);
 
@@ -113,7 +130,7 @@ export default class ExcelsiorApp{
 
 
 
-    graphics.addChild(slider);
+    // graphics.addChild(slider);
     // graphics.addChild(container);
 
     // graphics.drawRect(50, 50, 100, 100);

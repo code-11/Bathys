@@ -6,7 +6,7 @@ export default class VerticalSlider extends EXObj{
   constructor(){
     super();
     this.innerSlider= new Slider(0,1,false,false);
-    this.innerSlider.slideMarginX=8;
+    this.innerSlider.slideMarginX=5;
     this.innerSlider.slideMarginY=2;
   }
 
