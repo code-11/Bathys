@@ -89,14 +89,14 @@ export default class Planet extends EXObj{
       container.addElement(3,i,3,i,planetAmountLbl);
     });
 
-    const scrollWindow = new ScrollWindow(container);
-    scrollWindow.init();
-    scrollWindow.drawFunc();
-    this.container=scrollWindow;
+    // const scrollWindow = new ScrollWindow(container);
+    // scrollWindow.init();
+    // scrollWindow.drawFunc();
+    // this.container=scrollWindow;
 
-    // container.init();
-    // container.drawFunc();
-    // this.container=container;
+    container.init();
+    container.drawFunc();
+    this.container=container;
 
 
     // const slider= new Slider();

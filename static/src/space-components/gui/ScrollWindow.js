@@ -9,11 +9,13 @@ export default class VerticalScrollWindow extends EXPolygonObj{
     this.widget=widget;
     this.scroll=new VerticalScroll();
     this.scroll._renderer=renderer;
+    this._thickness=0;
+    this.offset=0;
   }
 
   drawFunc(){
     this.lineStyle(this._thickness, this._border_color);
-    this.beginFill(this._border_color);
+    // this.beginFill(this._border_color);
     this.drawPolygon(this._polygon);
     this.scroll.drawFunc();
     this.widget.drawFunc();
@@ -22,6 +24,7 @@ export default class VerticalScrollWindow extends EXPolygonObj{
   init(){
     this.widget.init();
     this.scroll.innerSlider._width=this._height;
+
     this.scroll.init();
 
     this.scroll.x=this.widget._width+this.scroll._width;
@@ -30,7 +33,22 @@ export default class VerticalScrollWindow extends EXPolygonObj{
     this.innerHeight=this.widget._height;
 
     this._width=this.innerWidth+this.scroll._width;
-    this._height=this.innerHeight;
+    // this._height=this.innerHeight;
+
+    const gripRatio = this._height / this.innerHeight;
+    const gripSize = this._height * gripRatio;
+    let gripSizeToUse = gripSize < 4 ? 4 : gripSize;
+    gripSizeToUse = gripSizeToUse > this._height ? this._height : gripSizeToUse;
+    this.scroll.innerSlider.slideMarginX= gripSizeToUse/2;
+    // this.scroll.sliderWidth=gripSizeToUse;
+
+
+
+    const scrollSize = this.innerHeight - this._height;
+
+    const windowRatio = this.offset / scrollSize;
+    const gripPosition = scrollSize * windowRatio;
+
 
     this._polygon=new PIXI.Polygon([
       new PIXI.Point(0,0),

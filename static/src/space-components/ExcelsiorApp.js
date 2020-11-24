@@ -100,13 +100,13 @@ export default class ExcelsiorApp{
     const container = new Container(1,2);
 
     container._border_color=0x00AA00;
-    container._thickness=0;
+    container._thickness=1;
     container._padding=5;
 
     const scrollWindow = new VerticalScrollWindow(container,this.app.renderer);
     scrollWindow._height=100;
+    scrollWindow._thickness=3;
     scrollWindow._border_color=0xFF0000;
-    scrollWindow._thickness=1
 
     container.addElement(0,0,0,0,slider);
     container.addElement(0,1,0,1,slider2);
