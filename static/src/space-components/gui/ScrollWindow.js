@@ -41,22 +41,9 @@ export default class VerticalScrollWindow extends EXPolygonObj{
     this.scroll.init();
     this.scroll.x=this.widget._width+this.scroll._width;
     this._width=this.innerWidth+this.scroll._width;
-    // const scrollSize = this.innerHeight - this._height;
-    //
-    // const windowRatio = this.offset / scrollSize;
-    // const gripPosition = scrollSize * windowRatio;
-
-    const viewport = new Viewport({
-        screenWidth:   this._width,
-        screenHeight: this._height,
-        worldWidth: 1000,
-        worldHeight: 1000,
-
-        interaction:this.scroll._renderer // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
-    })
-
+    
     this.scroll.innerSlider.onSlide=(normVal,val)=>{
-      viewport.y=val*this._width;
+      this.widget.y=val*(this._height-this.innerHeight);
     }
 
     this._polygon=new PIXI.Polygon([
@@ -66,9 +53,26 @@ export default class VerticalScrollWindow extends EXPolygonObj{
       new PIXI.Point(this._width,0),
     ]);
 
-    viewport.addChild(this.widget);
+    const viewport= new PIXI.Polygon([
+      new PIXI.Point(0,0),
+      new PIXI.Point(0,this._height),
+      new PIXI.Point(this.innerWidth,this._height),
+      new PIXI.Point(this.innerWidth,0),
+    ])
 
-    this.addChild(viewport);
+    const elMask= new PIXI.Graphics();
+    elMask.beginFill(0xFFFFFF);
+    elMask.drawPolygon(viewport);
+    elMask.endFill();
+    elMask.x=this.widget.x;
+    elMask.y=this.widget.y;
+    this.widget.mask=elMask;
+    // viewport.mask=this._polygon;
+    // viewport.addChild(this.widget);
+
+    // this.addChild(viewport);
+    this.addChild(elMask);
+    this.addChild(this.widget);
     this.addChild(this.scroll);
 
 
