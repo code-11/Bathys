@@ -97,7 +97,10 @@ export default class ExcelsiorApp{
     const slider2= new DualSlider(-20,100);
     slider2._renderer=this.app.renderer;
 
-    const container = new Container(1,2);
+    const slider3= new DualSlider(-20,100);
+    slider3._renderer=this.app.renderer;
+
+    const container = new Container(1,3);
 
     container._border_color=0x00AA00;
     container._thickness=1;
@@ -110,8 +113,11 @@ export default class ExcelsiorApp{
 
     container.addElement(0,0,0,0,slider);
     container.addElement(0,1,0,1,slider2);
+    container.addElement(0,2,0,2,slider3);
 
     scrollWindow.init();
+    scrollWindow.x=50;
+    scrollWindow.y=50;
     scrollWindow.drawFunc();
 
     // const slider = new VerticalScroll();

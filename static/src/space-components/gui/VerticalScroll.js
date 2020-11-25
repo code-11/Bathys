@@ -36,6 +36,7 @@ export default class VerticalSlider extends EXObj{
       normedVal=Math.max(normedVal, this.slideMarginX/this._width);
       normedVal=Math.min(normedVal,(this._width-this.slideMarginX)/this._width);
       this._normVal=normedVal;
+      this.onSlide(this._normVal, this._normVal- this.slideMarginX/this._width);
       this.refreshSlide(this._slideBox);
     }
   }
