@@ -91,34 +91,34 @@ export default class ExcelsiorApp{
 
 
 
-    const slider= new DualSlider(-20,100);
-    slider._renderer=this.app.renderer;
-
-    const slider2= new DualSlider(-20,100);
-    slider2._renderer=this.app.renderer;
-
-    const slider3= new DualSlider(-20,100);
-    slider3._renderer=this.app.renderer;
-
-    const container = new Container(1,3);
-
-    container._border_color=0x00AA00;
-    container._thickness=1;
-    container._padding=5;
-
-    const scrollWindow = new VerticalScrollWindow(container,this.app.renderer);
-    scrollWindow._height=100;
-    scrollWindow._thickness=3;
-    scrollWindow._border_color=0xFF0000;
-
-    container.addElement(0,0,0,0,slider);
-    container.addElement(0,1,0,1,slider2);
-    container.addElement(0,2,0,2,slider3);
-
-    scrollWindow.init();
-    scrollWindow.x=50;
-    scrollWindow.y=50;
-    scrollWindow.drawFunc();
+    // const slider= new DualSlider(-20,100);
+    // slider._renderer=this.app.renderer;
+    //
+    // const slider2= new DualSlider(-20,100);
+    // slider2._renderer=this.app.renderer;
+    //
+    // const slider3= new DualSlider(-20,100);
+    // slider3._renderer=this.app.renderer;
+    //
+    // const container = new Container(1,3);
+    //
+    // container._border_color=0x00AA00;
+    // container._thickness=1;
+    // container._padding=5;
+    //
+    // const scrollWindow = new VerticalScrollWindow(container,this.app.renderer);
+    // scrollWindow._height=100;
+    // scrollWindow._thickness=3;
+    // scrollWindow._border_color=0xFF0000;
+    //
+    // container.addElement(0,0,0,0,slider);
+    // container.addElement(0,1,0,1,slider2);
+    // container.addElement(0,2,0,2,slider3);
+    //
+    // scrollWindow.init();
+    // scrollWindow.x=50;
+    // scrollWindow.y=50;
+    // scrollWindow.drawFunc();
 
     // const slider = new VerticalScroll();
     // slider._renderer= this.app.renderer;
@@ -127,7 +127,7 @@ export default class ExcelsiorApp{
     // slider.y=200;
     // slider.drawFunc();
 
-    graphics.addChild(scrollWindow);
+    // graphics.addChild(scrollWindow);
     graphics.addChild(planet1);
     graphics.addChild(planet2);
 

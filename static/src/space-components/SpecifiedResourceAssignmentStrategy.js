@@ -6,7 +6,7 @@ export default class SpecifiedResourceAssignmentStrategy{
     this.planetsByName={};
     this.planets.forEach( p => {
       this.planetsByName[p.name]=p;
-      this.resourceManager.globalResourceManagerresourceManager;
+      p.resourceManager.globalResourceManager=resourceManager;
     })
   }
 

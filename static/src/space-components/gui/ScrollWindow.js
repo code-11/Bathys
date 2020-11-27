@@ -18,18 +18,28 @@ export default class VerticalScrollWindow extends EXPolygonObj{
     this.lineStyle(this._thickness, this._border_color);
     // this.beginFill(this._border_color);
     this.drawPolygon(this._polygon);
-    this.scroll.drawFunc();
+    if (this.shouldScrollbar()){
+      this.scroll.drawFunc();
+    }
     this.widget.drawFunc();
+  }
+
+  shouldScrollbar(){
+    return this.innerHeight > this._height;
   }
 
   init(){
     this.widget.init();
-    this.scroll.innerSlider._width=this._height;
 
     this.innerWidth=this.widget._width;
     this.innerHeight=this.widget._height;
 
+    if (this.innerHeight<this._height){
+      this._height=this.innerHeight;
+    }
+
     // this._height=this.innerHeight;
+    this.scroll.innerSlider._width=this._height;
 
     const gripRatio = this._height / this.innerHeight;
     const gripSize = this._height * gripRatio;
@@ -40,8 +50,8 @@ export default class VerticalScrollWindow extends EXPolygonObj{
 
     this.scroll.init();
     this.scroll.x=this.widget._width+this.scroll._width;
-    this._width=this.innerWidth+this.scroll._width;
-    
+    this._width=this.innerWidth+(this.shouldScrollbar() ? this.scroll._width : 0);
+
     this.scroll.innerSlider.onSlide=(normVal,val)=>{
       this.widget.y=val*(this._height-this.innerHeight);
     }
@@ -73,7 +83,9 @@ export default class VerticalScrollWindow extends EXPolygonObj{
     // this.addChild(viewport);
     this.addChild(elMask);
     this.addChild(this.widget);
-    this.addChild(this.scroll);
+    if (this.shouldScrollbar()){
+      this.addChild(this.scroll);
+    }
 
 
   }

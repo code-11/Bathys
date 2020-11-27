@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 import Button from "./gui/Button";
 import Slider from "./gui/Slider";
 import Container from "./gui/Container";
-import ScrollWindow from "./gui/ScrollWindow";
+import VerticalScrollWindow from "./gui/ScrollWindow";
 
 import LandingChecker from "./LandingChecker";
 import PlanetResourceManager from "./PlanetResourceManager";
@@ -33,14 +33,14 @@ export default class Planet extends EXObj{
 
 
   initTradeMenu(){
-    const resources=this.resourceManager.resources;
+    const resources=this.resourceManager.globalResourceManager.resources;
     const container = new Container(4,resources.length);
-    container.x=35;
-    container.y=-25;
+    // container.x=35;
+    // container.y=-25;
     container._border_color=0xAAAAAA;
     container._thickness=1
     container._padding=5;
-    container.visible=false;
+    // container.visible=false;
 
     resources.forEach((res,i)=>{
       const nameLbl = new Button(res.name, {
@@ -89,66 +89,16 @@ export default class Planet extends EXObj{
       container.addElement(3,i,3,i,planetAmountLbl);
     });
 
-    // const scrollWindow = new ScrollWindow(container);
-    // scrollWindow.init();
-    // scrollWindow.drawFunc();
-    // this.container=scrollWindow;
+    const scrollWindow = new VerticalScrollWindow(container,this.renderer);
+    scrollWindow._height=300;
+    scrollWindow._thickness=1;
+    scrollWindow._border_color=0xFF0000;
+    scrollWindow.x=35;
+    scrollWindow.y=-25;
+    scrollWindow.init();
+    scrollWindow.drawFunc();
 
-    container.init();
-    container.drawFunc();
-    this.container=container;
-
-
-    // const slider= new Slider();
-    // // slider.position.x=200;
-    // // slider.position.y=200;
-    // slider._renderer=this.renderer;
-    // // slider.init();
-    //
-    // const btn2 = new Button("TEST", {
-    //   fontFamily : 'Arial',
-    //   fontSize: 24,
-    //   fill : 0xff1010,
-    //   align : 'center'
-    // });
-    // btn2._thickness=2;
-    // btn2._border_color=0xff1010;
-    // btn2._padding=5;
-    //
-    // const btn3 = new Button("TEST2", {
-    //   fontFamily : 'Arial',
-    //   fontSize: 24,
-    //   fill : 0xff1010,
-    //   align : 'center'
-    // });
-    // btn3._thickness=2;
-    // btn3._border_color=0xff1010;
-    // btn3._padding=5;
-    //
-    // const btn4 = new Button("TEST3", {
-    //   fontFamily : 'Arial',
-    //   fontSize: 24,
-    //   fill : 0xff1010,
-    //   align : 'center'
-    // });
-    // btn4._thickness=2;
-    // btn4._border_color=0xff1010;
-    // btn4._padding=5;
-    //
-    // const container = new Container(3,3);
-    // container.x=35;
-    // container.y=-25;
-    // container._border_color=0xAAAAAA;
-    // container._thickness=1
-    // container._padding=10;
-    // container.visible=false;
-    // container.addElement(0,0,0,0,btn2);
-    // container.addElement(1,1,1,1,btn3);
-    // container.addElement(2,2,2,2,btn4);
-    // container.addElement(1,0,2,0,slider);
-    // container.init();
-    // container.drawFunc();
-    // this.container=container;
+    this.container=scrollWindow;
   }
 
   init(){
