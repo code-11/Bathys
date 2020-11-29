@@ -14,6 +14,7 @@ export default class Container extends EXPolygonObj{
     this._iheight=iheight;
     this._widgets=[];
     this._thickness=0;
+    this._padding=0;
     this.interactive=true;
   }
 
@@ -34,7 +35,8 @@ export default class Container extends EXPolygonObj{
           involved_widths.push(widget_prorated_width);
         }
       });
-      const column_width=involved_widths!=involved_widths.length>0 ? Math.max(...involved_widths) : 0;
+      // const column_width=involved_widths!=involved_widths.length>0 ? Math.max(...involved_widths) : 0;
+      const column_width=involved_widths.length>0 ? Math.max(...involved_widths) : 0;
       cumulative_width+= column_width != 0 ? column_width+2*this._padding : 0;
       this._columnStarts.push(cumulative_width);
     }

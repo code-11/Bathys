@@ -80,7 +80,7 @@ export default class Planet extends EXObj{
         fill : 0xff1010,
         align : 'center'
       });
-      planetAmountLbl._thickness=2;
+      // planetAmountLbl._thickness=2;
       planetAmountLbl._border_color=0xff1010;
       planetAmountLbl._padding=5;
 

@@ -1,14 +1,10 @@
-import {dictGet} from "./util/util";
+import AmountResourceManager from "./AmountResourceManager";
 
-export default class PlanetResourceManager {
+export default class PlanetResourceManager extends AmountResourceManager {
   constructor(){
-    this.resources={};
+    super();
     this.production=null;
 
     this.globalResourceManager=null;
-  }
-
-  getResourceAmount(name){
-    return dictGet(this.resources, name, 0);
   }
 }

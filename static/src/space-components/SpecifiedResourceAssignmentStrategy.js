@@ -14,17 +14,17 @@ export default class SpecifiedResourceAssignmentStrategy{
     const resm = this.resourceManager;
     const ps=this.planetsByName;
 
-    const p1res= ps.planet1.resourceManager.resources;
-    p1res[resm.resources_by_name.durasteel.name]=100;
-    p1res[resm.resources_by_name.plasglass.name]=100;
-    p1res[resm.resources_by_name.medicine.name]=100;
-    p1res[resm.resources_by_name.valves.name]=100;
+    const p1res= ps.planet1.resourceManager;
+    p1res.assignResourceAmount(resm.resources_by_name.durasteel.name,100);
+    p1res.assignResourceAmount(resm.resources_by_name.plasglass.name,100);
+    p1res.assignResourceAmount(resm.resources_by_name.medicine.name,100);
+    p1res.assignResourceAmount(resm.resources_by_name.valves.name,100);
 
-    const p2res=ps.planet2.resourceManager.resources;
-    p2res[resm.resources_by_name.food.name]=100;
-    p2res[resm.resources_by_name.core.name]=100;
-    p2res[resm.resources_by_name.bodies.name]=100;
-    p2res[resm.resources_by_name.art.name]=100;
+    const p2res= ps.planet2.resourceManager;
+    p2res.assignResourceAmount(resm.resources_by_name.food.name,100);
+    p2res.assignResourceAmount(resm.resources_by_name.core.name,100);
+    p2res.assignResourceAmount(resm.resources_by_name.bodies.name,100);
+    p2res.assignResourceAmount(resm.resources_by_name.art.name,100);
   }
 
   assignProduction(){
