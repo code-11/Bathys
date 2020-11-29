@@ -43,7 +43,7 @@ export default class Planet extends EXObj{
     // container.visible=false;
 
     resources.forEach((res,i)=>{
-      const nameLbl = new Button(res.name, {
+      const nameLbl = new Button(res.displayName, {
         fontFamily : 'Arial',
         fontSize: 12,
         fill : 0xff1010,
@@ -73,7 +73,8 @@ export default class Planet extends EXObj{
       priceLbl._border_color=0xff1010;
       priceLbl._padding=5;
 
-      const planetAmountLbl = new Button("Planet#", {
+      const amount = this.resourceManager.getResourceAmount(res.name);
+      const planetAmountLbl = new Button(amount.toString(), {
         fontFamily : 'Arial',
         fontSize: 12,
         fill : 0xff1010,

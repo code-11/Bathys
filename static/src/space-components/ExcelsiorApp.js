@@ -80,6 +80,7 @@ export default class ExcelsiorApp{
 
     const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,resourceManager);
     resourceAssigner.assignResources();
+    resourceAssigner.assignProduction();
 
     planet1.init();
     planet1.x=500;

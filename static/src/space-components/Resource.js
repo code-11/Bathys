@@ -1,7 +1,20 @@
+
+
 export default class Resource{
-  constructor(name){
+  constructor(name,displayName,intrinsicVal,desc){
     this.name=name;
+    this.displayName=displayName;
+    this.intrinsicVal=intrinsicVal;
+    this.desc=desc;
   }
+
+  //Creates a Resource from a display name and other parameters.
+  static create(displayName, intrinsicVal,desc){
+    const nameArr=displayName.toLowerCase().split(" ");
+    const nameToUse=nameArr[nameArr.length-1];
+    return new Resource (nameToUse,displayName,intrinsicVal,desc);
+  }
+
 //   20
 //   One tertiary
 //   5 secondary
