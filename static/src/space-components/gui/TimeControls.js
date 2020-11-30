@@ -9,8 +9,9 @@ export default class TimeControls extends Container{
     this.speedIndex=0;
     this.startTime=Date.now();
     this.addedTime=0;
+  }
 
-
+  init(){
     this.timeLbl = new Button("TEST", {
       fontFamily : 'Arial',
       fontSize: 20,
@@ -69,12 +70,9 @@ export default class TimeControls extends Container{
     this.addElement(0,1,0,1,slower);
     this.addElement(1,1,1,1,this.speedLbl);
     this.addElement(2,1,2,1,faster);
-    this.init();
+    super.init();
     this.updateSpeedLbl();
     this.updateTimeLbl();
-    this.drawFunc();
-
-
   }
 
   update(timeDelta){

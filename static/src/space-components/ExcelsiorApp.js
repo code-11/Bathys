@@ -65,12 +65,21 @@ export default class ExcelsiorApp{
     moveCtrl._targetObj = moveCtrlTargetObj;
     moveCtrl.init();
 
+    const hud= new Container(1,2);
+    hud._thickness=1
+    hud._border_color=0xAAAAAA;
+
     const timeControls = new TimeControls();
 
     const resourceManager = new ResourceManager();
     resourceManager.initResources();
 
     const playerInventory = new PlayerInventory(resourceManager,playerShip);
+
+    hud.addElement(0,0,0,0,timeControls);
+    hud.addElement(0,1,0,1,playerInventory);
+    hud.init();
+    hud.drawFunc();
 
     const planet1= new Planet(this.app.renderer);
     planet1.viewport=viewport;
@@ -148,8 +157,7 @@ export default class ExcelsiorApp{
     viewport.addChild(graphics);
     // this.app.stage.addChild(graphics);
     this.app.stage.addChild(viewport);
-    this.app.stage.addChild(timeControls);
-    this.app.stage.addChild(playerInventory);
+    this.app.stage.addChild(hud);
     // this.app.stage.addChild(graphics);
 
     this.app.ticker.add(delta => {

@@ -8,11 +8,11 @@ export default class PlayerInventory extends Container{
 
     this.globalResourceManager=globalResourceManager;
     this.playerShip=playerShip;
+  }
 
+  init(){
     this.initResourceList();
-    this.init();
-    this.y=100;
-    this.drawFunc();
+    super.init();
   }
 
   initResourceList(){
@@ -25,7 +25,7 @@ export default class PlayerInventory extends Container{
         fill : 0xff1010,
         align : 'center'
       });
-      nameLbl._thickness=2;
+      // nameLbl._thickness=2;
       nameLbl._border_color=0xff1010;
       nameLbl._padding=5;
 
@@ -36,7 +36,7 @@ export default class PlayerInventory extends Container{
         fill : 0xff1010,
         align : 'center'
       });
-      amountLbl._thickness=2;
+      // amountLbl._thickness=2;
       amountLbl._border_color=0xff1010;
       amountLbl._padding=5;
 
