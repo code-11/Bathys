@@ -5,6 +5,7 @@ import { Viewport } from 'pixi-viewport'
 import Button from "./gui/Button";
 import DualSlider from "./gui/DualSlider";
 import Container from "./gui/Container";
+import PopupWindow from "./gui/PopupWindow";
 import PlayerInventory from "./gui/PlayerInventory";
 import TimeControls from "./gui/TimeControls";
 import VerticalScroll from "./gui/VerticalScroll";
@@ -105,20 +106,29 @@ export default class ExcelsiorApp{
 
 
 
-    // const slider= new DualSlider(-20,100);
-    // slider._renderer=this.app.renderer;
-    //
-    // const slider2= new DualSlider(-20,100);
-    // slider2._renderer=this.app.renderer;
-    //
-    // const slider3= new DualSlider(-20,100);
-    // slider3._renderer=this.app.renderer;
-    //
-    // const container = new Container(1,3);
-    //
-    // container._border_color=0x00AA00;
-    // container._thickness=1;
-    // container._padding=5;
+    const slider= new DualSlider(-20,100);
+    slider._renderer=this.app.renderer;
+
+    const slider2= new DualSlider(-20,100);
+    slider2._renderer=this.app.renderer;
+
+    const slider3= new DualSlider(-20,100);
+    slider3._renderer=this.app.renderer;
+
+    const container = new Container(1,3);
+
+    container._border_color=0x00AA00;
+    container._thickness=0;
+    container._padding=5;
+
+    container.addElement(0,0,0,0,slider);
+    container.addElement(0,1,0,1,slider2);
+    container.addElement(0,2,0,2,slider3);
+
+    const popupWindow = new PopupWindow(container);
+    popupWindow.init();
+    popupWindow.drawFunc();
+
     //
     // const scrollWindow = new VerticalScrollWindow(container,this.app.renderer);
     // scrollWindow._height=100;
@@ -142,6 +152,7 @@ export default class ExcelsiorApp{
     // slider.drawFunc();
 
     // graphics.addChild(scrollWindow);
+    graphics.addChild(popupWindow);
     graphics.addChild(planet1);
     graphics.addChild(planet2);
 
