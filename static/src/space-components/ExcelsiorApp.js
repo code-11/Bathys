@@ -126,8 +126,12 @@ export default class ExcelsiorApp{
     container.addElement(0,2,0,2,slider3);
 
     const popupWindow = new PopupWindow(container);
+    popupWindow.top_graphic=graphics;
+    popupWindow._renderer=this.app.renderer;
     popupWindow.init();
     popupWindow.drawFunc();
+
+
 
     //
     // const scrollWindow = new VerticalScrollWindow(container,this.app.renderer);

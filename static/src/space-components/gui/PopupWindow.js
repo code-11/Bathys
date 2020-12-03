@@ -12,6 +12,7 @@ export default class PopupWindow extends EXPolygonObj{
     this.barHeight=10;
     this.topBar=null;
     this.interactive=true;
+    this.tracking_top_bar=false;
   }
 
   init(){
@@ -23,12 +24,39 @@ export default class PopupWindow extends EXPolygonObj{
     this._height=this.innerHeight+this.barHeight;
     this._width=this.innerWidth;
 
-    this.topBar=new PIXI.Polygon([
-      new PIXI.Point(0,0),
-      new PIXI.Point(0,this.barHeight),
-      new PIXI.Point(this.innerWidth,this.barHeight),
-      new PIXI.Point(this.innerWidth,0),
+    this.topBar= new EXPolygonObj();
+    this.topBar.interactive=true;
+    this.topBar.setPoints([
+      [0,0],
+      [0,this.barHeight],
+      [this.innerWidth,this.barHeight],
+      [this.innerWidth,0],
     ]);
+    this.topBar._color=this._color;
+    this.topBar.init();
+    this.topBar.setHitArea();
+
+    //Lets make this bad boy moveable
+    const self = this;
+    this.topBar.on("mousedown",(e1)=>{
+      self.tracking_top_bar=true;
+      self.tracking_data = e1.data;
+    });
+    this.top_graphic.on("mousemove",(e2)=>{
+      self.trackMouse(self.tracking_top_bar);
+    });
+    this.topBar.on("mousemove",(e2)=>{
+      self.trackMouse(self.tracking_top_bar);
+    });
+    this.topBar.on("mouseup",(e3)=>{
+      self.tracking_top_bar=false;
+      self.tracking_data=null;
+    });
+    this.top_graphic.on("mouseup",(e4)=>{
+      self.tracking_top_bar=false;
+      self.tracking_data=null;
+    });
+
 
     this._polygon= new PIXI.Polygon([
       new PIXI.Point(0,0),
@@ -39,6 +67,7 @@ export default class PopupWindow extends EXPolygonObj{
 
     this.widget.y=this.barHeight;
 
+    this.addChild(this.topBar);
     this.addChild(this.widget);
 
     this.setHitArea();
@@ -47,12 +76,22 @@ export default class PopupWindow extends EXPolygonObj{
     });
   }
 
+  trackMouse(shouldTrack){
+    if(shouldTrack){
+        const newPosition = this.tracking_data.getLocalPosition(this.parent);
+        this.x=newPosition.x;
+        this.y=newPosition.y;
+        // const global_mouse_pos=this._renderer.plugins.interaction.mouse.global;
+        // const global_diff= this.viewport.toWorld(0,0);
+        // const mouse_pos=new PIXI.Point(global_mouse_pos.x+global_diff.x,global_mouse_pos.y+global_diff.y);
+        // this._target=new PIXI.Point(mouse_pos.x,mouse_pos.y);
+    }
+  }
+
   drawFunc(){
     this.lineStyle(this._thickness, this._border_color);
     this.drawPolygon(this._polygon);
-    this.beginFill(this._color);
-    this.drawPolygon(this.topBar);
-    this.endFill();
+    this.topBar.drawFunc();
     this.widget.drawFunc();
   }
 
