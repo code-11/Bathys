@@ -9,7 +9,7 @@ export default class PopupWindow extends EXPolygonObj{
     this._thickness=1;
     this._border_color=0xAAAAAA;
     this._color=0xAAAAAA;
-    this.barHeight=10;
+    this.barHeight=15;
     this.topBar=null;
     this.interactive=true;
     this.tracking_top_bar=false;
@@ -41,6 +41,7 @@ export default class PopupWindow extends EXPolygonObj{
     this.topBar.on("mousedown",(e1)=>{
       self.tracking_top_bar=true;
       self.tracking_data = e1.data;
+      self.tracking_start=self.tracking_data.getLocalPosition(this.topBar);
     });
     this.top_graphic.on("mousemove",(e2)=>{
       self.trackMouse(self.tracking_top_bar);
@@ -51,10 +52,12 @@ export default class PopupWindow extends EXPolygonObj{
     this.topBar.on("mouseup",(e3)=>{
       self.tracking_top_bar=false;
       self.tracking_data=null;
+      self.tracking_start=null;
     });
     this.top_graphic.on("mouseup",(e4)=>{
       self.tracking_top_bar=false;
       self.tracking_data=null;
+      self.tracking_start=null;
     });
 
 
@@ -79,8 +82,8 @@ export default class PopupWindow extends EXPolygonObj{
   trackMouse(shouldTrack){
     if(shouldTrack){
         const newPosition = this.tracking_data.getLocalPosition(this.parent);
-        this.x=newPosition.x;
-        this.y=newPosition.y;
+        this.x=newPosition.x-this.tracking_start.x;
+        this.y=newPosition.y-this.tracking_start.y;
         // const global_mouse_pos=this._renderer.plugins.interaction.mouse.global;
         // const global_diff= this.viewport.toWorld(0,0);
         // const mouse_pos=new PIXI.Point(global_mouse_pos.x+global_diff.x,global_mouse_pos.y+global_diff.y);
