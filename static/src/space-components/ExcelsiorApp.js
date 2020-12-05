@@ -84,10 +84,12 @@ export default class ExcelsiorApp{
 
     const planet1= new Planet(this.app.renderer);
     planet1.viewport=viewport;
+    planet1.top_graphic=graphics;
     planet1.name="planet1";
 
     const planet2= new Planet(this.app.renderer);
     planet2.viewport=viewport;
+    planet2.top_graphic=graphics;
     planet2.name="planet2";
 
     const planets=[planet1,planet2];
@@ -106,30 +108,30 @@ export default class ExcelsiorApp{
 
 
 
-    const slider= new DualSlider(-20,100);
-    slider._renderer=this.app.renderer;
-
-    const slider2= new DualSlider(-20,100);
-    slider2._renderer=this.app.renderer;
-
-    const slider3= new DualSlider(-20,100);
-    slider3._renderer=this.app.renderer;
-
-    const container = new Container(1,3);
-
-    container._border_color=0x00AA00;
-    container._thickness=0;
-    container._padding=5;
-
-    container.addElement(0,0,0,0,slider);
-    container.addElement(0,1,0,1,slider2);
-    container.addElement(0,2,0,2,slider3);
-
-    const popupWindow = new PopupWindow(container);
-    popupWindow.top_graphic=graphics;
-    popupWindow._renderer=this.app.renderer;
-    popupWindow.init();
-    popupWindow.drawFunc();
+    // const slider= new DualSlider(-20,100);
+    // slider._renderer=this.app.renderer;
+    //
+    // const slider2= new DualSlider(-20,100);
+    // slider2._renderer=this.app.renderer;
+    //
+    // const slider3= new DualSlider(-20,100);
+    // slider3._renderer=this.app.renderer;
+    //
+    // const container = new Container(1,3);
+    //
+    // container._border_color=0x00AA00;
+    // container._thickness=0;
+    // container._padding=5;
+    //
+    // container.addElement(0,0,0,0,slider);
+    // container.addElement(0,1,0,1,slider2);
+    // container.addElement(0,2,0,2,slider3);
+    //
+    // const popupWindow = new PopupWindow(container);
+    // popupWindow.top_graphic=graphics;
+    // popupWindow._renderer=this.app.renderer;
+    // popupWindow.init();
+    // popupWindow.drawFunc();
 
 
 
@@ -156,7 +158,7 @@ export default class ExcelsiorApp{
     // slider.drawFunc();
 
     // graphics.addChild(scrollWindow);
-    graphics.addChild(popupWindow);
+    // graphics.addChild(popupWindow);
     graphics.addChild(planet1);
     graphics.addChild(planet2);
 

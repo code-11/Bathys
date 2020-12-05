@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 
+import Button from "./Button";
 import EXPolygonObj from "../core/EXPolygonObj";
 
 export default class PopupWindow extends EXPolygonObj{
@@ -11,8 +12,29 @@ export default class PopupWindow extends EXPolygonObj{
     this._color=0xAAAAAA;
     this.barHeight=15;
     this.topBar=null;
+    this.closeBtn=null;
     this.interactive=true;
     this.tracking_top_bar=false;
+  }
+
+  createCloseBtn(){
+    const closeBtn= new Button("X", {
+      fontFamily : 'Arial',
+      fontSize: 12,
+      fill : 0x444444,
+      align : 'center'
+    });
+    closeBtn._thickness=2;
+    closeBtn._border_color=0x444444;
+    closeBtn._padding=2;
+    closeBtn.interactive=true;
+    closeBtn.buttonMode=true;
+
+    closeBtn.on("click",()=>{
+      this.onClose()
+    });
+
+    return closeBtn;
   }
 
   init(){
@@ -35,6 +57,11 @@ export default class PopupWindow extends EXPolygonObj{
     this.topBar._color=this._color;
     this.topBar.init();
     this.topBar.setHitArea();
+
+    this.closeBtn=this.createCloseBtn();
+    this.closeBtn.init();
+    this.closeBtn.x=this.innerWidth-this.closeBtn._width;
+    this.topBar.addChild(this.closeBtn);
 
     //Lets make this bad boy moveable
     const self = this;
@@ -95,10 +122,15 @@ export default class PopupWindow extends EXPolygonObj{
     this.lineStyle(this._thickness, this._border_color);
     this.drawPolygon(this._polygon);
     this.topBar.drawFunc();
+    this.closeBtn.drawFunc();
     this.widget.drawFunc();
   }
 
-  onClose(){}
+  onClose(){
+    // this.destroy({
+    //   children:true
+    // })
+  }
 
   onOpen(){}
 }

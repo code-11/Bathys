@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import Button from "./gui/Button";
 import Slider from "./gui/Slider";
 import Container from "./gui/Container";
+import PopupWindow from "./gui/PopupWindow";
 import VerticalScrollWindow from "./gui/ScrollWindow";
 
 import LandingChecker from "./LandingChecker";
@@ -19,6 +20,7 @@ export default class Planet extends EXObj{
     this.landingIndicator=null;
     this.container=null;
 
+    this.top_graphic=null;
     this.renderer=renderer;
     this.viewport=null;
 
@@ -31,6 +33,11 @@ export default class Planet extends EXObj{
     }
   }
 
+
+  resetContainerPos(){
+    this.container.x=35;
+    this.container.y=-25;
+  }
 
   initTradeMenu(){
     const resources=this.resourceManager.globalResourceManager.resources;
@@ -94,12 +101,20 @@ export default class Planet extends EXObj{
     scrollWindow._height=300;
     scrollWindow._thickness=1;
     scrollWindow._border_color=0xFF0000;
-    scrollWindow.x=35;
-    scrollWindow.y=-25;
-    scrollWindow.init();
-    scrollWindow.drawFunc();
 
-    this.container=scrollWindow;
+    // scrollWindow.init();
+    // scrollWindow.drawFunc();
+
+    const popupWindow= new PopupWindow(scrollWindow);
+    popupWindow._renderer=this.renderer;
+    popupWindow.top_graphic=this.top_graphic;
+    popupWindow.onClose=()=>{
+      this.container.visible=!this.container.visible;
+    }
+    popupWindow.init();
+    popupWindow.drawFunc();
+
+    this.container=popupWindow;
   }
 
   init(){
@@ -124,6 +139,7 @@ export default class Planet extends EXObj{
     baseLandingCheckerIndicator.interactive = true;
     baseLandingCheckerIndicator.on("click",(e)=>{
       this.container.visible=!this.container.visible;
+      this.resetContainerPos();
       e.stopPropagation();
     });
     baseLandingCheckerIndicator.init();
