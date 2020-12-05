@@ -1,6 +1,11 @@
 import * as PIXI from 'pixi.js';
 import Slider from "./Slider";
 export default class DualSlider extends Slider{
+
+  reset(){
+    this._normVal=.5;
+  }
+
   refreshInner(){
       this._innerBox.clear();
       const innerWidth=this._width*this._normVal;

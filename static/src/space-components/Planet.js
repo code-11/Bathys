@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import Button from "./gui/Button";
 import Slider from "./gui/Slider";
 import Container from "./gui/Container";
+import DualSlider from "./gui/DualSlider";
 import PopupWindow from "./gui/PopupWindow";
 import VerticalScrollWindow from "./gui/ScrollWindow";
 
@@ -41,7 +42,7 @@ export default class Planet extends EXObj{
 
   initTradeMenu(){
     const resources=this.resourceManager.globalResourceManager.resources;
-    const container = new Container(4,resources.length);
+    const container = new Container(5,resources.length);
     // container.x=35;
     // container.y=-25;
     container._border_color=0xAAAAAA;
@@ -80,6 +81,9 @@ export default class Planet extends EXObj{
       priceLbl._border_color=0xff1010;
       priceLbl._padding=5;
 
+      const slider = new DualSlider(-20,100);
+      slider._renderer=this.renderer;
+
       const amount = this.resourceManager.getResourceAmount(res.name);
       const planetAmountLbl = new Button(amount.toString(), {
         fontFamily : 'Arial',
@@ -94,7 +98,8 @@ export default class Planet extends EXObj{
       container.addElement(0,i,0,i,nameLbl);
       container.addElement(1,i,1,i,shipAmountLbl);
       container.addElement(2,i,2,i,priceLbl);
-      container.addElement(3,i,3,i,planetAmountLbl);
+      container.addElement(3,i,3,i,slider);
+      container.addElement(4,i,4,i,planetAmountLbl);
     });
 
     const scrollWindow = new VerticalScrollWindow(container,this.renderer);
