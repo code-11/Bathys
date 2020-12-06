@@ -8,6 +8,7 @@ import PopupWindow from "./gui/PopupWindow";
 import VerticalScrollWindow from "./gui/ScrollWindow";
 
 import LandingChecker from "./LandingChecker";
+import PlayerSaleManager from "./PlayerSaleManager";
 import PlanetResourceManager from "./PlanetResourceManager";
 
 import EXObj from "./core/EXObj";
@@ -26,6 +27,13 @@ export default class Planet extends EXObj{
     this.viewport=null;
 
     this.resourceManager=new PlanetResourceManager();
+    this.saleManager = new PlayerSaleManager(this.resourceManager);
+    this.saleManager.renderer=this.renderer;
+  }
+
+  setTopGraphic(top_graphic){
+    this.top_graphic=top_graphic;
+    this.saleManager.top_graphic=this.top_graphic;
   }
 
   checkLanding(ship,moveCtrlTargetObj){
@@ -34,92 +42,9 @@ export default class Planet extends EXObj{
     }
   }
 
-
   resetContainerPos(){
     this.container.x=35;
     this.container.y=-25;
-  }
-
-  initTradeMenu(){
-    const resources=this.resourceManager.globalResourceManager.resources;
-    const container = new Container(5,resources.length);
-    // container.x=35;
-    // container.y=-25;
-    container._border_color=0xAAAAAA;
-    container._thickness=1
-    container._padding=5;
-    // container.visible=false;
-
-    resources.forEach((res,i)=>{
-      const nameLbl = new Button(res.displayName, {
-        fontFamily : 'Arial',
-        fontSize: 12,
-        fill : 0xff1010,
-        align : 'center'
-      });
-      nameLbl._thickness=2;
-      nameLbl._border_color=0xff1010;
-      nameLbl._padding=5;
-
-      const shipAmountLbl = new Button("Ship#", {
-        fontFamily : 'Arial',
-        fontSize: 12,
-        fill : 0xff1010,
-        align : 'center'
-      });
-      shipAmountLbl._thickness=2;
-      shipAmountLbl._border_color=0xff1010;
-      shipAmountLbl._padding=5;
-
-      const priceLbl = new Button("Price", {
-        fontFamily : 'Arial',
-        fontSize: 12,
-        fill : 0xff1010,
-        align : 'center'
-      });
-      priceLbl._thickness=2;
-      priceLbl._border_color=0xff1010;
-      priceLbl._padding=5;
-
-      const slider = new DualSlider(-20,100);
-      slider._renderer=this.renderer;
-
-      const amount = this.resourceManager.getResourceAmount(res.name);
-      const planetAmountLbl = new Button(amount.toString(), {
-        fontFamily : 'Arial',
-        fontSize: 12,
-        fill : 0xff1010,
-        align : 'center'
-      });
-      // planetAmountLbl._thickness=2;
-      planetAmountLbl._border_color=0xff1010;
-      planetAmountLbl._padding=5;
-
-      container.addElement(0,i,0,i,nameLbl);
-      container.addElement(1,i,1,i,shipAmountLbl);
-      container.addElement(2,i,2,i,priceLbl);
-      container.addElement(3,i,3,i,slider);
-      container.addElement(4,i,4,i,planetAmountLbl);
-    });
-
-    const scrollWindow = new VerticalScrollWindow(container,this.renderer);
-    scrollWindow._height=300;
-    scrollWindow._thickness=1;
-    scrollWindow._border_color=0xFF0000;
-
-    // scrollWindow.init();
-    // scrollWindow.drawFunc();
-
-    const popupWindow= new PopupWindow(scrollWindow);
-    popupWindow._renderer=this.renderer;
-    popupWindow.top_graphic=this.top_graphic;
-    popupWindow.onClose=()=>{
-      this.container.visible=!this.container.visible;
-    }
-    popupWindow.init();
-    popupWindow.drawFunc();
-
-    this.container=popupWindow;
   }
 
   init(){
@@ -132,7 +57,7 @@ export default class Planet extends EXObj{
     base.viewport=this.viewport
     this.base=base;
 
-    this.initTradeMenu();
+    this.container=this.saleManager.initTradeMenu();
 
     const baseLandingCheckerIndicator = new EXCircleObj();
     baseLandingCheckerIndicator.x=20;
@@ -152,7 +77,7 @@ export default class Planet extends EXObj{
 
     const baseLandingChecker= new LandingChecker();
     baseLandingChecker._checkingIndicator=baseLandingCheckerIndicator;
-    baseLandingChecker._parent=base;
+    baseLandingChecker._parent=this;
     baseLandingChecker._container=this.container;
     this.landingChecker=baseLandingChecker;
 

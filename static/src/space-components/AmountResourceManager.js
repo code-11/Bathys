@@ -9,6 +9,14 @@ export default class AmountResourceManager {
     return dictGet(this.resources, name, 100);
   }
 
+  incrResourceAmount(name,n=1){
+    this.resources[name]=this.getResourceAmount(name)+n;
+  }
+
+  decrResourceAmount(name,n=1){
+    this.resources[name]=this.getResourceAmount(name)-n;
+  }
+
   assignResourceAmount(name, val){
     this.resources[name]=val;
   }

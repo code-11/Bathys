@@ -84,12 +84,12 @@ export default class ExcelsiorApp{
 
     const planet1= new Planet(this.app.renderer);
     planet1.viewport=viewport;
-    planet1.top_graphic=graphics;
+    planet1.setTopGraphic(graphics);
     planet1.name="planet1";
 
     const planet2= new Planet(this.app.renderer);
     planet2.viewport=viewport;
-    planet2.top_graphic=graphics;
+    planet2.setTopGraphic(graphics);
     planet2.name="planet2";
 
     const planets=[planet1,planet2];
@@ -97,6 +97,7 @@ export default class ExcelsiorApp{
     const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,resourceManager);
     resourceAssigner.assignResources();
     resourceAssigner.assignProduction();
+    resourceAssigner.assignResourcesWanted();
 
     planet1.init();
     planet1.x=500;

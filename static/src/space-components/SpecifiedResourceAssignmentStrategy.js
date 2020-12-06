@@ -27,6 +27,18 @@ export default class SpecifiedResourceAssignmentStrategy{
     p2res.assignResourceAmount(resm.resources_by_name.art.name,100);
   }
 
+  assignResourcesWanted(){
+    const resm = this.resourceManager;
+    const ps=this.planetsByName;
+    this.planets.forEach((planet)=>{
+        this.resourceManager.resources.forEach((res)=>{
+        planet.resourceManager.amountsWanted[res.name]=200;
+      });
+    })
+
+    const p1res= ps.planet1.resourceManager;
+  }
+
   assignProduction(){
     const resm = this.resourceManager;
     const ps=this.planetsByName;

@@ -23,8 +23,20 @@ export default class Slider extends EXPolygonObj{
     this.slideMarginY=2;
   }
 
-  reposition(newVal){
+  setMinMax(minVal,maxVal){
+    this._slideBox.removeAllListeners();
+    this._innerBox.clear();
+    this._slideBox.clear();
+    this._valLbl.clear();
+    this.removeChild(this._innerBox);
+    this.removeChild(this._slideBox);
+    this.removeChild(this._valLbl);
+    this._innerBox.destroy();
+    this._slideBox.destroy();
+    this._valLbl.destroy();
 
+    this._minVal=minVal;
+    this._maxVal=maxVal;
   }
 
   getMult(){
@@ -93,7 +105,7 @@ export default class Slider extends EXPolygonObj{
       this._innerBox.endFill();
   }
 
-  onSlide(normVal){}
+  onSlide(normVal, val){}
 
   trackMouse(shouldTrack){
     if(shouldTrack){
