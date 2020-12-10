@@ -1,5 +1,5 @@
 export default class SpecifiedResourceAssignmentStrategy{
-  constructor(planets,resourceManager){
+  constructor(planets, ship, resourceManager){
     this.resourceManager=resourceManager;
 
     this.planets=planets;
@@ -7,7 +7,8 @@ export default class SpecifiedResourceAssignmentStrategy{
     this.planets.forEach( p => {
       this.planetsByName[p.name]=p;
       p.resourceManager.globalResourceManager=resourceManager;
-    })
+    });
+    ship.resourceManager.globalResourceManager=resourceManager;
   }
 
   assignResources(){
@@ -32,7 +33,7 @@ export default class SpecifiedResourceAssignmentStrategy{
     const ps=this.planetsByName;
     this.planets.forEach((planet)=>{
         this.resourceManager.resources.forEach((res)=>{
-        planet.resourceManager.amountsWanted[res.name]=200;
+        planet.resourceManager.amountsWanted[res.name]=50;
       });
     })
 

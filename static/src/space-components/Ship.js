@@ -1,10 +1,10 @@
 import EXPolygonObj from "./core/EXPolygonObj";
-import AmountResourceManager from "./AmountResourceManager";
+import PlayerResourceManager from "./PlayerResourceManager";
 
 
 export default class Ship extends EXPolygonObj {
   constructor(){
     super();
-    this.resourceManager = new AmountResourceManager();
+    this.resourceManager = new PlayerResourceManager();
   }
 }

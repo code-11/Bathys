@@ -48,7 +48,7 @@ export default class PlayerSaleManager extends Container{
 
   initTradeMenu(){
     const resources=this.planetResourceManger.globalResourceManager.resources;
-    const container = new Container(5,resources.length);
+    const container = new Container(7,resources.length);
     // container.x=35;
     // container.y=-25;
     container._border_color=0xAAAAAA;
@@ -56,36 +56,29 @@ export default class PlayerSaleManager extends Container{
     container._padding=5;
     // container.visible=false;
 
+    const lblTextOptions={
+      fontFamily : 'Arial',
+      fontSize: 12,
+      fill : 0xff1010,
+      align : 'center'
+    };
+
     resources.forEach((res,i)=>{
-      const nameLbl = new Button(res.displayName, {
-        fontFamily : 'Arial',
-        fontSize: 12,
-        fill : 0xff1010,
-        align : 'center'
-      });
+      const nameLbl = new Button(res.displayName, lblTextOptions);
       nameLbl._thickness=2;
       nameLbl._border_color=0xff1010;
       nameLbl._padding=5;
 
-      const shipAmountLbl = new Button("Ship#", {
-        fontFamily : 'Arial',
-        fontSize: 12,
-        fill : 0xff1010,
-        align : 'center'
-      });
-      shipAmountLbl._thickness=2;
+      const shipAmountLbl = new Button("Ship#", lblTextOptions);
       shipAmountLbl._border_color=0xff1010;
       shipAmountLbl._padding=5;
 
+      const totalLbl = new Button("0", lblTextOptions);
+      totalLbl._border_color==0xff1010;
+      totalLbl._padding=5;
 
       const startingPrice=this.planetResourceManger.price(res);
-      const priceLbl = new Button(startingPrice.toString(), {
-        fontFamily : 'Arial',
-        fontSize: 12,
-        fill : 0xff1010,
-        align : 'center'
-      });
-      priceLbl._thickness=2;
+      const priceLbl = new Button(startingPrice.toString(), lblTextOptions);
       priceLbl._border_color=0xff1010;
       priceLbl._padding=5;
 
@@ -96,23 +89,31 @@ export default class PlayerSaleManager extends Container{
       slider.onSlide=(normVal,val)=>{
         const avgPrice=this.planetResourceManger.avgPrice(res,Math.floor(val));
         priceLbl.rapidTextRefresh(Math.round(avgPrice));
+        const totalCost=avgPrice*Math.floor(val);
+        totalLbl.rapidTextRefresh(Math.ceil(totalCost));
       }
 
-      const planetAmountLbl = new Button(amount.toString(), {
-        fontFamily : 'Arial',
-        fontSize: 12,
-        fill : 0xff1010,
-        align : 'center'
-      });
+      const planetAmountLbl = new Button(amount.toString(), lblTextOptions);
       // planetAmountLbl._thickness=2;
       planetAmountLbl._border_color=0xff1010;
       planetAmountLbl._padding=5;
 
+      const confirmBtn = new Button("Confirm", lblTextOptions);
+      // planetAmountLbl._thickness=2;
+      confirmBtn._border_color=0xff1010;
+      confirmBtn._padding=5;
+      confirmBtn._thickness=2;
+      confirmBtn.interactive=true;
+      confirmBtn.buttonMode=true;
+      confirmBtn.setHitArea();
+
       container.addElement(0,i,0,i,nameLbl);
       container.addElement(1,i,1,i,shipAmountLbl);
-      container.addElement(2,i,2,i,priceLbl);
-      container.addElement(3,i,3,i,slider);
-      container.addElement(4,i,4,i,planetAmountLbl);
+      container.addElement(2,i,2,i,totalLbl);
+      container.addElement(3,i,3,i,priceLbl);
+      container.addElement(4,i,4,i,slider);
+      container.addElement(5,i,5,i,planetAmountLbl);
+      container.addElement(6,i,6,i,confirmBtn);
 
       const resObj={nameLbl,shipAmountLbl,priceLbl,slider,planetAmountLbl};
       this.tradeMenu[res.name]=resObj;

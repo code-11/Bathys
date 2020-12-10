@@ -42,6 +42,7 @@ export default class ExcelsiorApp{
     graphics.interactive = true;
     graphics.hitArea = new PIXI.Rectangle(0, 0, 5000, 5000);
 
+//-----PLAYER AND SHIP INITITIALIZATION-----
     const playerShip=new PlayerShip();
     playerShip.setPoints([[0,-15],[-10,15],[10,15]]);
     playerShip.setColor(0xDE3249);
@@ -66,21 +67,7 @@ export default class ExcelsiorApp{
     moveCtrl._targetObj = moveCtrlTargetObj;
     moveCtrl.init();
 
-    const hud= new Container(1,2);
-    hud._thickness=1
-    hud._border_color=0xAAAAAA;
-
-    const timeControls = new TimeControls();
-
-    const resourceManager = new ResourceManager();
-    resourceManager.initResources();
-
-    const playerInventory = new PlayerInventory(resourceManager,playerShip);
-
-    hud.addElement(0,0,0,0,timeControls);
-    hud.addElement(0,1,0,1,playerInventory);
-    hud.init();
-    hud.drawFunc();
+//-----PLANET INITITIALIZATION-----
 
     const planet1= new Planet(this.app.renderer);
     planet1.viewport=viewport;
@@ -94,7 +81,12 @@ export default class ExcelsiorApp{
 
     const planets=[planet1,planet2];
 
-    const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,resourceManager);
+//-----RESOURCE INITITIALIZATION-----
+
+    const resourceManager = new ResourceManager();
+    resourceManager.initResources();
+
+    const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,playerShip,resourceManager);
     resourceAssigner.assignResources();
     resourceAssigner.assignProduction();
     resourceAssigner.assignResourcesWanted();
@@ -107,7 +99,20 @@ export default class ExcelsiorApp{
     planet2.x=300;
     planet2.y=300;
 
+//-----HUD INITITIALIZATION-----
 
+    const hud= new Container(1,2);
+    hud._thickness=1
+    hud._border_color=0xAAAAAA;
+
+    const timeControls = new TimeControls();
+
+    const playerInventory = new PlayerInventory(resourceManager,playerShip);
+
+    hud.addElement(0,0,0,0,timeControls);
+    hud.addElement(0,1,0,1,playerInventory);
+    hud.init();
+    hud.drawFunc();
 
     // const slider= new DualSlider(-20,100);
     // slider._renderer=this.app.renderer;

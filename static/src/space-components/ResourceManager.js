@@ -4,6 +4,7 @@ export default class ResourceManager {
   constructor(){
     this.resources=null;
     this.resources_by_name={}
+    this.moneyRes = Resource.create("Money", 1, "Can be exchanged for goods and services.");
   }
 
   initResources(){

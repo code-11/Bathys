@@ -4,7 +4,7 @@ import Button from "./Button";
 export default class PlayerInventory extends Container{
   constructor(globalResourceManager, playerShip){
     const numResources = globalResourceManager.resources.length;
-    super(4,numResources);
+    super(4,numResources+1);
 
     this.globalResourceManager=globalResourceManager;
     this.playerShip=playerShip;
@@ -17,7 +17,8 @@ export default class PlayerInventory extends Container{
 
   initResourceList(){
     const allResources=this.globalResourceManager.resources;
-    allResources.forEach((res,i)=>{
+    const moneyAndAllResources=[this.globalResourceManager.moneyRes].concat(allResources);
+    moneyAndAllResources.forEach((res,i)=>{
 
       const fontOptions={
         fontFamily : 'Arial',
