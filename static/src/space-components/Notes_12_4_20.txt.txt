@@ -1,0 +1,3 @@
+-Need to connect and have update the ship planet trade menu.
+-Need to have the slider values update properly with the inventories of ship and planet.
+-Need to have the norm val of the sliders reset to 0 when the ui is closed. 

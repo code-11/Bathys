@@ -8,10 +8,12 @@ export default class PlayerInventory extends Container{
 
     this.globalResourceManager=globalResourceManager;
     this.playerShip=playerShip;
+    this.inventoryGUI={};
   }
 
   init(){
     this.initResourceList();
+    this.initBoundRefresh();
     super.init();
   }
 
@@ -67,6 +69,19 @@ export default class PlayerInventory extends Container{
       this.addElement(2,i,2,i,downLbl);
       this.addElement(3,i,3,i,upLbl);
 
+      const resObj={nameLbl,amountLbl,downLbl,upLbl};
+      this.inventoryGUI[res.name]=resObj;
+
     })
+  }
+
+  initBoundRefresh(){
+    this.playerShip.resourceManager.updateResourceGui=(resName)=>this.updateResource(resName);
+  }
+
+  //Should be called after transaction
+  updateResource(resName){
+    const amount = this.playerShip.resourceManager.getResourceAmount(resName);
+    this.inventoryGUI[resName].amountLbl.rapidTextRefresh(Math.floor(amount));
   }
 }

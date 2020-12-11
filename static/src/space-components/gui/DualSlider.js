@@ -26,9 +26,9 @@ export default class DualSlider extends Slider{
   getVal(){
     const normValFromCenter=(this._normVal-.5)*2;
     if(normValFromCenter>0){
-      return normValFromCenter * this._maxVal;
+      return this.valTransform(normValFromCenter * this._maxVal);
     }else{
-      return normValFromCenter * this._minVal;
+      return this.valTransform(normValFromCenter * this._minVal);
     }
   }
 }

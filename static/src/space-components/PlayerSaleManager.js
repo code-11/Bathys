@@ -7,11 +7,11 @@ import VerticalScrollWindow from "./gui/ScrollWindow";
 
 export default class PlayerSaleManager extends Container{
 
-  constructor(planetResourceManger){
+  constructor(planetResourceManager){
     super();
     this.top_graphic=null;
     this.renderer=null;
-    this.planetResourceManger=planetResourceManger;
+    this.planetResourceManager=planetResourceManager;
     /*
     {
       resource_id:{
@@ -27,18 +27,23 @@ export default class PlayerSaleManager extends Container{
     this.tradeMenu={};
   }
 
-  linkShip(ship){
-    if (this.ship==undefined){
+  linkShip(ship,force=false){
+    if (this.ship==undefined || force){
       this.ship=ship
-      const resources=this.planetResourceManger.globalResourceManager.resources;
-      resources.forEach((res,i)=>{
+      const globalRes=this.planetResourceManager.globalResourceManager;
+      globalRes.resources.forEach((res,i)=>{
         const shipAmount = ship.resourceManager.getResourceAmount(res.name);
-        const planetAmount = this.planetResourceManger.getResourceAmount(res.name);
+        const planetAmount = this.planetResourceManager.getResourceAmount(res.name);
         this.tradeMenu[res.name].shipAmountLbl.rapidTextRefresh(shipAmount.toString());
+        this.tradeMenu[res.name].totalLbl.rapidTextRefresh("0");
         this.tradeMenu[res.name].slider.setMinMax(planetAmount,shipAmount);
+        this.tradeMenu[res.name].slider.reset();
         this.tradeMenu[res.name].slider.init();
         this.tradeMenu[res.name].slider.drawFunc();
+        this.tradeMenu[res.name].planetAmountLbl.rapidTextRefresh(planetAmount.toString());
+        ship.resourceManager.updateResourceGui(res.name);
       });
+      ship.resourceManager.updateResourceGui(globalRes.moneyRes.name);
     }
   }
 
@@ -46,8 +51,28 @@ export default class PlayerSaleManager extends Container{
     this.ship=null;
   }
 
+  conductTransaction(val,res){
+    const amount=Math.floor(val);
+    const avgPrice=this.planetResourceManager.avgPrice(res,amount);
+    const transactVal=Math.abs(avgPrice)*amount;
+    const moneyName= this.planetResourceManager.globalResourceManager.moneyRes.name;
+    const availableMoney= this.ship.resourceManager.getResourceAmount(moneyName);
+
+    const newShipMoney = availableMoney+transactVal;
+    const newShipAmount= this.ship.resourceManager.getResourceAmount(res.name) - amount;
+    const newPlanetAmount= this.planetResourceManager.getResourceAmount(res.name) + amount;
+    if(newShipMoney>=0 && newShipAmount>=0 && newPlanetAmount>=0){
+      this.planetResourceManager.assignResourceAmount(res.name,newPlanetAmount);
+      this.ship.resourceManager.assignResourceAmount(res.name,newShipAmount);
+      this.ship.resourceManager.assignResourceAmount(moneyName,newShipMoney);
+      console.log("Transaction "+res.name+"- playerAmount: "+newShipAmount+" planetAmount: "+newPlanetAmount+ " playerMoney: "+newShipMoney);
+      return true;
+    }
+    return false;
+  }
+
   initTradeMenu(){
-    const resources=this.planetResourceManger.globalResourceManager.resources;
+    const resources=this.planetResourceManager.globalResourceManager.resources;
     const container = new Container(7,resources.length);
     // container.x=35;
     // container.y=-25;
@@ -77,20 +102,35 @@ export default class PlayerSaleManager extends Container{
       totalLbl._border_color==0xff1010;
       totalLbl._padding=5;
 
-      const startingPrice=this.planetResourceManger.price(res);
+      const startingPrice=this.planetResourceManager.price(res);
       const priceLbl = new Button(startingPrice.toString(), lblTextOptions);
       priceLbl._border_color=0xff1010;
       priceLbl._padding=5;
 
-      const amount = this.planetResourceManger.getResourceAmount(res.name);
+      const confirmBtn = new Button("Confirm", lblTextOptions);
+
+      const amount = this.planetResourceManager.getResourceAmount(res.name);
 
       const slider = new DualSlider(-1,amount);
       slider._renderer=this.renderer;
+      slider.sliderTextTransform=(val)=>{
+        return Math.abs(Math.floor(val));
+      }
       slider.onSlide=(normVal,val)=>{
-        const avgPrice=this.planetResourceManger.avgPrice(res,Math.floor(val));
-        priceLbl.rapidTextRefresh(Math.round(avgPrice));
-        const totalCost=avgPrice*Math.floor(val);
+        const amount=Math.floor(val);
+        const avgPrice=this.planetResourceManager.avgPrice(res,amount);
+        priceLbl.rapidTextRefresh(Math.abs(Math.round(avgPrice)));
+        const totalCost=avgPrice*Math.abs(amount);
         totalLbl.rapidTextRefresh(Math.ceil(totalCost));
+        let confirmTxt="";
+        if(amount<0){
+          confirmTxt="Buy";
+        }else if(amount==0){
+          confirmTxt="No Sale";
+        }else{
+          confirmTxt="Sell";
+        }
+        confirmBtn.rapidTextRefresh(confirmTxt);
       }
 
       const planetAmountLbl = new Button(amount.toString(), lblTextOptions);
@@ -98,13 +138,19 @@ export default class PlayerSaleManager extends Container{
       planetAmountLbl._border_color=0xff1010;
       planetAmountLbl._padding=5;
 
-      const confirmBtn = new Button("Confirm", lblTextOptions);
+
       // planetAmountLbl._thickness=2;
       confirmBtn._border_color=0xff1010;
       confirmBtn._padding=5;
       confirmBtn._thickness=2;
       confirmBtn.interactive=true;
       confirmBtn.buttonMode=true;
+      confirmBtn.on("click",()=>{
+        const success=this.conductTransaction(slider.getVal(),res);
+        if(success){
+          this.linkShip(this.ship,true);
+        }
+      });
       confirmBtn.setHitArea();
 
       container.addElement(0,i,0,i,nameLbl);
@@ -115,7 +161,7 @@ export default class PlayerSaleManager extends Container{
       container.addElement(5,i,5,i,planetAmountLbl);
       container.addElement(6,i,6,i,confirmBtn);
 
-      const resObj={nameLbl,shipAmountLbl,priceLbl,slider,planetAmountLbl};
+      const resObj={nameLbl,shipAmountLbl,totalLbl,priceLbl,slider,planetAmountLbl};
       this.tradeMenu[res.name]=resObj;
 
     });

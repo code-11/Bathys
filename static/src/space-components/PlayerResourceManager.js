@@ -33,7 +33,7 @@ export default class PlayerResourceManager extends AmountResourceManager{
 
   assignResourceAmount(name, val){
     if(name==this.moneyName()){
-      this.amountMoney+=n;
+      this.amountMoney=val;
     }
     return super.assignResourceAmount(name,val);
   }

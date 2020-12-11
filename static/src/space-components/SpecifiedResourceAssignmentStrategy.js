@@ -2,6 +2,7 @@ export default class SpecifiedResourceAssignmentStrategy{
   constructor(planets, ship, resourceManager){
     this.resourceManager=resourceManager;
 
+    this.ship=ship;
     this.planets=planets;
     this.planetsByName={};
     this.planets.forEach( p => {
@@ -15,17 +16,26 @@ export default class SpecifiedResourceAssignmentStrategy{
     const resm = this.resourceManager;
     const ps=this.planetsByName;
 
-    const p1res= ps.planet1.resourceManager;
-    p1res.assignResourceAmount(resm.resources_by_name.durasteel.name,100);
-    p1res.assignResourceAmount(resm.resources_by_name.plasglass.name,100);
-    p1res.assignResourceAmount(resm.resources_by_name.medicine.name,100);
-    p1res.assignResourceAmount(resm.resources_by_name.valves.name,100);
+    this.resourceManager.resources.forEach((res)=>{
+      this.planets.forEach(p=>{
+        p.resourceManager.assignResourceAmount(res.name,100);
+      });
+      this.ship.resourceManager.assignResourceAmount(res.name,70);
+    });
 
-    const p2res= ps.planet2.resourceManager;
-    p2res.assignResourceAmount(resm.resources_by_name.food.name,100);
-    p2res.assignResourceAmount(resm.resources_by_name.core.name,100);
-    p2res.assignResourceAmount(resm.resources_by_name.bodies.name,100);
-    p2res.assignResourceAmount(resm.resources_by_name.art.name,100);
+    this.ship.resourceManager.assignResourceAmount(resm.moneyRes.name,120);
+
+    // const p1res= ps.planet1.resourceManager;
+    // p1res.assignResourceAmount(resm.resources_by_name.durasteel.name,100);
+    // p1res.assignResourceAmount(resm.resources_by_name.plasglass.name,100);
+    // p1res.assignResourceAmount(resm.resources_by_name.medicine.name,100);
+    // p1res.assignResourceAmount(resm.resources_by_name.valves.name,100);
+    //
+    // const p2res= ps.planet2.resourceManager;
+    // p2res.assignResourceAmount(resm.resources_by_name.food.name,100);
+    // p2res.assignResourceAmount(resm.resources_by_name.core.name,100);
+    // p2res.assignResourceAmount(resm.resources_by_name.bodies.name,100);
+    // p2res.assignResourceAmount(resm.resources_by_name.art.name,100);
   }
 
   assignResourcesWanted(){

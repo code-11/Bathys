@@ -47,12 +47,20 @@ export default class Slider extends EXPolygonObj{
     return this._minVal;
   }
 
+  sliderTextTransform(val){
+    return val;
+  }
+
+  valTransform(val){
+    return val;
+  }
+
   getVal(){
-    return (this._normVal * this.getMult()) + this._minVal;
+    return this.valTransform((this._normVal * this.getMult()) + this._minVal);
   }
 
   refreshValLbl(){
-    const txt=Number.parseFloat(this.getVal()).toFixed(2);
+    const txt=Number.parseFloat(this.sliderTextTransform(this.getVal())).toFixed(2);
     this._valLbl.rapidTextRefresh1(txt);
     const innerWidth=this._width*this._normVal;
     const half_text_width=this._valLbl._width/2;
