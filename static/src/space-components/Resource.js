@@ -42,8 +42,20 @@ export default class Resource{
 //   Passengers
 //
 //
+// Energy:
+//   Antimatter
+//   Uranium
+//   super combustion Liquid
+//   stellar core
+
 // Activities:
 //
+//   Opulent:
+  // Requires:
+  //   Art
+  //   Luxury wood
+  //   Latinum
+
 //   Normal:
 //     Requires:
 //       Passengers

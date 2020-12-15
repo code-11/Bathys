@@ -1,10 +1,50 @@
 import Resource from "./Resource";
+import Focus from "./Focus";
 
 export default class ResourceManager {
   constructor(){
     this.resources=null;
     this.resources_by_name={}
+    this.focuses_by_name={};
     this.moneyRes = Resource.create("Money", 1, "Can be exchanged for goods and services.");
+  }
+
+  initFocuses(){
+    const resn=this.resources_by_name;
+    const focuses=[
+      new Focus("Opulent",[
+        resn.art,
+        resn.wood,
+        resn.latinum
+      ]),
+      new Focus("Normal",[
+        resn.passengers,
+        resn.food,
+        resn.art,
+        resn.durasteel,
+        resn.plasglass,
+        resn.valves
+      ]),
+      new Focus("Industry",[
+        resn.machinery,
+        resn.bodies,
+        resn.antimatter,
+        resn.uranium,
+        resn.liquid,
+        resn.core
+      ]),
+      new Focus("Research",[
+        resn.valves,
+        resn.diamond,
+        resn.cpus,
+      ]),
+      new Focus("Warfare",[
+        resn.weapons,
+        resn.bodies,
+        resn.machinery,
+        resn.food
+      ])
+    ]
   }
 
   initResources(){
