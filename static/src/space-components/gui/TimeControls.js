@@ -1,5 +1,6 @@
 import Container from "./Container";
 import Button from "./Button";
+import TimeHook from "../TimeHook";
 
 export default class TimeControls extends Container{
   constructor(){
@@ -9,6 +10,11 @@ export default class TimeControls extends Container{
     this.speedIndex=0;
     this.startTime=Date.now();
     this.addedTime=0;
+    this.timeHooks=[new TimeHook({
+      hours:5
+    },()=>{
+      console.log("TEST!");
+    })]
   }
 
   init(){
@@ -77,15 +83,39 @@ export default class TimeControls extends Container{
 
   update(timeDelta){
     this.addedTime+=(timeDelta*this.getSpeed());
+    this.timeUnits=null;
+    this.resolveTimeHooks();
     this.updateTimeLbl();
   }
 
+  resolveTimeHooks(){
+    const hourEpoch=this.hourEpoch();
+    this.timeHooks.forEach((hook)=>{
+      hook.resolve(hourEpoch);
+    });
+  }
+
+  hourEpoch(){
+    const {years,months,days,hours}=this.getTimeUnits();
+    const hourEpoch = hours + 10*days + 100*months + 1000*years;
+    return hourEpoch;
+  }
+
+  getTimeUnits(){
+    if(this.timeUnits==undefined){
+      const years= Math.floor((this.addedTime / 1000000) % 10) ;
+      const months = Math.floor((this.addedTime / 100000) % 10);
+      const days = Math.floor((this.addedTime / 10000) % 10);
+      const hours = Math.floor((this.addedTime / 1000) % 10);
+      return {years,months,days,hours};
+    }else{
+      return this.timeUnits;
+    }
+  }
+
   updateTimeLbl(){
-    const years= Math.floor((this.addedTime / 1000000) % 10) + 3005;
-    const months = Math.floor((this.addedTime / 100000) % 10);
-    const days = Math.floor((this.addedTime / 10000) % 10);
-    const hours = Math.floor((this.addedTime / 1000) % 10);
-    this.timeLbl.setText(years+"-"+months+"-"+days+" T "+hours);
+    const {years,months,days,hours}=this.getTimeUnits();
+    this.timeLbl.setText((years + 3005)+"-"+months+"-"+days+" T "+hours);
   }
 
   updateSpeedLbl(){
