@@ -10,11 +10,7 @@ export default class TimeControls extends Container{
     this.speedIndex=0;
     this.startTime=Date.now();
     this.addedTime=0;
-    this.timeHooks=[new TimeHook({
-      hours:5
-    },()=>{
-      console.log("TEST!");
-    })]
+    this.timeHooks=[];
   }
 
   init(){
@@ -86,6 +82,14 @@ export default class TimeControls extends Container{
     this.timeUnits=null;
     this.resolveTimeHooks();
     this.updateTimeLbl();
+  }
+
+  addTimeHook(hook){
+    this.timeHooks.push(hook);
+  }
+
+  addTimeHooks(hooks){
+    this.timeHooks=this.timeHooks.concat(hooks);
   }
 
   resolveTimeHooks(){

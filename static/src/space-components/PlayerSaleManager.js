@@ -27,6 +27,13 @@ export default class PlayerSaleManager extends Container{
     this.tradeMenu={};
   }
 
+  updatePlayerPlanetSide(){
+    if (this.ship!=undefined){
+      this.linkShip(this.ship,true);
+    }
+  }
+
+  //TODO: This is really like a refresh/update. Maybe rename.
   linkShip(ship,force=false){
     if (this.ship==undefined || force){
       this.ship=ship

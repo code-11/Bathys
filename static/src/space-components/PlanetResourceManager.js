@@ -1,4 +1,5 @@
 import AmountResourceManager from "./AmountResourceManager";
+import TimeHook from "./TimeHook";
 
 export default class PlanetResourceManager extends AmountResourceManager {
   constructor(){
@@ -25,6 +26,19 @@ export default class PlanetResourceManager extends AmountResourceManager {
       cumulativeValue+=curPrice;
     }
     return cumulativeValue/n;
+  }
+
+  createProductionHooks(saleManager){
+    const hooks=[];
+    this.production.forEach((res)=>{
+      hooks.push(new TimeHook({
+        hours:5
+      },()=>{
+        this.incrResourceAmount(res.name,1);
+        saleManager.updatePlayerPlanetSide();
+      }));
+    });
+    return hooks;
   }
 
 }

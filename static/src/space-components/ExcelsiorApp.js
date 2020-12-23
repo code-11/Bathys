@@ -41,6 +41,7 @@ export default class ExcelsiorApp{
     const graphics = new PIXI.Graphics();
     graphics.interactive = true;
     graphics.hitArea = new PIXI.Rectangle(0, 0, 5000, 5000);
+    // graphics.drawRect(new PIXI.Rectangle(2, 2, 20, 20));
 
 //-----PLAYER AND SHIP INITITIALIZATION-----
     const playerShip=new PlayerShip();
@@ -106,6 +107,9 @@ export default class ExcelsiorApp{
     hud._border_color=0xAAAAAA;
 
     const timeControls = new TimeControls();
+    timeControls.addTimeHooks(planet1.createProductionHooks());
+    timeControls.addTimeHooks(planet2.createProductionHooks());
+
 
     const playerInventory = new PlayerInventory(resourceManager,playerShip);
 
@@ -175,8 +179,8 @@ export default class ExcelsiorApp{
 
     // graphics.addChild(slider);
     // graphics.addChild(container);
-
-    // graphics.drawRect(50, 50, 100, 100);
+    graphics.lineStyle(5, 0xFFFFFF);
+    graphics.drawRect(3, 3, 5000, 5000);
     viewport.addChild(graphics);
     // this.app.stage.addChild(graphics);
     this.app.stage.addChild(viewport);

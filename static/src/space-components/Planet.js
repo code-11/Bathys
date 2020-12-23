@@ -31,6 +31,10 @@ export default class Planet extends EXObj{
     this.saleManager.renderer=this.renderer;
   }
 
+  createProductionHooks(){
+    return this.resourceManager.createProductionHooks(this.saleManager);
+  }
+
   setTopGraphic(top_graphic){
     this.top_graphic=top_graphic;
     this.saleManager.top_graphic=this.top_graphic;
