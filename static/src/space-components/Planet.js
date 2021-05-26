@@ -8,8 +8,12 @@ import PopupWindow from "./gui/PopupWindow";
 import VerticalScrollWindow from "./gui/ScrollWindow";
 
 import LandingChecker from "./LandingChecker";
+import SaleLandingCheckDecorator from "./SaleLandingCheckDecorator";
+import InfoLandingCheckDecorator from "./InfoLandingCheckDecorator";
+
 import PlayerSaleManager from "./PlayerSaleManager";
 import PlanetResourceManager from "./PlanetResourceManager";
+import PlanetInfoManager from "./PlanetInfoManager";
 
 import EXObj from "./core/EXObj";
 import EXCircleObj from "./core/EXCircleObj"
@@ -19,8 +23,9 @@ export default class Planet extends EXObj{
     super();
     this.base=null;
     this.landingChecker=null
-    this.landingIndicator=null;
-    this.container=null;
+    this.saleIndicator=null;
+    this.saleMenu=null;
+    this.infoMenu=null;
 
     this.top_graphic=null;
     this.renderer=renderer;
@@ -29,6 +34,8 @@ export default class Planet extends EXObj{
     this.resourceManager=new PlanetResourceManager();
     this.saleManager = new PlayerSaleManager(this.resourceManager);
     this.saleManager.renderer=this.renderer;
+
+    this.infoManager = new PlanetInfoManager(this);
   }
 
   createProductionHooks(){
@@ -38,6 +45,7 @@ export default class Planet extends EXObj{
   setTopGraphic(top_graphic){
     this.top_graphic=top_graphic;
     this.saleManager.top_graphic=this.top_graphic;
+    this.infoManager.top_graphic=this.top_graphic;
   }
 
   checkLanding(ship,moveCtrlTargetObj){
@@ -47,8 +55,8 @@ export default class Planet extends EXObj{
   }
 
   resetContainerPos(){
-    this.container.x=35;
-    this.container.y=-25;
+    this.saleMenu.x=35;
+    this.saleMenu.y=-25;
   }
 
   init(){
@@ -61,33 +69,59 @@ export default class Planet extends EXObj{
     base.viewport=this.viewport
     this.base=base;
 
-    this.container=this.saleManager.initTradeMenu();
+    this.saleMenu=this.saleManager.initTradeMenu();
+    this.infoMenu=this.infoManager.initInfoMenu();
 
-    const baseLandingCheckerIndicator = new EXCircleObj();
-    baseLandingCheckerIndicator.x=20;
-    baseLandingCheckerIndicator.y=-20;
-    baseLandingCheckerIndicator._radius=5;
-    baseLandingCheckerIndicator.setColor(0x0000FF);
-    baseLandingCheckerIndicator.visible=false;
-    baseLandingCheckerIndicator.buttonMode = true;
-    baseLandingCheckerIndicator.interactive = true;
-    baseLandingCheckerIndicator.on("click",(e)=>{
-      this.container.visible=!this.container.visible;
+    const saleOptionIndicator = new EXCircleObj();
+    saleOptionIndicator.x=20;
+    saleOptionIndicator.y=-20;
+    saleOptionIndicator._radius=5;
+    saleOptionIndicator.setColor(0x0000FF);
+    saleOptionIndicator.visible=false;
+    saleOptionIndicator.buttonMode = true;
+    saleOptionIndicator.interactive = true;
+    saleOptionIndicator.on("click",(e)=>{
+      this.saleMenu.visible=!this.saleMenu.visible;
       this.resetContainerPos();
       e.stopPropagation();
     });
-    baseLandingCheckerIndicator.init();
-    this.landingIndicator=baseLandingCheckerIndicator;
+    saleOptionIndicator.init();
+    this.saleIndicator=saleOptionIndicator;
+
+    const infoOptionIndicator = new EXCircleObj();
+    infoOptionIndicator.x=-20;
+    infoOptionIndicator.y=-20;
+    infoOptionIndicator._radius=5;
+    infoOptionIndicator.setColor(0x34EBE1);
+    infoOptionIndicator.visible=false;
+    infoOptionIndicator.buttonMode = true;
+    infoOptionIndicator.interactive = true;
+    infoOptionIndicator.on("click",(e)=>{
+      this.infoMenu.visible=!this.infoMenu.visible;
+      this.resetContainerPos();
+      e.stopPropagation();
+    });
+    infoOptionIndicator.init();
+    this.saleIndicator=infoOptionIndicator;
 
     const baseLandingChecker= new LandingChecker();
-    baseLandingChecker._checkingIndicator=baseLandingCheckerIndicator;
-    baseLandingChecker._parent=this;
-    baseLandingChecker._container=this.container;
-    this.landingChecker=baseLandingChecker;
+
+    const saleLandingChecker= new SaleLandingCheckDecorator(baseLandingChecker);
+    saleLandingChecker._checkingIndicator=saleOptionIndicator;
+    saleLandingChecker._parent=this;
+    saleLandingChecker._container=this.saleMenu;
+
+    const infoLandingChecker= new InfoLandingCheckDecorator(saleLandingChecker);
+    infoLandingChecker._checkingIndicator=infoOptionIndicator;
+    infoLandingChecker._parent=this;
+    infoLandingChecker._container=this.infoMenu;
+    this.landingChecker=infoLandingChecker;
 
     this.addChild(base);
-    this.addChild(this.container);
-    this.addChild(baseLandingCheckerIndicator);
+    this.addChild(this.saleMenu);
+    this.addChild(this.infoMenu);
+    this.addChild(saleOptionIndicator);
+    this.addChild(infoOptionIndicator);
 
   }
 }

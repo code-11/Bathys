@@ -1,9 +1,7 @@
 import * as PIXI from 'pixi.js'
 export default class LandingChecker{
   constructor(){
-    this._checkingIndicator=null;
     this._parent=null;
-    this._container=null;
   }
 
   // ShipLocation=Pixi.Point
@@ -17,15 +15,8 @@ export default class LandingChecker{
   }
 
   onLanding(ship){
-    this._checkingIndicator.visible=true;
-    this._parent.saleManager.linkShip(ship);
   }
 
   onNotLanding(ship){
-    this._checkingIndicator.visible=false;
-    this._parent.saleManager.unlinkShip(ship);
-    if(this._container!=null){
-      this._container.visible=false;
-    }
   }
 }
