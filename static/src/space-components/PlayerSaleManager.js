@@ -80,7 +80,7 @@ export default class PlayerSaleManager extends Container{
 
   initTradeMenu(){
     const resources=this.planetResourceManager.globalResourceManager.resources;
-    const container = new Container(7,resources.length);
+    const container = new Container(7,resources.length+1);
     // container.x=35;
     // container.y=-25;
     container._border_color=0xAAAAAA;
@@ -94,6 +94,14 @@ export default class PlayerSaleManager extends Container{
       fill : 0xff1010,
       align : 'center'
     };
+
+    container.addElement(0,0,0,0,new Button("Resource", lblTextOptions));
+    container.addElement(1,0,1,0, new Button("Ship Amount", lblTextOptions));
+    container.addElement(2,0,2,0, new Button("Total Cost", lblTextOptions));
+    container.addElement(3,0,3,0, new Button("Price/item", lblTextOptions));
+    container.addElement(4,0,4,0, new Button(" ", lblTextOptions));
+    container.addElement(5,0,5,0, new Button("Planet Amount", lblTextOptions));
+    container.addElement(6,0,6,0, new Button(" ", lblTextOptions));
 
     resources.forEach((res,i)=>{
       const nameLbl = new Button(res.displayName, lblTextOptions);
@@ -160,13 +168,13 @@ export default class PlayerSaleManager extends Container{
       });
       confirmBtn.setHitArea();
 
-      container.addElement(0,i,0,i,nameLbl);
-      container.addElement(1,i,1,i,shipAmountLbl);
-      container.addElement(2,i,2,i,totalLbl);
-      container.addElement(3,i,3,i,priceLbl);
-      container.addElement(4,i,4,i,slider);
-      container.addElement(5,i,5,i,planetAmountLbl);
-      container.addElement(6,i,6,i,confirmBtn);
+      container.addElement(0,i+1,0,i+1,nameLbl);
+      container.addElement(1,i+1,1,i+1,shipAmountLbl);
+      container.addElement(2,i+1,2,i+1,totalLbl);
+      container.addElement(3,i+1,3,i+1,priceLbl);
+      container.addElement(4,i+1,4,i+1,slider);
+      container.addElement(5,i+1,5,i+1,planetAmountLbl);
+      container.addElement(6,i+1,6,i+1,confirmBtn);
 
       const resObj={nameLbl,shipAmountLbl,totalLbl,priceLbl,slider,planetAmountLbl};
       this.tradeMenu[res.name]=resObj;

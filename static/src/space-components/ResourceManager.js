@@ -1,6 +1,8 @@
 import Resource from "./Resource";
 import Focus from "./Focus";
 
+import {camel} from "./util/util";
+
 export default class ResourceManager {
   constructor(){
     this.resources=null;
@@ -16,14 +18,28 @@ export default class ResourceManager {
         resn.art,
         resn.wood,
         resn.latinum
-      ]),
-      new Focus("Normal",[
-        resn.passengers,
-        resn.food,
+      ],[
         resn.art,
+        resn.food,
+      ]),
+      new Focus("Crowded",[
+        resn.food,
+        resn.weapons,
+        resn.art,
+      ],[
+        resn.passengers,
+        resn.durasteel,
+        resn.plasglass,
+      ]),
+      new Focus("Colony",[
+        resn.passengers,
         resn.durasteel,
         resn.plasglass,
         resn.valves
+      ],[
+        resn.food,
+        resn.wood,
+        resn.botanicals,
       ]),
       new Focus("Industry",[
         resn.machinery,
@@ -32,19 +48,25 @@ export default class ResourceManager {
         resn.uranium,
         resn.liquid,
         resn.core
-      ]),
+      ],[]),
       new Focus("Research",[
         resn.valves,
         resn.diamond,
         resn.cpus,
-      ]),
+      ],[]),
       new Focus("Warfare",[
         resn.weapons,
         resn.bodies,
-        resn.machinery,
+        resn.medicine,
         resn.food
+      ],[
+        resn.latinum,
+        resn.passengers
       ])
-    ]
+    ];
+    focuses.forEach(f=>{
+      this.focuses_by_name[camel(f.name)]=f;
+    })
   }
 
   initResources(){

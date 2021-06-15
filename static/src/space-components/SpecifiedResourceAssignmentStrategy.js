@@ -47,7 +47,6 @@ export default class SpecifiedResourceAssignmentStrategy{
       });
     })
 
-    const p1res= ps.planet1.resourceManager;
   }
 
   assignProduction(){

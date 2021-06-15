@@ -65,6 +65,11 @@ export default class Resource{
 //       Plasglass
 //       Precision Valves
 //       Energy
+//     Produces:
+//       Passengers
+//       Energy
+//       Standardized Food
+//       Plasglass
 //
 //   Heavy Industry:
 //     Requires:
@@ -99,7 +104,7 @@ export default class Resource{
 //       Heavy Machinery
 //       Standardized Food
 //     Produces:
-//       Nothing
+//       Latinum
 //
 //
 //
@@ -113,9 +118,10 @@ export default class Resource{
 //   Art
 //
 // Recipes:
-//   Plasglass -> Diamond
+//   Plasglass -> Diamond -> Hyper crystals
 //   Durasteel + Energy Storage Units -> Weapons
 //   Durasteel -> Heavy Machinery
 //   Durasteel + CPUs -> Machine bodies
+//   Botanicals -> Super combustion liquid
 
 }

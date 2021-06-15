@@ -20,6 +20,8 @@ import ResourceManager from "./ResourceManager";
 // import LandingChecker from "./LandingChecker";
 import MouseMovementController from "./MouseMovementController";
 import SpecifiedResourceAssignmentStrategy from "./SpecifiedResourceAssignmentStrategy";
+import FocusResourceAssignmentStrategy from "./FocusResourceAssignmentStrategy";
+import PlanetCreationStrategy from "./PlanetCreationStrategy";
 
 export default class ExcelsiorApp{
   constructor(){
@@ -68,37 +70,32 @@ export default class ExcelsiorApp{
     moveCtrl._targetObj = moveCtrlTargetObj;
     moveCtrl.init();
 
-//-----PLANET INITITIALIZATION-----
 
-    const planet1= new Planet(this.app.renderer);
-    planet1.viewport=viewport;
-    planet1.setTopGraphic(graphics);
-    planet1.name="planet1";
-
-    const planet2= new Planet(this.app.renderer);
-    planet2.viewport=viewport;
-    planet2.setTopGraphic(graphics);
-    planet2.name="planet2";
-
-    const planets=[planet1,planet2];
 
 //-----RESOURCE INITITIALIZATION-----
 
     const resourceManager = new ResourceManager();
     resourceManager.initResources();
+    resourceManager.initFocuses();
 
-    const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,playerShip,resourceManager);
-    resourceAssigner.assignResources();
+//-----PLANET INITITIALIZATION-----
+
+    const planetCreator = new PlanetCreationStrategy(this.app.renderer, graphics, viewport)
+    const planets=planetCreator.createPlanets(Object.values(resourceManager.focuses_by_name), 20,5000,5000);
+
+//-----PLANET RESOURCE INITIALIZATION-----
+
+    const resourceAssigner = new FocusResourceAssignmentStrategy(planets, playerShip, resourceManager);
     resourceAssigner.assignProduction();
+    resourceAssigner.assignResources();
     resourceAssigner.assignResourcesWanted();
 
-    planet1.init();
-    planet1.x=500;
-    planet1.y=100;
+    // const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,playerShip,resourceManager);
+    // resourceAssigner.assignResources();
+    // resourceAssigner.assignProduction();
+    // resourceAssigner.assignResourcesWanted();
 
-    planet2.init();
-    planet2.x=300;
-    planet2.y=300;
+    planets.forEach(p => p.init());
 
 //-----HUD INITITIALIZATION-----
 
@@ -107,9 +104,7 @@ export default class ExcelsiorApp{
     hud._border_color=0xAAAAAA;
 
     const timeControls = new TimeControls();
-    timeControls.addTimeHooks(planet1.createProductionHooks());
-    timeControls.addTimeHooks(planet2.createProductionHooks());
-
+    planets.forEach(p => timeControls.addTimeHooks(p.createProductionHooks()));
 
     const playerInventory = new PlayerInventory(resourceManager,playerShip);
 
@@ -169,8 +164,8 @@ export default class ExcelsiorApp{
 
     // graphics.addChild(scrollWindow);
     // graphics.addChild(popupWindow);
-    graphics.addChild(planet1);
-    graphics.addChild(planet2);
+
+    planets.forEach(p => graphics.addChild(p));
 
     graphics.addChild(playerShip);
     graphics.addChild(moveCtrlTargetObj);
@@ -190,8 +185,7 @@ export default class ExcelsiorApp{
     this.app.ticker.add(delta => {
       moveCtrl.update(timeControls,delta);
       timeControls.update(delta);
-      planet1.checkLanding(playerShip,moveCtrlTargetObj);
-      planet2.checkLanding(playerShip,moveCtrlTargetObj);
+      planets.forEach(p => p.checkLanding(playerShip,moveCtrlTargetObj));
     });
 
     // const aeonTheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");

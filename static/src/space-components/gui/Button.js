@@ -8,6 +8,7 @@ export default class Button extends EXPolygonObj{
     this._text=text;
     this._textObj=null;
     this._text_opt=text_opt;
+    this._padding=0;
   }
 
 //Props:

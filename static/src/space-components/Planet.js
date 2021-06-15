@@ -27,6 +27,8 @@ export default class Planet extends EXObj{
     this.saleMenu=null;
     this.infoMenu=null;
 
+    this.focus=null;
+
     this.top_graphic=null;
     this.renderer=renderer;
     this.viewport=null;
