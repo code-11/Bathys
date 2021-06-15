@@ -15,6 +15,12 @@ export default class Resource{
     return new Resource (nameToUse,displayName,intrinsicVal,desc);
   }
 
+//10 primary
+//6 secondary
+//2 tertiary
+//2 quatranary
+
+
 //   20
 //   One tertiary
 //   5 secondary
@@ -42,6 +48,17 @@ export default class Resource{
 //   Passengers
 //
 //
+
+//Building materials:
+//   durasteel
+//   Plasglass
+//   Valves
+
+// Luxury:
+//   wood
+//   Art
+//   Latinum
+
 // Energy:
 //   Antimatter
 //   Uranium
@@ -123,5 +140,6 @@ export default class Resource{
 //   Durasteel -> Heavy Machinery
 //   Durasteel + CPUs -> Machine bodies
 //   Botanicals -> Super combustion liquid
+//   Botanicals -> Medicine
 
 }

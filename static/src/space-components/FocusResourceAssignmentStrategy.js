@@ -18,7 +18,7 @@ export default class FocusResourceAssignmentStrategy{
 
     this.planets.forEach(p=>{
       p.resourceManager.production.forEach((res)=>{
-        p.resourceManager.assignResourceAmount(res.name,1);
+        p.resourceManager.assignResourceAmount(res.name,10);
       });
     });
 

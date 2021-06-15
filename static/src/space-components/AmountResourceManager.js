@@ -6,7 +6,7 @@ export default class AmountResourceManager {
   }
 
   getResourceAmount(name){
-    return dictGet(this.resources, name, 100);
+    return dictGet(this.resources, name, 0);
   }
 
   incrResourceAmount(name,n=1){

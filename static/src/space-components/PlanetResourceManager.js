@@ -34,7 +34,7 @@ export default class PlanetResourceManager extends AmountResourceManager {
       hooks.push(new TimeHook({
         hours:5
       },()=>{
-        this.incrResourceAmount(res.name,1);
+        this.incrResourceAmount(res.name,10);
         saleManager.updatePlayerPlanetSide();
       }));
     });

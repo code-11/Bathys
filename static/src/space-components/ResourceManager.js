@@ -41,19 +41,36 @@ export default class ResourceManager {
         resn.wood,
         resn.botanicals,
       ]),
+      new Focus("Chemical",[
+        resn.machinery,
+        resn.uranium,
+        resn.valves,
+        resn.core,
+        resn.botanicals,
+      ],[
+        resn.medicine,
+        resn.liquid,
+      ]),
       new Focus("Industry",[
         resn.machinery,
-        resn.bodies,
         resn.antimatter,
         resn.uranium,
         resn.liquid,
         resn.core
-      ],[]),
+      ],[
+        resn.weapons,
+        resn.machinery,
+        resn.bodies
+      ]),
       new Focus("Research",[
         resn.valves,
         resn.diamond,
         resn.cpus,
-      ],[]),
+      ],[
+        resn.core,
+        resn.crystal,
+        resn.antimatter,
+      ]),
       new Focus("Warfare",[
         resn.weapons,
         resn.bodies,

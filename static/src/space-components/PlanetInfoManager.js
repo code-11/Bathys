@@ -37,7 +37,7 @@ export default class PlanetInfoManager{
     const lbl3 = new Button("Focus:", lblTextOptions);
     lbl3._padding=5;
 
-    const lbl4 = new Button("Testing", lblTextOptions);
+    const lbl4 = new Button(this.parentPlanet.focus.name, lblTextOptions);
     lbl4._padding=5;
 
     const lbl5 = new Button("Event:", lblTextOptions);
