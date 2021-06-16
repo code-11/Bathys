@@ -8,6 +8,12 @@ export default class PlanetCreationStrategy{
     this.viewport = viewport;
   }
 
+  assignDevelopment(focus){
+    const num=getRandomInt(focus.avgDev-1,focus.avgDev+1);
+    const rectifiedNum = Math.max(Math.min(5,num),0);
+    return rectifiedNum;
+  }
+
   createPlanets(focuses, num, maxX, maxY){
     const planets=[];
     for (let i=0; i<num; i+=1){
@@ -19,6 +25,7 @@ export default class PlanetCreationStrategy{
       planet.setTopGraphic(this.graphics);
       planet.name="planet"+i;
       planet.focus=deeplicate(randomChoose(focuses));
+      planet.development = this.assignDevelopment(planet.focus);
       planet.x=x;
       planet.y=y
 

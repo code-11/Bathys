@@ -12,16 +12,23 @@ export default class ResourceManager {
   }
 
   initFocuses(){
+
+    const blue = 0x0000FF;
+    const purple = 0xFF00FF;
+    const green = 0x00FF00;
+    const yellow = 0xFFFF00;
+    const orange = 0xFF8000;
+    const white = 0xFFFFFF;
+    const red = 0xFF0000;
+
     const resn=this.resources_by_name;
     const focuses=[
       new Focus("Opulent",[
         resn.art,
         resn.wood,
-        resn.latinum
-      ],[
-        resn.art,
-        resn.food,
-      ]),
+        resn.latinum,
+        resn.bodies,
+      ],[],5,blue),
       new Focus("Crowded",[
         resn.food,
         resn.weapons,
@@ -30,7 +37,7 @@ export default class ResourceManager {
         resn.passengers,
         resn.durasteel,
         resn.plasglass,
-      ]),
+      ], 3, purple),
       new Focus("Colony",[
         resn.passengers,
         resn.durasteel,
@@ -40,17 +47,16 @@ export default class ResourceManager {
         resn.food,
         resn.wood,
         resn.botanicals,
-      ]),
+      ],1,green),
       new Focus("Chemical",[
         resn.machinery,
         resn.uranium,
         resn.valves,
-        resn.core,
-        resn.botanicals,
+        resn.core
       ],[
         resn.medicine,
         resn.liquid,
-      ]),
+      ],3,yellow),
       new Focus("Industry",[
         resn.machinery,
         resn.antimatter,
@@ -61,16 +67,15 @@ export default class ResourceManager {
         resn.weapons,
         resn.machinery,
         resn.bodies
-      ]),
+      ],2,orange),
       new Focus("Research",[
         resn.valves,
-        resn.diamond,
         resn.cpus,
       ],[
         resn.core,
-        resn.crystal,
+        resn.crystals,
         resn.antimatter,
-      ]),
+      ],4,white),
       new Focus("Warfare",[
         resn.weapons,
         resn.bodies,
@@ -79,7 +84,7 @@ export default class ResourceManager {
       ],[
         resn.latinum,
         resn.passengers
-      ])
+      ],2,red)
     ];
     focuses.forEach(f=>{
       this.focuses_by_name[camel(f.name)]=f;

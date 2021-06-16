@@ -13,7 +13,7 @@ export default class PlanetInfoManager{
   }
 
   initInfoMenu(){
-    const container = new Container(2,3);
+    const container = new Container(2,4);
     // container.x=35;
     // container.y=-25;
     container._border_color=0xAAAAAA;
@@ -28,30 +28,38 @@ export default class PlanetInfoManager{
       align : 'center'
     };
 
-    const lbl1 = new Button("Name:", lblTextOptions);
-    lbl1._padding=5;
+    const nameLbl = new Button("Name:", lblTextOptions);
+    nameLbl._padding=5;
 
-    const lbl2 = new Button(this.parentPlanet.name, lblTextOptions);
-    lbl2._padding=5;
+    const nameValLbl = new Button(this.parentPlanet.name, lblTextOptions);
+    nameValLbl._padding=5;
 
-    const lbl3 = new Button("Focus:", lblTextOptions);
-    lbl3._padding=5;
+    const focusLbl = new Button("Focus:", lblTextOptions);
+    focusLbl._padding=5;
 
-    const lbl4 = new Button(this.parentPlanet.focus.name, lblTextOptions);
-    lbl4._padding=5;
+    const focusValLbl = new Button(this.parentPlanet.focus.name, lblTextOptions);
+    focusValLbl._padding=5;
 
-    const lbl5 = new Button("Event:", lblTextOptions);
-    lbl5._padding=5;
+    const devLbl = new Button("Development:", lblTextOptions);
+    devLbl._padding=5;
 
-    const lbl6 = new Button("None", lblTextOptions);
-    lbl6._padding=5;
+    const devValLbl = new Button(this.parentPlanet.development,lblTextOptions);
+    devValLbl._padding=5;
 
-    container.addElement(0,0,0,0,lbl1);
-    container.addElement(1,0,1,0,lbl2);
-    container.addElement(0,1,0,1,lbl3);
-    container.addElement(1,1,1,1,lbl4);
-    container.addElement(0,2,0,2,lbl5);
-    container.addElement(1,2,1,2,lbl6);
+    const eventLbl = new Button("Event:", lblTextOptions);
+    eventLbl._padding=5;
+
+    const eventValLbl = new Button("None", lblTextOptions);
+    eventValLbl._padding=5;
+
+    container.addElement(0,0,0,0,nameLbl);
+    container.addElement(1,0,1,0,nameValLbl);
+    container.addElement(0,1,0,1,focusLbl);
+    container.addElement(1,1,1,1,focusValLbl);
+    container.addElement(0,2,0,2,devLbl);
+    container.addElement(1,2,1,2,devValLbl);
+    container.addElement(0,3,0,3,eventLbl);
+    container.addElement(1,3,1,3,eventValLbl);
 
     const popupWindow= new PopupWindow(container);
     popupWindow._renderer=this.renderer;

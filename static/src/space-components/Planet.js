@@ -28,6 +28,7 @@ export default class Planet extends EXObj{
     this.infoMenu=null;
 
     this.focus=null;
+    this.development=0;
 
     this.top_graphic=null;
     this.renderer=renderer;
@@ -65,7 +66,7 @@ export default class Planet extends EXObj{
     const base = new EXCircleObj();
     // base._origin = new PIXI.Point(500,50);
     base._radius=15;
-    base.setColor(0x00FF00);
+    base.setColor(this.focus.color);
     base.name=this.name;
     base.init();
     base.viewport=this.viewport
