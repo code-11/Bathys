@@ -77,6 +77,7 @@ export default class ExcelsiorApp{
     const resourceManager = new ResourceManager();
     resourceManager.initResources();
     resourceManager.initFocuses();
+    resourceManager.initResourceGraph();
 
 //-----PLANET INITITIALIZATION-----
 

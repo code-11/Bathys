@@ -1,10 +1,11 @@
 import Resource from "./Resource";
 import Focus from "./Focus";
 
-import {camel} from "./util/util";
+import {camel, dictGet} from "./util/util";
 
 export default class ResourceManager {
   constructor(){
+    this.requirements={};
     this.resources=null;
     this.resources_by_name={}
     this.focuses_by_name={};
@@ -20,6 +21,7 @@ export default class ResourceManager {
     const orange = 0xFF8000;
     const white = 0xFFFFFF;
     const red = 0xFF0000;
+    const brown = 0x964B00;
 
     const resn=this.resources_by_name;
     const focuses=[
@@ -28,7 +30,7 @@ export default class ResourceManager {
         resn.wood,
         resn.latinum,
         resn.bodies,
-      ],[],5,blue),
+      ],[resn.art],5,blue),
       new Focus("Crowded",[
         resn.food,
         resn.weapons,
@@ -57,12 +59,20 @@ export default class ResourceManager {
         resn.medicine,
         resn.liquid,
       ],3,yellow),
+      new Focus("Mining",[
+        resn.machinery,
+        resn.diamonds,
+        resn.bodies,
+      ],[
+        resn.uranium,
+        resn.durasteel,
+        resn.plasglass,
+      ],2, brown),
       new Focus("Industry",[
         resn.machinery,
-        resn.antimatter,
-        resn.uranium,
         resn.liquid,
-        resn.core
+        resn.core,
+        resn.crystals,
       ],[
         resn.weapons,
         resn.machinery,
@@ -89,6 +99,22 @@ export default class ResourceManager {
     focuses.forEach(f=>{
       this.focuses_by_name[camel(f.name)]=f;
     })
+  }
+
+  initResourceGraph(){
+    const resn=this.resources_by_name;
+    this.requirements={
+      [resn.diamond.name]: [resn.plasglass.name],
+      [resn.crystals.name]: [resn.diamond.name],
+      [resn.machinery.name]: [resn.durasteel.name],
+      [resn.bodies.name]: [resn.durasteel.name, resn.cpus.name, resn.valves.name],
+      [resn.liquid.name]: [resn.botanicals],
+      [resn.medicine.name]: [resn.botanicals]
+    }
+  }
+
+  getRequirements(resource){
+    return dictGet(this.requirements, resource.name, []);
   }
 
   initResources(){
@@ -127,7 +153,7 @@ export default class ResourceManager {
         Resource.create("Precision Valves",10,
           "Once, these were in short supply. In the harshness of space, a standard design was required. Now, they are created in oceanic quantities and even used as currency on some planets."),
         Resource.create("Botanicals",15,
-          "Despite vast amounts of bioengineering, organics remain hard to grow and require specialized facilites and trained personel to care to them."),
+          "Despite vast amounts of bioengineering, organics remain hard to grow in foreign environments and require specialized facilites and trained personel to care to them."),
         Resource.create("Machine bodies",60,
           "Robotic bodies are expected to be made to a high quality. They require a synthesis of small scale machinery, electronics and infoware knowledge and thus command a high premium above other products."),
         Resource.create("Art",65,

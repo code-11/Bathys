@@ -14,6 +14,16 @@ export default class PlanetCreationStrategy{
     return rectifiedNum;
   }
 
+  assignBaseIndustry(focus, development){
+    const developmentSlots=new Array(development * development + 5).fill(null);
+    focus.produces.forEach((res,i)=>{
+      if (developmentSlots.length-1 >= i){
+        developmentSlots[i]=res;
+      }
+    });
+    return developmentSlots;
+  }
+
   createPlanets(focuses, num, maxX, maxY){
     const planets=[];
     for (let i=0; i<num; i+=1){
@@ -26,6 +36,7 @@ export default class PlanetCreationStrategy{
       planet.name="planet"+i;
       planet.focus=deeplicate(randomChoose(focuses));
       planet.development = this.assignDevelopment(planet.focus);
+      planet.developmentSlots = this.assignBaseIndustry(planet.focus, planet.development);
       planet.x=x;
       planet.y=y
 

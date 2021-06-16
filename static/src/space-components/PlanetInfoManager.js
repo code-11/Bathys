@@ -13,6 +13,52 @@ export default class PlanetInfoManager{
   }
 
   initInfoMenu(){
+    const container = new Container(1,2);
+    container._border_color=0xAAAAAA;
+    container._thickness=1
+    container._padding=1;
+
+    container.addElement(0,0,0,0,this.topInfoMenu());
+    container.addElement(0,1,0,1,this.developmentSlots());
+
+    const popupWindow= new PopupWindow(container);
+    popupWindow._renderer=this.renderer;
+    popupWindow.top_graphic=this.top_graphic;
+    popupWindow.onClose=()=>{
+      this.container.visible=!this.container.visible;
+    }
+    popupWindow.init();
+    popupWindow.drawFunc();
+
+    this.container=popupWindow;
+    return this.container;
+  }
+
+  developmentSlots(){
+    const lblTextOptions={
+      fontFamily : 'Arial',
+      fontSize: 12,
+      fill : 0xff1010,
+      align : 'center'
+    };
+
+    const slots=this.parentPlanet.developmentSlots;
+    const gridSize = Math.ceil(Math.sqrt(slots.length));
+    const container = new Container(gridSize,gridSize);
+    slots.forEach((slot,i)=>{
+      const x= i % gridSize;
+      const y= Math.floor(i / gridSize);
+      const textToUse = slot !=null ? slot.name : " ";
+      const slotLbl=new Button(textToUse,lblTextOptions);
+      slotLbl._thickness=2;
+      slotLbl._border_color=0xff1010;
+      slotLbl._padding=2;
+      container.addElement(x,y,x,y,slotLbl);
+    });
+    return container;
+  }
+
+  topInfoMenu(){
     const container = new Container(2,4);
     // container.x=35;
     // container.y=-25;
@@ -61,16 +107,6 @@ export default class PlanetInfoManager{
     container.addElement(0,3,0,3,eventLbl);
     container.addElement(1,3,1,3,eventValLbl);
 
-    const popupWindow= new PopupWindow(container);
-    popupWindow._renderer=this.renderer;
-    popupWindow.top_graphic=this.top_graphic;
-    popupWindow.onClose=()=>{
-      this.container.visible=!this.container.visible;
-    }
-    popupWindow.init();
-    popupWindow.drawFunc();
-
-    this.container=popupWindow;
-    return this.container;
+    return container;
   }
 }

@@ -30,6 +30,8 @@ export default class Planet extends EXObj{
     this.focus=null;
     this.development=0;
 
+    this.developmentSlots=[];
+
     this.top_graphic=null;
     this.renderer=renderer;
     this.viewport=null;
@@ -101,6 +103,7 @@ export default class Planet extends EXObj{
     infoOptionIndicator.interactive = true;
     infoOptionIndicator.on("click",(e)=>{
       this.infoMenu.visible=!this.infoMenu.visible;
+      console.log(this.developmentSlots);
       this.resetContainerPos();
       e.stopPropagation();
     });
