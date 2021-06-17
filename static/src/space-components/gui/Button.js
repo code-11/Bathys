@@ -23,8 +23,12 @@ export default class Button extends EXPolygonObj{
     this._textObj.visible=true;
   }
 
+  determineExtents(){
+    return GuiUtil.textSize(this._text, this._text_opt.fontSize+"px "+this._text_opt.fontFamily);
+  }
+
   init(){
-    const {width, height}=GuiUtil.textSize(this._text, this._text_opt.fontSize+"px "+this._text_opt.fontFamily);
+    const {width, height}=this.determineExtents();
     this._textObj = new PIXI.Text(this._text, this._text_opt);
     const padding = this._padding;
     this._textObj.position.x=padding;

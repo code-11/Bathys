@@ -1,4 +1,5 @@
 import Button from "./gui/Button";
+import FixedSizeButton from "./gui/FixedSizeButton";
 import Slider from "./gui/Slider";
 import Container from "./gui/Container";
 import DualSlider from "./gui/DualSlider";
@@ -44,13 +45,24 @@ export default class PlanetInfoManager{
 
     const slots=this.parentPlanet.developmentSlots;
     const gridSize = Math.ceil(Math.sqrt(slots.length));
-    const container = new Container(gridSize,gridSize);
+    const container = new Container(gridSize,gridSize+1);
+    container._padding=3;
+
+    const sectionHeader = new Button("Development Slots", {
+      fontFamily : 'Arial',
+      fontSize: 18,
+      fill : 0xff1010,
+      align : 'center'
+    });
+    container.addElement(0,0,gridSize,0,sectionHeader);
+
     slots.forEach((slot,i)=>{
       const x= i % gridSize;
-      const y= Math.floor(i / gridSize);
+      const y= Math.floor(i / gridSize)+1;
       const textToUse = slot !=null ? slot.name : " ";
-      const slotLbl=new Button(textToUse,lblTextOptions);
-      slotLbl._thickness=2;
+      const slotLbl=new FixedSizeButton(textToUse,lblTextOptions,50,50);
+      const thicknessToUse= slot!=null ? 2 :1;
+      slotLbl._thickness=thicknessToUse;
       slotLbl._border_color=0xff1010;
       slotLbl._padding=2;
       container.addElement(x,y,x,y,slotLbl);
