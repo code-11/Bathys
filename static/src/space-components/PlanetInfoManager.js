@@ -14,13 +14,14 @@ export default class PlanetInfoManager{
   }
 
   initInfoMenu(){
-    const container = new Container(1,2);
+    const container = new Container(1,3);
     container._border_color=0xAAAAAA;
     container._thickness=1
     container._padding=1;
 
     container.addElement(0,0,0,0,this.topInfoMenu());
-    container.addElement(0,1,0,1,this.developmentSlots());
+    container.addElement(0,1,0,1,this.productionVisual());
+    container.addElement(0,2,0,2,this.developmentSlots());
 
     const popupWindow= new PopupWindow(container);
     popupWindow._renderer=this.renderer;
@@ -33,6 +34,37 @@ export default class PlanetInfoManager{
 
     this.container=popupWindow;
     return this.container;
+  }
+
+  productionVisual(){
+    const products=this.parentPlanet.resourceManager.production;
+    const container = new Container(2,products.length);
+    container._padding=3;
+    
+    const lblTextOptions={
+      fontFamily : 'Arial',
+      fontSize: 12,
+      fill : 0xff1010,
+      align : 'center'
+    };
+
+    const sectionHeader = new Button("Production", {
+      fontFamily : 'Arial',
+      fontSize: 18,
+      fill : 0xff1010,
+      align : 'center'
+    });
+    container.addElement(0,0,products.length,0,sectionHeader);
+
+    products.forEach((res,i)=>{
+      const slotLbl=new FixedSizeButton(res.name,lblTextOptions,50,50);
+      slotLbl._thickness=2;
+      slotLbl._border_color=0xff1010;
+      slotLbl._padding=2;
+      container.addElement(i,1,i,1,slotLbl);
+    });
+
+    return container;
   }
 
   developmentSlots(){

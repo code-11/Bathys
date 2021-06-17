@@ -28,17 +28,4 @@ export default class PlanetResourceManager extends AmountResourceManager {
     return cumulativeValue/n;
   }
 
-  createProductionHooks(saleManager){
-    const hooks=[];
-    this.production.forEach((res)=>{
-      hooks.push(new TimeHook({
-        hours:5
-      },()=>{
-        this.incrResourceAmount(res.name,10);
-        saleManager.updatePlayerPlanetSide();
-      }));
-    });
-    return hooks;
-  }
-
 }

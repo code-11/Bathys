@@ -10,6 +10,7 @@ import VerticalScrollWindow from "./gui/ScrollWindow";
 import LandingChecker from "./LandingChecker";
 import SaleLandingCheckDecorator from "./SaleLandingCheckDecorator";
 import InfoLandingCheckDecorator from "./InfoLandingCheckDecorator";
+import TimeHook from "./TimeHook";
 
 import PlayerSaleManager from "./PlayerSaleManager";
 import PlanetResourceManager from "./PlanetResourceManager";
@@ -44,7 +45,18 @@ export default class Planet extends EXObj{
   }
 
   createProductionHooks(){
-    return this.resourceManager.createProductionHooks(this.saleManager);
+    const hooks=[];
+    this.developmentSlots.forEach((res)=>{
+      if (res!=null){
+        hooks.push(new TimeHook({
+          hours:5
+        },()=>{
+          this.resourceManager.incrResourceAmount(res.name,10);
+          this.saleManager.updatePlayerPlanetSide();
+        }));
+      }
+    });
+    return hooks;
   }
 
   setTopGraphic(top_graphic){

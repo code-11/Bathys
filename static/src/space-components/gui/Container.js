@@ -93,7 +93,7 @@ export default class Container extends EXPolygonObj{
 
   init(){
     this._widgets.forEach(widget=>{
-          widget.el.init();
+      widget.el.init();
     });
 
     this.determineColumnExtents();
