@@ -14,7 +14,7 @@ export default class PlanetInfoManager{
   }
 
   initInfoMenu(){
-    const container = new Container(1,3);
+    const container = new Container(1,4);
     container._border_color=0xAAAAAA;
     container._thickness=1
     container._padding=1;
@@ -22,6 +22,7 @@ export default class PlanetInfoManager{
     container.addElement(0,0,0,0,this.topInfoMenu());
     container.addElement(0,1,0,1,this.productionVisual());
     container.addElement(0,2,0,2,this.developmentSlots());
+    container.addElement(0,3,0,3,this.consumptionVisual());
 
     const popupWindow= new PopupWindow(container);
     popupWindow._renderer=this.renderer;
@@ -36,11 +37,55 @@ export default class PlanetInfoManager{
     return this.container;
   }
 
+  consumptionVisual(){
+    const sectionHeader = new Button("Consumption", {
+      fontFamily : 'Arial',
+      fontSize: 18,
+      fill : 0xff1010,
+      align : 'center'
+    });
+
+    const lblTextOptions={
+      fontFamily : 'Arial',
+      fontSize: 12,
+      fill : 0xff1010,
+      align : 'center'
+    };
+
+    const builtInConsume=this.parentPlanet.resourceManager.consumption;
+    const secondaryConsume= this.parentPlanet.resourceManager.secondaryConsumption;
+    const gridSize = Math.ceil(Math.sqrt(builtInConsume.length + secondaryConsume.length));
+    const container = new Container(gridSize,gridSize+1);
+
+    container.addElement(0,0,gridSize,0,sectionHeader);
+
+    builtInConsume.forEach((res,i)=>{
+      const x= i % gridSize;
+      const y= Math.floor(i / gridSize)+1;
+      const slotLbl=new Button(res.name,lblTextOptions);
+      slotLbl._padding=2;
+      container.addElement(x,y,x,y,slotLbl);
+    });
+
+    const builtInLen= builtInConsume.length;
+
+    secondaryConsume.forEach((res,i)=>{
+      const x= (i+builtInLen) % gridSize;
+      const y= Math.floor((i+builtInLen) / gridSize)+1;
+      const slotLbl=new Button(res.name,{fill:0x888888,...lblTextOptions});
+      slotLbl._padding=2;
+      container.addElement(x,y,x,y,slotLbl);
+    });
+    container._padding=3;
+
+    return container;
+  }
+
   productionVisual(){
     const products=this.parentPlanet.resourceManager.production;
     const container = new Container(2,products.length);
     container._padding=3;
-    
+
     const lblTextOptions={
       fontFamily : 'Arial',
       fontSize: 12,
@@ -57,8 +102,7 @@ export default class PlanetInfoManager{
     container.addElement(0,0,products.length,0,sectionHeader);
 
     products.forEach((res,i)=>{
-      const slotLbl=new FixedSizeButton(res.name,lblTextOptions,50,50);
-      slotLbl._thickness=2;
+      const slotLbl=new Button(res.name,lblTextOptions);
       slotLbl._border_color=0xff1010;
       slotLbl._padding=2;
       container.addElement(i,1,i,1,slotLbl);

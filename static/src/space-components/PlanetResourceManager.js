@@ -5,6 +5,8 @@ export default class PlanetResourceManager extends AmountResourceManager {
   constructor(){
     super();
     this.production=null;
+    this.consumption=null;
+    this.secondaryConsumption=[];
     this.globalResourceManager=null;
     this.amountsWanted={};
   }

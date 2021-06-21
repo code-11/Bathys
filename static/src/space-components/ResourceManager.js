@@ -5,7 +5,7 @@ import {camel, dictGet} from "./util/util";
 
 export default class ResourceManager {
   constructor(){
-    this.requirements={};
+    this.requirement_graph={};
     this.resources=null;
     this.resources_by_name={}
     this.focuses_by_name={};
@@ -103,18 +103,18 @@ export default class ResourceManager {
 
   initResourceGraph(){
     const resn=this.resources_by_name;
-    this.requirements={
-      [resn.diamond.name]: [resn.plasglass.name],
-      [resn.crystals.name]: [resn.diamond.name],
-      [resn.machinery.name]: [resn.durasteel.name],
-      [resn.bodies.name]: [resn.durasteel.name, resn.cpus.name, resn.valves.name],
+    this.requirement_graph={
+      [resn.diamonds.name]: [resn.plasglass],
+      [resn.crystals.name]: [resn.diamonds],
+      [resn.machinery.name]: [resn.durasteel],
+      [resn.bodies.name]: [resn.durasteel, resn.cpus, resn.valves],
       [resn.liquid.name]: [resn.botanicals],
       [resn.medicine.name]: [resn.botanicals]
     }
   }
 
   getRequirements(resource){
-    return dictGet(this.requirements, resource.name, []);
+    return dictGet(this.requirement_graph, resource.name, []);
   }
 
   initResources(){
@@ -124,7 +124,7 @@ export default class ResourceManager {
           "Required for most large construction. Ferrous deposits are common throughout the galaxy. Processing is required but can be done at scale."),
         Resource.create("Plasglass",5,
           "Any rocky planet can provide the silicon needed for plasglass and processing just requires heat. Not all planets are rocky however."),
-        Resource.create("Diamond",10,
+        Resource.create("Diamonds",10,
           "Carbon's big brother. Industrial applications abound, so artifical processing replaced naturally occuring deposits before mankind left earth."),
         Resource.create("Latinum",90,
           "Man has always had a fixation with precious metals. Once gold lost its lusture, Latinum filled the void."),

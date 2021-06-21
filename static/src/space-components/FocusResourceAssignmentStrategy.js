@@ -43,6 +43,11 @@ export default class FocusResourceAssignmentStrategy{
 
   assignFocusedProduction(planet){
     planet.resourceManager.production=planet.focus.produces;
+    planet.resourceManager.consumption= planet.focus.requires;
+    planet.resourceManager.production.forEach((res)=>{
+      const secondaryItems=this.resourceManager.getRequirements(res);
+      planet.resourceManager.secondaryConsumption=planet.resourceManager.secondaryConsumption.concat(secondaryItems);
+    });
   }
 
   assignProduction(){
