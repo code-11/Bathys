@@ -52,6 +52,13 @@ export default class PlanetInfoManager{
       align : 'center'
     };
 
+    const lblTextOptions2={
+      fontFamily : 'Arial',
+      fontSize: 12,
+      fill : 0x888888,
+      align : 'center'
+    };
+
     const builtInConsume=this.parentPlanet.resourceManager.consumption;
     const secondaryConsume= this.parentPlanet.resourceManager.secondaryConsumption;
     const gridSize = Math.ceil(Math.sqrt(builtInConsume.length + secondaryConsume.length));
@@ -72,7 +79,7 @@ export default class PlanetInfoManager{
     secondaryConsume.forEach((res,i)=>{
       const x= (i+builtInLen) % gridSize;
       const y= Math.floor((i+builtInLen) / gridSize)+1;
-      const slotLbl=new Button(res.name,{fill:0x888888,...lblTextOptions});
+      const slotLbl=new Button(res.name,lblTextOptions2);
       slotLbl._padding=2;
       container.addElement(x,y,x,y,slotLbl);
     });

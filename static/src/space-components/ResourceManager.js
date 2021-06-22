@@ -1,7 +1,7 @@
 import Resource from "./Resource";
 import Focus from "./Focus";
 
-import {camel, dictGet} from "./util/util";
+import {camel, dictGet, elMax} from "./util/util";
 
 export default class ResourceManager {
   constructor(){
@@ -99,6 +99,11 @@ export default class ResourceManager {
     focuses.forEach(f=>{
       this.focuses_by_name[camel(f.name)]=f;
     })
+  }
+
+  highestCost(){
+    const maxRes=elMax(this.resources, (res)=>res.intrinsicVal);
+    return maxRes.intrinsicVal;
   }
 
   initResourceGraph(){
