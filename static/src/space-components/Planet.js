@@ -71,6 +71,7 @@ export default class Planet extends EXObj{
     }
   }
 
+
   resetContainerPos(){
     this.saleMenu.x=35;
     this.saleMenu.y=-25;
