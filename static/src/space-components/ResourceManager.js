@@ -106,15 +106,21 @@ export default class ResourceManager {
     return maxRes.intrinsicVal;
   }
 
+/*
+This sets up the requirement graph of production.
+For each given resource it requires an amount of some other resources to produce it.
+*/
   initResourceGraph(){
     const resn=this.resources_by_name;
     this.requirement_graph={
-      [resn.diamonds.name]: [resn.plasglass],
-      [resn.crystals.name]: [resn.diamonds],
-      [resn.machinery.name]: [resn.durasteel],
-      [resn.bodies.name]: [resn.durasteel, resn.cpus, resn.valves],
-      [resn.liquid.name]: [resn.botanicals],
-      [resn.medicine.name]: [resn.botanicals]
+      [resn.diamonds.name]: [{resource:resn.plasglass, amount:1}],
+      [resn.crystals.name]: [{resource:resn.diamonds, amount:1}],
+      [resn.machinery.name]: [{resource:resn.durasteel, amount:1}],
+      [resn.bodies.name]: [{resource:resn.durasteel, amount:1},
+                           {resource:resn.cpus, amount:1},
+                           {resource:resn.valves, amount:1}],
+      [resn.liquid.name]: [{resource:resn.botanicals, amount:1}],
+      [resn.medicine.name]: [{resource:resn.botanicals, amount:1}]
     }
   }
 

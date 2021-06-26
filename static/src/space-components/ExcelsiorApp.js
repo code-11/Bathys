@@ -82,7 +82,7 @@ export default class ExcelsiorApp{
 //-----PLANET INITITIALIZATION-----
 
     const planetCreator = new PlanetCreationStrategy(this.app.renderer, graphics, viewport)
-    const planets=planetCreator.createPlanets(Object.values(resourceManager.focuses_by_name), 20,5000,5000);
+    const planets=planetCreator.createPlanets(Object.values(resourceManager.focuses_by_name),Object.values(resourceManager.focuses_by_name).length,5000,5000);
 
 //-----PLANET RESOURCE INITIALIZATION-----
 

@@ -51,8 +51,20 @@ export default class Planet extends EXObj{
         hooks.push(new TimeHook({
           hours:5
         },()=>{
-          this.resourceManager.incrResourceAmount(res.name,10);
-          this.saleManager.updatePlayerPlanetSide();
+          const requirement_recipes = this.resourceManager.globalResourceManager.getRequirements(res);
+          let hasAllRes=true;
+          requirement_recipes.forEach((recipe)=>{
+            if (this.resourceManager.getResourceAmount(recipe.resource.name) < recipe.amount){
+              hasAllRes=false;
+            }
+          });
+          if (hasAllRes){
+            requirement_recipes.forEach((recipe)=>{
+              this.resourceManager.decrResourceAmount(recipe.resource.name, recipe.amount);
+            });
+            this.resourceManager.incrResourceAmount(res.name,10);
+            this.saleManager.updatePlayerPlanetSide();
+          }
         }));
       }
     });

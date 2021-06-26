@@ -34,7 +34,8 @@ export default class PlanetCreationStrategy{
       planet.viewport=this.viewport;
       planet.setTopGraphic(this.graphics);
       planet.name="planet"+i;
-      planet.focus=deeplicate(randomChoose(focuses));
+      // planet.focus=deeplicate(randomChoose(focuses));
+      planet.focus = deeplicate(focuses[i]);
       planet.development = this.assignDevelopment(planet.focus);
       planet.developmentSlots = this.assignBaseIndustry(planet.focus, planet.development);
       planet.x=x;

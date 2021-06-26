@@ -51,7 +51,8 @@ export default class FocusResourceAssignmentStrategy{
     })
     planet.resourceManager.production.forEach((res)=>{
       const secondaryItems=this.resourceManager.getRequirements(res);
-      secondaryItems.forEach((res2)=>{
+      secondaryItems.forEach((recipe)=>{
+        const res2 = recipe.resource;
         if (!seenRes.has(res2.name)){
           planet.resourceManager.secondaryConsumption.push(res2);
           seenRes.add(res2.name);
