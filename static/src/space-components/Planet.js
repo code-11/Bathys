@@ -44,6 +44,25 @@ export default class Planet extends EXObj{
     this.infoManager = new PlanetInfoManager(this);
   }
 
+  createDevelopmentHook(){
+    const neededVector = new AmountResourceManager(neededAmnts);
+    const highCost= this.resourceManager.highestCost();
+    for (const res in this.focus.requires){
+      const amountNeeded= Math.floor((highCost * 2) * (this.development+1) / res.intrinsicVal);
+      neededVector.assignResourceAmount(res.name, amountNeeded);
+    }
+    return new TimeHook({
+      hours:1
+    },()=>{
+      const result=this.resourceManager.minus(neededAmount);
+      if (result.allPositive()){
+        //ok all good, assign the results
+        this.resourceManager.resources = result.resources;
+        this.development +=1;
+      }
+    });
+  }
+
   createProductionHooks(){
     const hooks=[];
     this.developmentSlots.forEach((res)=>{
