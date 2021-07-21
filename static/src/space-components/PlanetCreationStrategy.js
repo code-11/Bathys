@@ -14,8 +14,12 @@ export default class PlanetCreationStrategy{
     return rectifiedNum;
   }
 
+  calcNumDevelopmentSlots(development){
+    return development * development + 5;
+  }
+
   assignBaseIndustry(focus, development){
-    const developmentSlots=new Array(development * development + 5).fill(null);
+    const developmentSlots=new Array(this.calcNumDevelopmentSlots(development)).fill(null);
     focus.produces.forEach((res,i)=>{
       if (developmentSlots.length-1 >= i){
         developmentSlots[i]=res;

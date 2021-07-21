@@ -6,7 +6,9 @@ export default class AmountResourceManager {
   }
 
   static FromObj(obj){
-    this.resources={...obj};
+    const toReturn = new AmountResourceManager();
+    toReturn.resources={...obj};
+    return toReturn;
   }
 
   getResourceAmount(name){
@@ -26,17 +28,17 @@ export default class AmountResourceManager {
   }
 
   plus(other){
-    const toReturn = new AmountResourceManager(this.resources);
-    for(const resName in Object.keys(other.resources)){
-      toReturn.incrResourceAmount(other.getResourceAmount(resName));
+    const toReturn = AmountResourceManager.FromObj(this.resources);
+    for(const resName of Object.keys(other.resources)){
+      toReturn.incrResourceAmount(resName,other.getResourceAmount(resName));
     }
     return toReturn;
   }
 
   minus(other, rail=undefined){
-    const toReturn = new AmountResourceManager(this.resources);
-    for(const resName in Object.keys(other.resources)){
-      toReturn.decrResourceAmount(other.getResourceAmount(resName));
+    const toReturn =AmountResourceManager.FromObj(this.resources);
+    for(const resName of Object.keys(other.resources)){
+      toReturn.decrResourceAmount(resName,other.getResourceAmount(resName));
       if (rail!=undefined && toReturn.getResourceAmount(resName)<rail){
         toReturn.assignResourceAmount(resName,rail);
       }

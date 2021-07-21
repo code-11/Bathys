@@ -38,7 +38,7 @@ export default class App extends Component {
   componentDidMount() {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
-    
+
     this.drawShip(ctx);
 
     ctx.globalCompositeOperation = 'destination-over'
@@ -50,13 +50,13 @@ export default class App extends Component {
     document.onkeypress = function (e) {
       e = e || window.event;
       if(e.key == "s"){
-        self.shipY+=moveSpeed;    
+        self.shipY+=moveSpeed;
       }
       if(e.key == "w"){
         self.shipY-=moveSpeed;
       }
       if(e.key == "a"){
-        self.shipX-=moveSpeed;    
+        self.shipX-=moveSpeed;
       }
       if(e.key == "d"){
         self.shipX+=moveSpeed;

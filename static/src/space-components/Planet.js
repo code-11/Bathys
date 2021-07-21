@@ -15,6 +15,7 @@ import TimeHook from "./TimeHook";
 import PlayerSaleManager from "./PlayerSaleManager";
 import PlanetResourceManager from "./PlanetResourceManager";
 import PlanetInfoManager from "./PlanetInfoManager";
+import AmountResourceManager from "./AmountResourceManager";
 
 import EXObj from "./core/EXObj";
 import EXCircleObj from "./core/EXCircleObj"
@@ -44,13 +45,25 @@ export default class Planet extends EXObj{
     this.infoManager = new PlanetInfoManager(this);
   }
 
-  createDevelopmentHook(){
-    const neededVector = new AmountResourceManager(neededAmnts);
-    const highCost= this.resourceManager.highestCost();
-    for (const res in this.focus.requires){
+  neededForDevelopmentObj(){
+    const neededVector = new AmountResourceManager();
+    const highCost= this.resourceManager.globalResourceManager.highestCost();
+    for (const res of this.focus.requires){
       const amountNeeded= Math.floor((highCost * 2) * (this.development+1) / res.intrinsicVal);
       neededVector.assignResourceAmount(res.name, amountNeeded);
     }
+    return neededVector;
+  }
+
+  //If this function is called, it is assumed that the slots are
+  //of the development before ex: 3, while the new development number
+  //is already updated ex 2
+  upgradeDevelopmentSlots(){
+
+  }
+
+  createDevelopmentHook(){
+    const neededAmount=this.neededForDevelopmentObj();
     return new TimeHook({
       hours:1
     },()=>{
@@ -59,6 +72,7 @@ export default class Planet extends EXObj{
         //ok all good, assign the results
         this.resourceManager.resources = result.resources;
         this.development +=1;
+        this.upgradeDevelopmentSlots();
       }
     });
   }
