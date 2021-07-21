@@ -1,6 +1,8 @@
-import DevelopmentTest from './developmentTest';
+import React from 'react';
+import { render } from 'react-dom';
+import TestApp from "./TestApp";
 
-const devTest=new DevelopmentTest();
-
-
-devTest.run();
+render(
+        <TestApp/>,
+    document.getElementById('app')
+);

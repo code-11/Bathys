@@ -42,20 +42,24 @@ export default class DevelopmentTest{
         resourceAssigner.assignResources();
         resourceAssigner.assignResourcesWanted();
 
-        console.log("Before state");
-        console.log(planet.resourceManager.resources)
-        console.log(planet.development);
-        console.log(planet.developmentSlots);
+        const oldDevelopment=planet.development;
 
-        console.log("Giving enough to level");
+        // console.log("Before state");
+        // console.log(planet.resourceManager.resources)
+        // console.log(planet.development);
+        // console.log(planet.developmentSlots);
+
+        // console.log("Giving enough to level");
         planet.resourceManager=planet.resourceManager.plus(planet.neededForDevelopmentObj());
-        console.log(planet.resourceManager.resources);
+        // console.log(planet.resourceManager.resources);
         developmentHook.callback();
 
-        console.log("After state");
-        console.log(planet.resourceManager.resources)
-        console.log(planet.development);
-        console.log(planet.developmentSlots);
+        // console.log("After state");
+        // console.log(planet.resourceManager.resources)
+        // console.log(planet.development);
+        // console.log(planet.developmentSlots);
+
+        resolve(planet.development == oldDevelopment + 1);
 
       });
       return thePromise;
