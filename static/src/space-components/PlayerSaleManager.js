@@ -34,9 +34,11 @@ export default class PlayerSaleManager extends Container{
   }
 
   //TODO: This is really like a refresh/update. Maybe rename.
+  //Caches and refreshes this.ship and this.tempAmountsWanted
   linkShip(ship,force=false){
     if (this.ship==undefined || force){
       this.ship=ship
+      this.tempAmountsWanted= this.planet.calcAmountsWanted();
       const globalRes=this.planet.resourceManager.globalResourceManager;
       globalRes.resources.forEach((res,i)=>{
         const shipAmount = ship.resourceManager.getResourceAmount(res.name);
@@ -48,6 +50,7 @@ export default class PlayerSaleManager extends Container{
         this.tradeMenu[res.name].slider.init();
         this.tradeMenu[res.name].slider.drawFunc();
         this.tradeMenu[res.name].planetAmountLbl.rapidTextRefresh(planetAmount.toString());
+        this.tradeMenu[res.name].planetWantedLbl.rapidTextRefresh(this.tempAmountsWanted.getResourceAmount(res.name));
         ship.resourceManager.updateResourceGui(res.name);
       });
       ship.resourceManager.updateResourceGui(globalRes.moneyRes.name);
@@ -60,7 +63,7 @@ export default class PlayerSaleManager extends Container{
 
   conductTransaction(val,res){
     const amount=Math.floor(val);
-    const avgPrice=this.planet.resourceManager.avgPrice(this.planet.calcAmountsWanted(), res, amount);
+    const avgPrice=this.planet.resourceManager.avgPrice(this.tempAmountsWanted, res, amount);
     const transactVal=Math.abs(avgPrice)*amount;
     const moneyName= this.planet.resourceManager.globalResourceManager.moneyRes.name;
     const availableMoney= this.ship.resourceManager.getResourceAmount(moneyName);
@@ -80,7 +83,7 @@ export default class PlayerSaleManager extends Container{
 
   initTradeMenu(){
     const resources=this.planet.resourceManager.globalResourceManager.resources;
-    const container = new Container(7,resources.length+1);
+    const container = new Container(8,resources.length+1);
     // container.x=35;
     // container.y=-25;
     container._border_color=0xAAAAAA;
@@ -101,7 +104,8 @@ export default class PlayerSaleManager extends Container{
     container.addElement(3,0,3,0, new Button("Price/item", lblTextOptions));
     container.addElement(4,0,4,0, new Button(" ", lblTextOptions));
     container.addElement(5,0,5,0, new Button("Planet Amount", lblTextOptions));
-    container.addElement(6,0,6,0, new Button(" ", lblTextOptions));
+    container.addElement(6,0,6,0, new Button("Planet Wanted", lblTextOptions));
+    container.addElement(7,0,7,0, new Button(" ", lblTextOptions));
 
     resources.forEach((res,i)=>{
       const nameLbl = new Button(res.displayName, lblTextOptions);
@@ -153,6 +157,9 @@ export default class PlayerSaleManager extends Container{
       planetAmountLbl._border_color=0xff1010;
       planetAmountLbl._padding=5;
 
+      const planetWantedLbl = new Button("0", lblTextOptions);
+      planetWantedLbl._border_color=0xff1010;
+      planetWantedLbl._padding=5;
 
       // planetAmountLbl._thickness=2;
       confirmBtn._border_color=0xff1010;
@@ -174,9 +181,10 @@ export default class PlayerSaleManager extends Container{
       container.addElement(3,i+1,3,i+1,priceLbl);
       container.addElement(4,i+1,4,i+1,slider);
       container.addElement(5,i+1,5,i+1,planetAmountLbl);
-      container.addElement(6,i+1,6,i+1,confirmBtn);
+      container.addElement(6,i+1,6,i+1,planetWantedLbl);
+      container.addElement(7,i+1,7,i+1,confirmBtn);
 
-      const resObj={nameLbl,shipAmountLbl,totalLbl,priceLbl,slider,planetAmountLbl};
+      const resObj={nameLbl,shipAmountLbl,totalLbl,priceLbl,slider,planetAmountLbl,planetWantedLbl};
       this.tradeMenu[res.name]=resObj;
 
     });

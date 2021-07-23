@@ -59,10 +59,14 @@ export default class Planet extends EXObj{
     const unneededDevMult = (this.development);
     const neededDevMult= (this.development+2) * 2;
 
+    //There is a small amount of other resources required to develop.
+    //This is done so that the planet will buy a small amount of things it doesn't really need.
     this.resourceManager.globalResourceManager.resources.forEach((res)=>{
       const numNeeded= Math.floor((highCost * unneededDevMult) / res.intrinsicVal);
       neededVector.assignResourceAmount(res.name, numNeeded);
     });
+
+    //But its mostly the main requirements.
     for (const res of this.focus.requires){
       const amountNeeded= Math.floor((highCost * neededDevMult) / res.intrinsicVal);
       neededVector.assignResourceAmount(res.name, amountNeeded);
@@ -88,6 +92,7 @@ export default class Planet extends EXObj{
         this.resourceManager.resources = result.resources;
         this.development +=1;
         this.upgradeDevelopmentSlots();
+        this.infoManager.refresh();
       }
     });
   }

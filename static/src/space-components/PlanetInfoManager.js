@@ -13,6 +13,10 @@ export default class PlanetInfoManager{
     this.parentPlanet=parentPlanet;
   }
 
+  refresh(){
+    this.tempDevVal.rapidTextRefresh(this.parentPlanet.development);
+  }
+
   initInfoMenu(){
     const container = new Container(1,4);
     container._border_color=0xAAAAAA;
@@ -184,8 +188,8 @@ export default class PlanetInfoManager{
     const devLbl = new Button("Development:", lblTextOptions);
     devLbl._padding=5;
 
-    const devValLbl = new Button(this.parentPlanet.development,lblTextOptions);
-    devValLbl._padding=5;
+    this.tempDevVal = new Button(this.parentPlanet.development,lblTextOptions);
+    this.tempDevVal._padding=5;
 
     const eventLbl = new Button("Event:", lblTextOptions);
     eventLbl._padding=5;
@@ -198,7 +202,7 @@ export default class PlanetInfoManager{
     container.addElement(0,1,0,1,focusLbl);
     container.addElement(1,1,1,1,focusValLbl);
     container.addElement(0,2,0,2,devLbl);
-    container.addElement(1,2,1,2,devValLbl);
+    container.addElement(1,2,1,2,this.tempDevVal);
     container.addElement(0,3,0,3,eventLbl);
     container.addElement(1,3,1,3,eventValLbl);
 
