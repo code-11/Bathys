@@ -1,0 +1,70 @@
+html, body, #app, #app-root{
+  width:100%;
+  height:100%;
+  margin: 0;
+  background-color:black;
+  position: relative;
+  color:white;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+p,div{
+  margin:0;
+}
+
+a{
+  text-decoration: none;
+  color:white;
+}
+
+.title{
+  margin-top:0px;
+  font-family: 'Tourney', sans-serif;
+  font-size:80pt;
+  color:#FFCC11;
+}
+
+.subtitle{
+  margin-top:0px;
+  font-size:60pt;
+}
+
+.main{
+  width: 100vw;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.center{
+  text-align: center;
+}
+
+.nope{
+   text-decoration: line-through;
+}
+
+.level-select{
+  flex-direction: row;
+  flex-wrap:  wrap;
+  width:40vw;
+  margin:auto;
+  justify-content: space-between;
+}
+
+.level-box{
+  border: 1px solid white;
+  padding: 10px;
+  flex-grow: 1;
+  display: inline-block;
+  margin:5px;
+}
+
+.green{
+  color: #77dd77;
+}
+.yellow{
+  color: #fff77a;
+}
+.red{
+  color: #ff7a7a;
+}

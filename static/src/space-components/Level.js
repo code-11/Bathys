@@ -23,7 +23,7 @@ import SpecifiedResourceAssignmentStrategy from "./SpecifiedResourceAssignmentSt
 import FocusResourceAssignmentStrategy from "./FocusResourceAssignmentStrategy";
 import PlanetCreationStrategy from "./PlanetCreationStrategy";
 
-export default class ExcelsiorApp{
+export default class Level{
   constructor(){
     this.app = new PIXI.Application({ antialias: true });
     document.body.appendChild(this.app.view);

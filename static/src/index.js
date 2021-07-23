@@ -1,3 +1,3 @@
-import ExcelsiorApp from './space-components/ExcelsiorApp';
+import Level from './space-components/Level';
 
-const excelsior=new ExcelsiorApp();
+const excelsior=new Level();
