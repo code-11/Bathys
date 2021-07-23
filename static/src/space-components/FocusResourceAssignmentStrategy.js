@@ -32,16 +32,6 @@ export default class FocusResourceAssignmentStrategy{
 
   }
 
-  assignResourcesWanted(){
-    const resm = this.resourceManager;
-    const ps=this.planetsByName;
-    this.planets.forEach((planet)=>{
-        this.resourceManager.resources.forEach((res)=>{
-          planet.resourceManager.calcAmountsWanted(planet.development, this.resourceManager.highestCost());
-        });
-    });
-  }
-
   assignFocusedProduction(planet){
     planet.resourceManager.production=planet.focus.produces;
     planet.resourceManager.consumption= planet.focus.requires;

@@ -39,17 +39,32 @@ export default class Planet extends EXObj{
     this.viewport=null;
 
     this.resourceManager=new PlanetResourceManager();
-    this.saleManager = new PlayerSaleManager(this.resourceManager);
+    this.saleManager = new PlayerSaleManager(this);
     this.saleManager.renderer=this.renderer;
 
     this.infoManager = new PlanetInfoManager(this);
   }
 
+  calcAmountsWanted(){
+    //TODO:This needs to account for development, prduction needed and energy.
+
+    //development
+    return this.neededForDevelopmentObj();
+  }
+
   neededForDevelopmentObj(){
     const neededVector = new AmountResourceManager();
     const highCost= this.resourceManager.globalResourceManager.highestCost();
+
+    const unneededDevMult = (this.development);
+    const neededDevMult= (this.development+2) * 2;
+
+    this.resourceManager.globalResourceManager.resources.forEach((res)=>{
+      const numNeeded= Math.floor((highCost * unneededDevMult) / res.intrinsicVal);
+      neededVector.assignResourceAmount(res.name, numNeeded);
+    });
     for (const res of this.focus.requires){
-      const amountNeeded= Math.floor((highCost * 2) * (this.development+1) / res.intrinsicVal);
+      const amountNeeded= Math.floor((highCost * neededDevMult) / res.intrinsicVal);
       neededVector.assignResourceAmount(res.name, amountNeeded);
     }
     return neededVector;
@@ -62,7 +77,7 @@ export default class Planet extends EXObj{
 
   }
 
-  createDevelopmentHook(){
+  createDevelopmentHooks(){
     const neededAmount=this.neededForDevelopmentObj();
     return new TimeHook({
       hours:1

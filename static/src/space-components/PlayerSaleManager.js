@@ -7,11 +7,11 @@ import VerticalScrollWindow from "./gui/ScrollWindow";
 
 export default class PlayerSaleManager extends Container{
 
-  constructor(planetResourceManager){
+  constructor(planet){
     super();
     this.top_graphic=null;
     this.renderer=null;
-    this.planetResourceManager=planetResourceManager;
+    this.planet=planet;
     /*
     {
       resource_id:{
@@ -37,10 +37,10 @@ export default class PlayerSaleManager extends Container{
   linkShip(ship,force=false){
     if (this.ship==undefined || force){
       this.ship=ship
-      const globalRes=this.planetResourceManager.globalResourceManager;
+      const globalRes=this.planet.resourceManager.globalResourceManager;
       globalRes.resources.forEach((res,i)=>{
         const shipAmount = ship.resourceManager.getResourceAmount(res.name);
-        const planetAmount = this.planetResourceManager.getResourceAmount(res.name);
+        const planetAmount = this.planet.resourceManager.getResourceAmount(res.name);
         this.tradeMenu[res.name].shipAmountLbl.rapidTextRefresh(shipAmount.toString());
         this.tradeMenu[res.name].totalLbl.rapidTextRefresh("0");
         this.tradeMenu[res.name].slider.setMinMax(planetAmount,shipAmount);
@@ -60,16 +60,16 @@ export default class PlayerSaleManager extends Container{
 
   conductTransaction(val,res){
     const amount=Math.floor(val);
-    const avgPrice=this.planetResourceManager.avgPrice(res,amount);
+    const avgPrice=this.planet.resourceManager.avgPrice(this.planet.calcAmountsWanted(), res, amount);
     const transactVal=Math.abs(avgPrice)*amount;
-    const moneyName= this.planetResourceManager.globalResourceManager.moneyRes.name;
+    const moneyName= this.planet.resourceManager.globalResourceManager.moneyRes.name;
     const availableMoney= this.ship.resourceManager.getResourceAmount(moneyName);
 
     const newShipMoney = availableMoney+transactVal;
     const newShipAmount= this.ship.resourceManager.getResourceAmount(res.name) - amount;
-    const newPlanetAmount= this.planetResourceManager.getResourceAmount(res.name) + amount;
+    const newPlanetAmount= this.planet.resourceManager.getResourceAmount(res.name) + amount;
     if(newShipMoney>=0 && newShipAmount>=0 && newPlanetAmount>=0){
-      this.planetResourceManager.assignResourceAmount(res.name,newPlanetAmount);
+      this.planet.resourceManager.assignResourceAmount(res.name,newPlanetAmount);
       this.ship.resourceManager.assignResourceAmount(res.name,newShipAmount);
       this.ship.resourceManager.assignResourceAmount(moneyName,newShipMoney);
       console.log("Transaction "+res.name+"- playerAmount: "+newShipAmount+" planetAmount: "+newPlanetAmount+ " playerMoney: "+newShipMoney);
@@ -79,7 +79,7 @@ export default class PlayerSaleManager extends Container{
   }
 
   initTradeMenu(){
-    const resources=this.planetResourceManager.globalResourceManager.resources;
+    const resources=this.planet.resourceManager.globalResourceManager.resources;
     const container = new Container(7,resources.length+1);
     // container.x=35;
     // container.y=-25;
@@ -117,14 +117,14 @@ export default class PlayerSaleManager extends Container{
       totalLbl._border_color==0xff1010;
       totalLbl._padding=5;
 
-      const startingPrice=this.planetResourceManager.price(res);
+      const startingPrice=this.planet.resourceManager.price(this.planet.calcAmountsWanted(),res);
       const priceLbl = new Button(startingPrice.toString(), lblTextOptions);
       priceLbl._border_color=0xff1010;
       priceLbl._padding=5;
 
       const confirmBtn = new Button("Confirm", lblTextOptions);
 
-      const amount = this.planetResourceManager.getResourceAmount(res.name);
+      const amount = this.planet.resourceManager.getResourceAmount(res.name);
 
       const slider = new DualSlider(-1,amount);
       slider._renderer=this.renderer;
@@ -133,7 +133,7 @@ export default class PlayerSaleManager extends Container{
       }
       slider.onSlide=(normVal,val)=>{
         const amount=Math.floor(val);
-        const avgPrice=this.planetResourceManager.avgPrice(res,amount);
+        const avgPrice=this.planet.resourceManager.avgPrice(this.planet.calcAmountsWanted(),res,amount);
         priceLbl.rapidTextRefresh(Math.abs(Math.round(avgPrice)));
         const totalCost=avgPrice*Math.abs(amount);
         totalLbl.rapidTextRefresh(Math.ceil(totalCost));

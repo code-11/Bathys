@@ -89,7 +89,6 @@ export default class ExcelsiorApp{
     const resourceAssigner = new FocusResourceAssignmentStrategy(planets, playerShip, resourceManager);
     resourceAssigner.assignProduction();
     resourceAssigner.assignResources();
-    resourceAssigner.assignResourcesWanted();
 
     // const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,playerShip,resourceManager);
     // resourceAssigner.assignResources();
@@ -106,6 +105,7 @@ export default class ExcelsiorApp{
 
     const timeControls = new TimeControls();
     planets.forEach(p => timeControls.addTimeHooks(p.createProductionHooks()));
+    planets.forEach(p => timeControls.addTimeHooks(p.createDevelopmentHooks()));
 
     const playerInventory = new PlayerInventory(resourceManager,playerShip);
 
