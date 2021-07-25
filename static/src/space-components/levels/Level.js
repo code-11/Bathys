@@ -72,8 +72,7 @@ export default class Level{
 
 //-----PLAYER AND SHIP INITITIALIZATION-----
     const playerShip=new PlayerShip();
-    const {px,py} = this.getStartingLocation();
-    playerShip.setPoints([[px+0,py-15],[px-10,py+15],[px+10,py+15]]);
+    playerShip.setPoints([[0,-15],[-10,15],[10,15]]);
     playerShip.setColor(0xDE3249);
     playerShip.init();
 
@@ -96,7 +95,9 @@ export default class Level{
     moveCtrl._targetObj = moveCtrlTargetObj;
     moveCtrl.init();
 
-
+    const {px,py} = this.getStartingLocation();
+    playerShip.x=px;
+    playerShip.y=py;
 
 //-----RESOURCE INITITIALIZATION-----
 
