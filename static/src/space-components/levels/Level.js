@@ -2,28 +2,53 @@ import * as PIXI from 'pixi.js';
 // import * as GOWN from "gown";
 import { Viewport } from 'pixi-viewport'
 
-import Button from "./gui/Button";
-import DualSlider from "./gui/DualSlider";
-import Container from "./gui/Container";
-import PopupWindow from "./gui/PopupWindow";
-import PlayerInventory from "./gui/PlayerInventory";
-import TimeControls from "./gui/TimeControls";
-import VerticalScroll from "./gui/VerticalScroll";
-import VerticalScrollWindow from "./gui/ScrollWindow";
+import Button from "../gui/Button";
+import DualSlider from "../gui/DualSlider";
+import Container from "../gui/Container";
+import PopupWindow from "../gui/PopupWindow";
+import PlayerInventory from "../gui/PlayerInventory";
+import TimeControls from "../gui/TimeControls";
+import VerticalScroll from "../gui/VerticalScroll";
+import VerticalScrollWindow from "../gui/ScrollWindow";
 
-import EXPolygonObj from "./core/EXPolygonObj";
-import EXCircleObj from "./core/EXCircleObj";
+import EXPolygonObj from "../core/EXPolygonObj";
+import EXCircleObj from "../core/EXCircleObj";
 
-import PlayerShip from "./PlayerShip";
-import Planet from "./Planet"
-import ResourceManager from "./ResourceManager";
+import PlayerShip from "../PlayerShip";
+import Planet from "../Planet"
+import ResourceManager from "../ResourceManager";
 // import LandingChecker from "./LandingChecker";
-import MouseMovementController from "./MouseMovementController";
-import SpecifiedResourceAssignmentStrategy from "./SpecifiedResourceAssignmentStrategy";
-import FocusResourceAssignmentStrategy from "./FocusResourceAssignmentStrategy";
-import PlanetCreationStrategy from "./PlanetCreationStrategy";
+import MouseMovementController from "../MouseMovementController";
+import SpecifiedResourceAssignmentStrategy from "../SpecifiedResourceAssignmentStrategy";
+import FocusResourceAssignmentStrategy from "../FocusResourceAssignmentStrategy";
+import PlanetCreationStrategy from "../PlanetCreationStrategy";
 
 export default class Level{
+
+  getViewWidth(){
+    console.error("getViewWidth is undefined");
+  }
+
+  getViewHeight(){
+    console.error("getViewHeight is undefined");
+  }
+
+  getLevelWidth(){
+    console.error("getLevelWidth is undefined");
+  }
+
+  getLevelHeight(){
+    console.error("getLevelHeight is undefined");
+  }
+
+  getStartingLocation(){
+    console.error("getStartingLocation is undefined");
+  }
+
+  planetInitialization(graphics, viewport, resourceManager, playerShip){
+    console.error("planetInitialization is undefined");
+  }
+
   constructor(){
     this.app = new PIXI.Application({ antialias: true });
     document.body.appendChild(this.app.view);
@@ -34,20 +59,21 @@ export default class Level{
     const viewport = new Viewport({
         screenWidth: window.innerWidth,
         screenHeight: window.innerHeight,
-        worldWidth: 1000,
-        worldHeight: 1000,
+        worldWidth: this.getViewWidth(),
+        worldHeight: this.getViewHeight(),
 
         interaction: this.app.renderer.plugins.interaction // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
     })
 
     const graphics = new PIXI.Graphics();
     graphics.interactive = true;
-    graphics.hitArea = new PIXI.Rectangle(0, 0, 5000, 5000);
+    graphics.hitArea = new PIXI.Rectangle(0, 0, this.getLevelWidth(), this.getLevelHeight());
     // graphics.drawRect(new PIXI.Rectangle(2, 2, 20, 20));
 
 //-----PLAYER AND SHIP INITITIALIZATION-----
     const playerShip=new PlayerShip();
-    playerShip.setPoints([[0,-15],[-10,15],[10,15]]);
+    const {px,py} = this.getStartingLocation();
+    playerShip.setPoints([[px+0,py-15],[px-10,py+15],[px+10,py+15]]);
     playerShip.setColor(0xDE3249);
     playerShip.init();
 
@@ -80,21 +106,7 @@ export default class Level{
     resourceManager.initResourceGraph();
 
 //-----PLANET INITITIALIZATION-----
-
-    const planetCreator = new PlanetCreationStrategy(this.app.renderer, graphics, viewport)
-    const planets=planetCreator.createPlanets(Object.values(resourceManager.focuses_by_name),Object.values(resourceManager.focuses_by_name).length,5000,5000);
-
-//-----PLANET RESOURCE INITIALIZATION-----
-
-    const resourceAssigner = new FocusResourceAssignmentStrategy(planets, playerShip, resourceManager);
-    resourceAssigner.assignProduction();
-    resourceAssigner.assignResources();
-
-    // const resourceAssigner = new SpecifiedResourceAssignmentStrategy(planets,playerShip,resourceManager);
-    // resourceAssigner.assignResources();
-    // resourceAssigner.assignProduction();
-    // resourceAssigner.assignResourcesWanted();
-
+    const planets=this.planetInitialization(graphics, viewport, resourceManager, playerShip)
     planets.forEach(p => p.init());
 
 //-----HUD INITITIALIZATION-----
@@ -176,7 +188,7 @@ export default class Level{
     // graphics.addChild(slider);
     // graphics.addChild(container);
     graphics.lineStyle(5, 0xFFFFFF);
-    graphics.drawRect(3, 3, 5000, 5000);
+    graphics.drawRect(3, 3, this.getLevelWidth(), this.getLevelHeight());
     viewport.addChild(graphics);
     // this.app.stage.addChild(graphics);
     this.app.stage.addChild(viewport);
@@ -192,4 +204,6 @@ export default class Level{
     // const aeonTheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
 
   }
+
+
 }
