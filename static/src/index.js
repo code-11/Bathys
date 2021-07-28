@@ -8,7 +8,8 @@ const levelStarters=[
 ]
 
 var url = new URL(window.location.href);
-var level = parseInt(url.searchParams.get("level"));
+const levelStr=url.searchParams.get("level");
+const level= levelStr=="x" ? 0 : parseInt(levelStr);
 
 //Now load the level
 levelStarters[level]();

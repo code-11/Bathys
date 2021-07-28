@@ -21,7 +21,7 @@ import ResourceManager from "../ResourceManager";
 import MouseMovementController from "../MouseMovementController";
 import SpecifiedResourceAssignmentStrategy from "../SpecifiedResourceAssignmentStrategy";
 import FocusResourceAssignmentStrategy from "../FocusResourceAssignmentStrategy";
-import PlanetCreationStrategy from "../PlanetCreationStrategy";
+import RandomPlanetCreationStrategy from "../RandomPlanetCreationStrategy";
 
 export default class Level{
 
