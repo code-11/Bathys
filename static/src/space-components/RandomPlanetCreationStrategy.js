@@ -1,7 +1,7 @@
 import {getRandomInt, randomChoose, deeplicate} from "./util/util";
 import Planet from "./Planet";
 
-export default class PlanetCreationStrategy{
+export default class RandomPlanetCreationStrategy{
   constructor(renderer, graphics, viewport){
     this.renderer=renderer;
     this.graphics = graphics;

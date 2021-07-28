@@ -72,8 +72,6 @@ export default class Level{
 
 //-----PLAYER AND SHIP INITITIALIZATION-----
     const playerShip=new PlayerShip();
-    playerShip.setPoints([[0,-15],[-10,15],[10,15]]);
-    playerShip.setColor(0xDE3249);
     playerShip.init();
 
     viewport.follow(playerShip);

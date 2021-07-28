@@ -1,6 +1,6 @@
 import SpecifiedResourceAssignmentStrategy from "../SpecifiedResourceAssignmentStrategy";
 import FocusResourceAssignmentStrategy from "../FocusResourceAssignmentStrategy";
-import PlanetCreationStrategy from "../PlanetCreationStrategy";
+import RandomPlanetCreationStrategy from "../RandomPlanetCreationStrategy";
 
 import Level from "./Level";
 
@@ -31,7 +31,7 @@ export default class LevelX extends Level{
   }
 
   planetInitialization(graphics, viewport, resourceManager, playerShip){
-    const planetCreator = new PlanetCreationStrategy(this.app.renderer, graphics, viewport)
+    const planetCreator = new RandomPlanetCreationStrategy(this.app.renderer, graphics, viewport)
     const planets=planetCreator.createPlanets(Object.values(resourceManager.focuses_by_name),Object.values(resourceManager.focuses_by_name).length,this.getLevelWidth(),this.getLevelHeight());
 
     const resourceAssigner = new FocusResourceAssignmentStrategy(planets, playerShip, resourceManager);
