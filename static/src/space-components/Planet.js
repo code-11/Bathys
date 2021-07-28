@@ -124,6 +124,32 @@ export default class Planet extends EXObj{
     return hooks;
   }
 
+  /*In relation to the cost of the most expensive product,
+  is there a lot of this resource on this planet?
+  For instance, if there is a 1000 cost item A and a 10 cost item B,
+  there are many A if there are 3 of them but only many B if there are 300 of them */
+  objectiveLargeAmount(){
+    const LARGE_AMOUNT_MULTIPLIER =3;
+    const globalManager=this.resourceManager.globalResourceManager;
+    const highCost = globalManager.highestCost();
+
+    const calcLargeAmount = (highCost,res) => {
+      return (Math.floor(highCost / res.intrinsicVal) * LARGE_AMOUNT_MULTIPLIER);
+    };
+
+    const largeAmountVector = new AmountResourceManager();
+    globalManager.resources.forEach(res=>{
+      largeAmountVector.assignResourceAmount(res.name, calcLargeAmount(highCost,res));
+    });
+
+    const amountsWanted = this.calcAmountsWanted();
+
+    const totalNeeded = amountsWanted.plus(largeAmountVector);
+    const surplus = this.resourceManager.minus(totalNeeded);
+    const largeSurplus = surplus.nonZeroRes();
+    return largeSurplus;
+  }
+
   setTopGraphic(top_graphic){
     this.top_graphic=top_graphic;
     this.saleManager.top_graphic=this.top_graphic;
@@ -140,6 +166,10 @@ export default class Planet extends EXObj{
   resetContainerPos(){
     this.saleMenu.x=35;
     this.saleMenu.y=-25;
+  }
+
+  getName(){
+    return this.base.name;
   }
 
   init(){

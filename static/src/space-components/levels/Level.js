@@ -16,6 +16,7 @@ import EXCircleObj from "../core/EXCircleObj";
 
 import PlayerShip from "../PlayerShip";
 import Planet from "../Planet"
+import TimeHook from "../TimeHook";
 import ResourceManager from "../ResourceManager";
 // import LandingChecker from "./LandingChecker";
 import MouseMovementController from "../MouseMovementController";
@@ -49,6 +50,10 @@ export default class Level{
     console.error("planetInitialization is undefined");
   }
 
+  cpusInit(){
+    console.error("cpusInit is undefined");
+  }
+
   constructor(){
     this.app = new PIXI.Application({ antialias: true });
     document.body.appendChild(this.app.view);
@@ -78,7 +83,7 @@ export default class Level{
 
     const moveCtrlTargetObj = new EXCircleObj();
     moveCtrlTargetObj._radius=5;
-    moveCtrlTargetObj.setColor(0xDE3249);
+    moveCtrlTargetObj.setColor(0x0099ff);
     moveCtrlTargetObj.init();
 
     // const all_landing_checkers=[baseLandingChecker];
@@ -104,9 +109,16 @@ export default class Level{
     resourceManager.initFocuses();
     resourceManager.initResourceGraph();
 
+    playerShip.resourceManager.globalResourceManager=resourceManager;
+
+
 //-----PLANET INITITIALIZATION-----
     const planets=this.planetInitialization(graphics, viewport, resourceManager, playerShip)
     planets.forEach(p => p.init());
+
+//-----AI INITIALIZATION-----
+    const cpuShips=this.cpusInit(planets, resourceManager);
+    cpuShips.forEach(s=>s.init());
 
 //-----HUD INITITIALIZATION-----
 
@@ -117,6 +129,12 @@ export default class Level{
     const timeControls = new TimeControls();
     planets.forEach(p => timeControls.addTimeHooks(p.createProductionHooks()));
     planets.forEach(p => timeControls.addTimeHooks(p.createDevelopmentHooks()));
+    cpuShips.forEach(cpuShip=> timeControls.addTimeHook(new TimeHook({
+      hours:1
+    },()=>{
+      cpuShip.evalStrategy(planets, resourceManager);
+    })));
+
 
     const playerInventory = new PlayerInventory(resourceManager,playerShip);
 
@@ -125,63 +143,12 @@ export default class Level{
     hud.init();
     hud.drawFunc();
 
-    // const slider= new DualSlider(-20,100);
-    // slider._renderer=this.app.renderer;
-    //
-    // const slider2= new DualSlider(-20,100);
-    // slider2._renderer=this.app.renderer;
-    //
-    // const slider3= new DualSlider(-20,100);
-    // slider3._renderer=this.app.renderer;
-    //
-    // const container = new Container(1,3);
-    //
-    // container._border_color=0x00AA00;
-    // container._thickness=0;
-    // container._padding=5;
-    //
-    // container.addElement(0,0,0,0,slider);
-    // container.addElement(0,1,0,1,slider2);
-    // container.addElement(0,2,0,2,slider3);
-    //
-    // const popupWindow = new PopupWindow(container);
-    // popupWindow.top_graphic=graphics;
-    // popupWindow._renderer=this.app.renderer;
-    // popupWindow.init();
-    // popupWindow.drawFunc();
-
-
-
-    //
-    // const scrollWindow = new VerticalScrollWindow(container,this.app.renderer);
-    // scrollWindow._height=100;
-    // scrollWindow._thickness=3;
-    // scrollWindow._border_color=0xFF0000;
-    //
-    // container.addElement(0,0,0,0,slider);
-    // container.addElement(0,1,0,1,slider2);
-    // container.addElement(0,2,0,2,slider3);
-    //
-    // scrollWindow.init();
-    // scrollWindow.x=50;
-    // scrollWindow.y=50;
-    // scrollWindow.drawFunc();
-
-    // const slider = new VerticalScroll();
-    // slider._renderer= this.app.renderer;
-    // slider.init();
-    // slider.x=200;
-    // slider.y=200;
-    // slider.drawFunc();
-
-    // graphics.addChild(scrollWindow);
-    // graphics.addChild(popupWindow);
-
     planets.forEach(p => graphics.addChild(p));
 
     graphics.addChild(playerShip);
     graphics.addChild(moveCtrlTargetObj);
 
+    cpuShips.forEach(ship=>graphics.addChild(ship));
 
 
     // graphics.addChild(slider);
@@ -189,7 +156,7 @@ export default class Level{
     graphics.lineStyle(5, 0xFFFFFF);
     graphics.drawRect(3, 3, this.getLevelWidth(), this.getLevelHeight());
     viewport.addChild(graphics);
-    // this.app.stage.addChild(graphics);
+
     this.app.stage.addChild(viewport);
     this.app.stage.addChild(hud);
     // this.app.stage.addChild(graphics);
@@ -198,6 +165,7 @@ export default class Level{
       moveCtrl.update(timeControls,delta);
       timeControls.update(delta);
       planets.forEach(p => p.checkLanding(playerShip,moveCtrlTargetObj));
+      cpuShips.forEach(ship => ship.update(timeControls,delta));
     });
 
     // const aeonTheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");

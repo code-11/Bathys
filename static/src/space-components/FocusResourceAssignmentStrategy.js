@@ -7,9 +7,7 @@ export default class FocusResourceAssignmentStrategy{
     this.planetsByName={};
     this.planets.forEach( p => {
       this.planetsByName[p.name]=p;
-      p.resourceManager.globalResourceManager=resourceManager;
     });
-    ship.resourceManager.globalResourceManager=resourceManager;
   }
 
   assignResources(){

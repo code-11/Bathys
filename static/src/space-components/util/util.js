@@ -25,6 +25,16 @@ export function dictGet(object, key, default_value) {
     return (result != undefined) ? result : default_value;
 }
 
+export function dictFilter(object, func){
+  const toReturn ={};
+  for (const [key, value] of Object.entries(object)) {
+    if (func(value)){
+      toReturn[key]=value;
+    }
+  }
+  return toReturn;
+}
+
 export function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max-min+1) + min );
 }
