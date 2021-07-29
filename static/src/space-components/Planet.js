@@ -174,6 +174,10 @@ export default class Planet extends EXObj{
 
   init(){
     const base = new EXCircleObj();
+    base.xTransformer = (x)=> x+30;
+    base.yTransformer = (y)=> y+30;
+    base.rotationTransformer = (rot)=> rot;
+    base.radiusTransformer = (rad)=> rad;
     // base._origin = new PIXI.Point(500,50);
     base._radius=15;
     base.setColor(this.focus.color);

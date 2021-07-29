@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js'
 export default class EXCircleObj extends EXObj{
   constructor(){
     super();
-    this._radius=0;
+    // this._radius=0;
     this.viewport=null;
     this.name="unnamed";
   }

@@ -8,6 +8,7 @@ import Container from "../gui/Container";
 import PopupWindow from "../gui/PopupWindow";
 import PlayerInventory from "../gui/PlayerInventory";
 import TimeControls from "../gui/TimeControls";
+import Minimap from "../gui/Minimap";
 import VerticalScroll from "../gui/VerticalScroll";
 import VerticalScrollWindow from "../gui/ScrollWindow";
 
@@ -74,6 +75,10 @@ export default class Level{
     graphics.interactive = true;
     graphics.hitArea = new PIXI.Rectangle(0, 0, this.getLevelWidth(), this.getLevelHeight());
     // graphics.drawRect(new PIXI.Rectangle(2, 2, 20, 20));
+
+    const minimap = new Minimap(200,200, this.getLevelWidth(),this.getLevelHeight());
+    minimap.interactive = false;
+
 
 //-----PLAYER AND SHIP INITITIALIZATION-----
     const playerShip=new PlayerShip();
@@ -143,12 +148,22 @@ export default class Level{
     hud.init();
     hud.drawFunc();
 
-    planets.forEach(p => graphics.addChild(p));
+    planets.forEach(p => {
+      graphics.addChild(p);
+      // minimap.addChild(p);
+    });
+
+    minimap.x=window.innerWidth-minimap._width;
+    minimap.y=window.innerHeight-minimap._height;
+    minimap.init();
 
     graphics.addChild(playerShip);
+    // minimap.addChild(playerShip);
     graphics.addChild(moveCtrlTargetObj);
 
-    cpuShips.forEach(ship=>graphics.addChild(ship));
+    cpuShips.forEach(ship=> {
+      graphics.addChild(ship);
+    });
 
 
     // graphics.addChild(slider);
@@ -159,6 +174,7 @@ export default class Level{
 
     this.app.stage.addChild(viewport);
     this.app.stage.addChild(hud);
+    this.app.stage.addChild(minimap);
     // this.app.stage.addChild(graphics);
 
     this.app.ticker.add(delta => {
