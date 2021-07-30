@@ -76,7 +76,7 @@ export default class Level{
     graphics.hitArea = new PIXI.Rectangle(0, 0, this.getLevelWidth(), this.getLevelHeight());
     // graphics.drawRect(new PIXI.Rectangle(2, 2, 20, 20));
 
-    const minimap = new Minimap(200,200, this.getLevelWidth(),this.getLevelHeight());
+    const minimap = new Minimap(100,100, this.getLevelWidth(),this.getLevelHeight());
     minimap.interactive = false;
 
 
@@ -121,6 +121,7 @@ export default class Level{
     const planets=this.planetInitialization(graphics, viewport, resourceManager, playerShip)
     planets.forEach(p => p.init());
 
+
 //-----AI INITIALIZATION-----
     const cpuShips=this.cpusInit(planets, resourceManager);
     cpuShips.forEach(s=>s.init());
@@ -150,11 +151,14 @@ export default class Level{
 
     planets.forEach(p => {
       graphics.addChild(p);
-      // minimap.addChild(p);
+      const icon=p.makeMinimapIcon();
+      icon.init();
+      minimap.addChild(icon);
     });
 
-    minimap.x=window.innerWidth-minimap._width;
-    minimap.y=window.innerHeight-minimap._height;
+    //Put it in the corner;
+    minimap.x=window.innerWidth-(minimap._width*2+20);
+    minimap.y=window.innerHeight-(minimap._height*2+20);
     minimap.init();
 
     graphics.addChild(playerShip);

@@ -16,14 +16,19 @@ export default class WrapperObj extends EXCircleObj{
     this.y=newY;
   }
 
-  setRadius(newRadius){
-    this.wrappedObj._radius=newRadius;
-    this._radius=newRadius;
+  setColor(newColor){
+    this.wrappedObj.setColor(newColor);
+    this.setColor(newColor);
   }
 
-  setRotation(newRotation){
-    this.wrappedObj.rotation=newRotation;
-    this.rotation=newRotation;
+  setName(newName){
+    this.wrappedObj.name=newName;
+    this.name=newName+"-proxy";
+  }
+
+  init(){
+    this.wrappedObj.init();
+    this.init();
   }
 
   getDelegate(){

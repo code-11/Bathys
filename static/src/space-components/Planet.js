@@ -18,7 +18,8 @@ import PlanetInfoManager from "./PlanetInfoManager";
 import AmountResourceManager from "./AmountResourceManager";
 
 import EXObj from "./core/EXObj";
-import EXCircleObj from "./core/EXCircleObj"
+import EXCircleObj from "./core/EXCircleObj";
+import ProxyObj from "./core/ProxyObj";
 
 export default class Planet extends EXObj{
   constructor(renderer){
@@ -172,12 +173,17 @@ export default class Planet extends EXObj{
     return this.base.name;
   }
 
+  makeMinimapIcon(){
+    const icon = new EXCircleObj();
+    icon._radius=this.base._radius+120;
+    icon.setColor(this.focus.color);
+    icon.x=this.x;
+    icon.y=this.y;
+    return icon;
+  }
+
   init(){
     const base = new EXCircleObj();
-    base.xTransformer = (x)=> x+30;
-    base.yTransformer = (y)=> y+30;
-    base.rotationTransformer = (rot)=> rot;
-    base.radiusTransformer = (rad)=> rad;
     // base._origin = new PIXI.Point(500,50);
     base._radius=15;
     base.setColor(this.focus.color);
@@ -185,6 +191,7 @@ export default class Planet extends EXObj{
     base.init();
     base.viewport=this.viewport
     this.base=base;
+
 
     this.saleMenu=this.saleManager.initTradeMenu();
     this.infoMenu=this.infoManager.initInfoMenu();

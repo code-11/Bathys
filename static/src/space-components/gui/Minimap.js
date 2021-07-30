@@ -6,11 +6,12 @@ export default class Minimap extends EXPolygonObj{
     super();
     this.scale.x=width / levelWidth;
     this.scale.y=height / levelHeight;
+    //TODO: Why is there this arbitrary *2 scaling needed????!!
     this._polygon=new PIXI.Polygon([
       new PIXI.Point(0,0),
-      new PIXI.Point(0,height/this.scale.y),
-      new PIXI.Point(width/this.scale.x,height/this.scale.y),
-      new PIXI.Point(width/this.scale.x,0),
+      new PIXI.Point(0,levelHeight*2),
+      new PIXI.Point(levelWidth*2,levelHeight*2),
+      new PIXI.Point(levelWidth*2,0),
     ]);
     this._height=height;
     this._width = width;

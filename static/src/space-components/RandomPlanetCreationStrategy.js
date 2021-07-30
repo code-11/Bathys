@@ -43,7 +43,7 @@ export default class RandomPlanetCreationStrategy{
       planet.development = this.assignDevelopment(planet.focus);
       planet.developmentSlots = this.assignBaseIndustry(planet.focus, planet.development);
       planet.x=x;
-      planet.y=y
+      planet.y=y;
 
       planets.push(planet);
     }
