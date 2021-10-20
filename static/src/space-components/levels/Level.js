@@ -79,10 +79,16 @@ export default class Level{
     const minimap = new Minimap(100,100, this.getLevelWidth(),this.getLevelHeight());
     minimap.interactive = false;
 
+    const shipIdToIcon={};
 
 //-----PLAYER AND SHIP INITITIALIZATION-----
-    const playerShip=new PlayerShip();
+    const playerShip=new PlayerShip("playerShip");
     playerShip.init();
+
+    const playerShipIcon=playerShip.makeMinimapIcon();
+    playerShipIcon.init();
+    minimap.addChild(playerShipIcon);
+    shipIdToIcon[playerShip.getShipId()]=playerShipIcon;
 
     viewport.follow(playerShip);
 
@@ -167,6 +173,10 @@ export default class Level{
 
     cpuShips.forEach(ship=> {
       graphics.addChild(ship);
+      const icon = ship.makeMinimapIcon();
+      icon.init();
+      minimap.addChild(icon);
+      shipIdToIcon[ship.getShipId()]=icon;
     });
 
 
@@ -183,9 +193,22 @@ export default class Level{
 
     this.app.ticker.add(delta => {
       moveCtrl.update(timeControls,delta);
+      const playerShipIcon=shipIdToIcon[playerShip.getShipId()];
+      playerShipIcon.x=playerShip.x*2;
+      playerShipIcon.y=playerShip.y*2;
+      playerShipIcon.rotation=playerShip.rotation;
+
+
       timeControls.update(delta);
       planets.forEach(p => p.checkLanding(playerShip,moveCtrlTargetObj));
-      cpuShips.forEach(ship => ship.update(timeControls,delta));
+      
+      cpuShips.forEach(ship => {
+        ship.update(timeControls,delta)
+        const cpuShipIcon=shipIdToIcon[ship.getShipId()];
+        cpuShipIcon.x=ship.x*2;
+        cpuShipIcon.y=ship.y*2;
+        cpuShipIcon.rotation=ship.rotation;
+      });
     });
 
     // const aeonTheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
