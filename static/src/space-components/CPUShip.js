@@ -8,8 +8,8 @@ const AI_STATES={
 };
 
 export default class CPUShip extends Ship {
-  constructor(){
-    super();
+  constructor(shipId){
+    super(shipId);
     this.setPoints([[0,-15],[-10,15],[10,15]]);
     this.setColor(0xDE3249);
 
@@ -21,7 +21,7 @@ export default class CPUShip extends Ship {
     switch (this.aiState) {
       case AI_STATES.PURCHASE:
         if (this.target_planet!=undefined){
-          moveToTarget(timeControls,delta,this,this.target_planet,3)
+          return moveToTarget(timeControls,delta,this,this.target_planet,3);
         }
         break;
       case AI_STATES.SELL:
