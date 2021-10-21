@@ -155,6 +155,7 @@ export default class Level{
     hud.init();
     hud.drawFunc();
 
+    //Add planets to graphics and minimap
     planets.forEach(p => {
       graphics.addChild(p);
       const icon=p.makeMinimapIcon();
