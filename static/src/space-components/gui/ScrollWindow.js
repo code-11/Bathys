@@ -4,6 +4,9 @@ import EXPolygonObj from "../core/EXPolygonObj";
 import VerticalScroll from "./VerticalScroll";
 import GuiUtil from "./GuiUtil"
 
+import {HARD_BORDER_COLOR} from "../util/Config";
+
+
 export default class VerticalScrollWindow extends EXPolygonObj{
   constructor(widget,renderer){
     super();
@@ -71,7 +74,7 @@ export default class VerticalScrollWindow extends EXPolygonObj{
     ])
 
     const elMask= new PIXI.Graphics();
-    elMask.beginFill(0xFFFFFF);
+    elMask.beginFill(HARD_BORDER_COLOR);
     elMask.drawPolygon(viewport);
     elMask.endFill();
     elMask.x=this.widget.x;

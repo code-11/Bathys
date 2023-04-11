@@ -6,6 +6,8 @@ import DualSlider from "./gui/DualSlider";
 import PopupWindow from "./gui/PopupWindow";
 import VerticalScrollWindow from "./gui/ScrollWindow";
 
+import {TEXT_COLOR, HARD_BORDER_COLOR, SOFT_TEXT_COLOR, SOFT_BORDER_COLOR} from "./util/Config";
+
 export default class PlanetInfoManager{
 
   constructor(parentPlanet){
@@ -19,7 +21,7 @@ export default class PlanetInfoManager{
 
   initInfoMenu(){
     const container = new Container(1,4);
-    container._border_color=0xAAAAAA;
+    container._border_color=SOFT_BORDER_COLOR;
     container._thickness=1
     container._padding=1;
 
@@ -45,21 +47,21 @@ export default class PlanetInfoManager{
     const sectionHeader = new Button("Consumption", {
       fontFamily : 'Arial',
       fontSize: 18,
-      fill : 0xff1010,
+      fill : TEXT_COLOR,
       align : 'center'
     });
 
     const lblTextOptions={
       fontFamily : 'Arial',
       fontSize: 12,
-      fill : 0xff1010,
+      fill : TEXT_COLOR,
       align : 'center'
     };
 
     const lblTextOptions2={
       fontFamily : 'Arial',
       fontSize: 12,
-      fill : 0x888888,
+      fill : SOFT_TEXT_COLOR,
       align : 'center'
     };
 
@@ -100,21 +102,21 @@ export default class PlanetInfoManager{
     const lblTextOptions={
       fontFamily : 'Arial',
       fontSize: 12,
-      fill : 0xff1010,
+      fill : TEXT_COLOR,
       align : 'center'
     };
 
     const sectionHeader = new Button("Production", {
       fontFamily : 'Arial',
       fontSize: 18,
-      fill : 0xff1010,
+      fill : TEXT_COLOR,
       align : 'center'
     });
     container.addElement(0,0,products.length,0,sectionHeader);
 
     products.forEach((res,i)=>{
       const slotLbl=new Button(res.name,lblTextOptions);
-      slotLbl._border_color=0xff1010;
+      slotLbl._border_color=HARD_BORDER_COLOR;
       slotLbl._padding=2;
       container.addElement(i,1,i,1,slotLbl);
     });
@@ -126,7 +128,7 @@ export default class PlanetInfoManager{
     const lblTextOptions={
       fontFamily : 'Arial',
       fontSize: 12,
-      fill : 0xff1010,
+      fill : TEXT_COLOR,
       align : 'center'
     };
 
@@ -138,7 +140,7 @@ export default class PlanetInfoManager{
     const sectionHeader = new Button("Development Slots", {
       fontFamily : 'Arial',
       fontSize: 18,
-      fill : 0xff1010,
+      fill : TEXT_COLOR,
       align : 'center'
     });
     container.addElement(0,0,gridSize,0,sectionHeader);
@@ -150,7 +152,7 @@ export default class PlanetInfoManager{
       const slotLbl=new FixedSizeButton(textToUse,lblTextOptions,50,50);
       const thicknessToUse= slot!=null ? 2 :1;
       slotLbl._thickness=thicknessToUse;
-      slotLbl._border_color=0xff1010;
+      slotLbl._border_color=HARD_BORDER_COLOR;
       slotLbl._padding=2;
       container.addElement(x,y,x,y,slotLbl);
     });
@@ -161,7 +163,7 @@ export default class PlanetInfoManager{
     const container = new Container(2,4);
     // container.x=35;
     // container.y=-25;
-    container._border_color=0xAAAAAA;
+    container._border_color=SOFT_BORDER_COLOR;
     container._thickness=1
     container._padding=5;
     // container.visible=false;
@@ -169,7 +171,7 @@ export default class PlanetInfoManager{
     const lblTextOptions={
       fontFamily : 'Arial',
       fontSize: 12,
-      fill : 0xff1010,
+      fill : TEXT_COLOR,
       align : 'center'
     };
 

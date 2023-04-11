@@ -17,20 +17,20 @@ export default class TimeControls extends Container{
     this.timeLbl = new Button("TEST", {
       fontFamily : 'Arial',
       fontSize: 20,
-      fill : 0xff1010,
+      fill : 0xffffff,
       align : 'center'
     });
-    this.timeLbl._border_color=0xff1010;
+    this.timeLbl._border_color=0xffffff;
     this.timeLbl._padding=5;
 
     const slower = new Button("<", {
       fontFamily : 'Arial',
       fontSize: 16,
-      fill : 0xff1010,
+      fill : 0xffffff,
       align : 'center'
     });
     slower._thickness=1;
-    slower._border_color=0xff1010;
+    slower._border_color=0xffffff;
     slower._padding=3;
     slower.buttonMode=true;
     slower.interactive=true;
@@ -42,20 +42,20 @@ export default class TimeControls extends Container{
     this.speedLbl = new Button("TEST", {
       fontFamily : 'Arial',
       fontSize: 16,
-      fill : 0xff1010,
+      fill : 0xffffff,
       align : 'center'
     });
-    this.speedLbl._border_color=0xff1010;
+    this.speedLbl._border_color=0xffffff;
     this.speedLbl._padding=5;
 
     const faster = new Button(">", {
       fontFamily : 'Arial',
       fontSize: 16,
-      fill : 0xff1010,
+      fill : 0xffffff,
       align : 'center'
     });
     faster._thickness=1;
-    faster._border_color=0xff1010;
+    faster._border_color=0xffffff;
     faster._padding=3;
     faster.buttonMode=true;
     faster.interactive=true;

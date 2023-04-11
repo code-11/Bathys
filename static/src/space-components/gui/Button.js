@@ -46,7 +46,7 @@ export default class Button extends EXPolygonObj{
     // this.drawFunc();
     this.addChild(this._textObj);
     this.setHitArea();
-    // let text = new PIXI.Text('This is a PixiJS text',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
+    // let text = new PIXI.Text('This is a PixiJS text',{fontFamily : 'Arial', fontSize: 24, fill : 0xffffff, align : 'center'});
   }
 
   setText(text){

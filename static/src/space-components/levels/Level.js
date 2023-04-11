@@ -25,6 +25,8 @@ import SpecifiedResourceAssignmentStrategy from "../SpecifiedResourceAssignmentS
 import FocusResourceAssignmentStrategy from "../FocusResourceAssignmentStrategy";
 import RandomPlanetCreationStrategy from "../RandomPlanetCreationStrategy";
 
+import {PLAYER_COLOR, SOFT_BORDER_COLOR, LEVEL_BOUNDARY_COLOR} from "../util/Config";
+
 export default class Level{
 
   getViewWidth(){
@@ -88,7 +90,7 @@ export default class Level{
 
     const moveCtrlTargetObj = new EXCircleObj();
     moveCtrlTargetObj._radius=5;
-    moveCtrlTargetObj.setColor(0x0099ff);
+    moveCtrlTargetObj.setColor(PLAYER_COLOR);
     moveCtrlTargetObj.init();
 
     // const all_landing_checkers=[baseLandingChecker];
@@ -130,7 +132,7 @@ export default class Level{
 
     const hud= new Container(1,2);
     hud._thickness=1
-    hud._border_color=0xAAAAAA;
+    hud._border_color=SOFT_BORDER_COLOR;
 
     const timeControls = new TimeControls();
     planets.forEach(p => timeControls.addTimeHooks(p.createProductionHooks()));
@@ -172,7 +174,7 @@ export default class Level{
 
     // graphics.addChild(slider);
     // graphics.addChild(container);
-    graphics.lineStyle(5, 0xFFFFFF);
+    graphics.lineStyle(5, LEVEL_BOUNDARY_COLOR);
     graphics.drawRect(3, 3, this.getLevelWidth(), this.getLevelHeight());
     viewport.addChild(graphics);
 

@@ -1,6 +1,10 @@
 import * as PIXI from 'pixi.js';
 import EXPolygonObj from "../core/EXPolygonObj";
 import Button from "./Button";
+
+import {HIGHLIGHT_COLOR, HARD_BORDER_COLOR, SOFT_BORDER_COLOR, TEXT_COLOR} from "../util/Config";
+
+
 export default class Slider extends EXPolygonObj{
   constructor(minVal=0,maxVal=1, hasInner=true, hasValLbl=true){
     super();
@@ -9,8 +13,8 @@ export default class Slider extends EXPolygonObj{
     this._maxVal=maxVal;
 
     this._thickness=1;
-    this._outerColor=0xFFFFFF;
-    this._innerColor=0xAAAAAA;
+    this._outerColor=HARD_BORDER_COLOR;
+    this._innerColor=SOFT_BORDER_COLOR;
 
     this._width=150; //pixels
     this._heightWithoutValLbl=15; //pixels
@@ -83,7 +87,7 @@ export default class Slider extends EXPolygonObj{
     ]);
 
     this._slideBox.lineStyle(0, this._outerColor);
-    this._slideBox.beginFill(0xFF0000);
+    this._slideBox.beginFill(HIGHLIGHT_COLOR);
     this._slideBox.drawPolygon(slide);
     this._slideBox.endFill();
 
@@ -149,11 +153,11 @@ export default class Slider extends EXPolygonObj{
     this._valLbl = new Button(this.getVal(), {
       fontFamily : 'Arial',
       fontSize: 18,
-      fill : 0xff1010,
+      fill : TEXT_COLOR,
       align : 'center'
     });
     this._valLbl._thickness=2;
-    this._valLbl._border_color=0xff1010;
+    this._valLbl._border_color=HARD_BORDER_COLOR;
     this._valLbl._padding=5;
     this._valLbl.init();
     this._valLbl.y=this._heightWithoutValLbl+4;

@@ -94,7 +94,7 @@ export default class PlayerSaleManager extends Container{
     const lblTextOptions={
       fontFamily : 'Arial',
       fontSize: 12,
-      fill : 0xff1010,
+      fill : 0xffffff,
       align : 'center'
     };
 
@@ -110,20 +110,20 @@ export default class PlayerSaleManager extends Container{
     resources.forEach((res,i)=>{
       const nameLbl = new Button(res.displayName, lblTextOptions);
       nameLbl._thickness=2;
-      nameLbl._border_color=0xff1010;
+      nameLbl._border_color=0xffffff;
       nameLbl._padding=5;
 
       const shipAmountLbl = new Button("Ship#", lblTextOptions);
-      shipAmountLbl._border_color=0xff1010;
+      shipAmountLbl._border_color=0xffffff;
       shipAmountLbl._padding=5;
 
       const totalLbl = new Button("0", lblTextOptions);
-      totalLbl._border_color==0xff1010;
+      totalLbl._border_color==0xffffff;
       totalLbl._padding=5;
 
       const startingPrice=this.planet.resourceManager.price(this.planet.calcAmountsWanted(),res);
       const priceLbl = new Button(startingPrice.toString(), lblTextOptions);
-      priceLbl._border_color=0xff1010;
+      priceLbl._border_color=0xffffff;
       priceLbl._padding=5;
 
       const confirmBtn = new Button("Confirm", lblTextOptions);
@@ -154,15 +154,15 @@ export default class PlayerSaleManager extends Container{
 
       const planetAmountLbl = new Button(amount.toString(), lblTextOptions);
       // planetAmountLbl._thickness=2;
-      planetAmountLbl._border_color=0xff1010;
+      planetAmountLbl._border_color=0xffffff;
       planetAmountLbl._padding=5;
 
       const planetWantedLbl = new Button("0", lblTextOptions);
-      planetWantedLbl._border_color=0xff1010;
+      planetWantedLbl._border_color=0xffffff;
       planetWantedLbl._padding=5;
 
       // planetAmountLbl._thickness=2;
-      confirmBtn._border_color=0xff1010;
+      confirmBtn._border_color=0xffffff;
       confirmBtn._padding=5;
       confirmBtn._thickness=2;
       confirmBtn.interactive=true;

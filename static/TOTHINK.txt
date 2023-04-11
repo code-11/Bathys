@@ -1,0 +1,30 @@
+How are users going to figure out where to go? And what prices are
+
+What is the core game loop and what is the experience you want to achieve?
+An experience, what do you want people to feel moment to moment. 
+
+Inteneded to save you from writing a bunch of new features that don't fit together well. Wasted a lot of effort.
+
+Make a gui as imperative -> Guis is a function that returns a value every frame rather than a persistant object.
+
+
+-----------
+
+
+As the ship is upgraded, things get automated, make routes.
+
+Graphs of prices over times/ playback
+
+One fast enemy versus many slow ones
+
+Is the competitor able to build factories?
+
+At what price does the factory build things? Always market price? If so, maybe auto-off if its loosing money.
+
+ 
+
+electric
+11790810482
+
+gas
+11790810490

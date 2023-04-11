@@ -1,6 +1,8 @@
 import Container from "./Container";
 import Button from "./Button";
 
+import {TEXT_COLOR, HARD_BORDER_COLOR} from "../util/Config";
+
 export default class PlayerInventory extends Container{
   constructor(globalResourceManager, playerShip){
     const numResources = globalResourceManager.resources.length;
@@ -25,24 +27,24 @@ export default class PlayerInventory extends Container{
       const fontOptions={
         fontFamily : 'Arial',
         fontSize: 12,
-        fill : 0xff1010,
+        fill : TEXT_COLOR,
         align : 'center'
       };
 
       const nameLbl = new Button(res.displayName,fontOptions );
       // nameLbl._thickness=2;
-      nameLbl._border_color=0xff1010;
+      nameLbl._border_color=HARD_BORDER_COLOR;
       nameLbl._padding=5;
 
       const amount = this.playerShip.resourceManager.getResourceAmount(res.name);
       const amountLbl = new Button(amount.toString(), fontOptions);
       // amountLbl._thickness=2;
-      amountLbl._border_color=0xff1010;
+      amountLbl._border_color=HARD_BORDER_COLOR;
       amountLbl._padding=5;
 
       const downLbl = new Button("<", fontOptions);
       // amountLbl._thickness=2;
-      downLbl._border_color=0xff1010;
+      downLbl._border_color=HARD_BORDER_COLOR;
       downLbl._padding=5;
       downLbl.interactive=true;
       downLbl.buttonMode=true;
@@ -54,7 +56,7 @@ export default class PlayerInventory extends Container{
 
       const upLbl = new Button(">", fontOptions);
       // amountLbl._thickness=2;
-      upLbl._border_color=0xff1010;
+      upLbl._border_color=HARD_BORDER_COLOR;
       upLbl._padding=5;
       upLbl.interactive=true;
       upLbl.buttonMode=true;

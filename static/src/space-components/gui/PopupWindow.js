@@ -3,13 +3,15 @@ import * as PIXI from 'pixi.js';
 import Button from "./Button";
 import EXPolygonObj from "../core/EXPolygonObj";
 
+import {SOFT_TEXT_COLOR, SOFT_BORDER_COLOR, DARK_COLOR} from "../util/Config";
+
 export default class PopupWindow extends EXPolygonObj{
   constructor(widget){
     super();
     this.widget=widget;
     this._thickness=1;
-    this._border_color=0xAAAAAA;
-    this._color=0xAAAAAA;
+    this._border_color=SOFT_BORDER_COLOR;
+    this._color=SOFT_TEXT_COLOR;
     this.barHeight=15;
     this.topBar=null;
     this.closeBtn=null;
@@ -21,11 +23,11 @@ export default class PopupWindow extends EXPolygonObj{
     const closeBtn= new Button("X", {
       fontFamily : 'Arial',
       fontSize: 12,
-      fill : 0x444444,
+      fill : DARK_COLOR,
       align : 'center'
     });
     closeBtn._thickness=2;
-    closeBtn._border_color=0x444444;
+    closeBtn._border_color=DARK_COLOR;
     closeBtn._padding=2;
     closeBtn.interactive=true;
     closeBtn.buttonMode=true;

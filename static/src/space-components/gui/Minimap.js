@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 import EXPolygonObj from "../core/EXPolygonObj";
 
+import {HARD_BORDER_COLOR} from "../util/Config";
+
 export default class Minimap extends EXPolygonObj{
   constructor(width, height,levelWidth, levelHeight){
     super();
@@ -16,7 +18,7 @@ export default class Minimap extends EXPolygonObj{
     this._height=height;
     this._width = width;
     this._thickness = 1/this.scale.x;
-    this._border_color=0xff1010;
+    this._border_color=HARD_BORDER_COLOR;
   }
 
   drawFunc(){
