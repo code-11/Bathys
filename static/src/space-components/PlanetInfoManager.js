@@ -5,6 +5,7 @@ import Container from "./gui/Container";
 import DualSlider from "./gui/DualSlider";
 import PopupWindow from "./gui/PopupWindow";
 import VerticalScrollWindow from "./gui/ScrollWindow";
+import PlayerBuildMenu from "./PlayerBuildMenu";
 
 import {TEXT_COLOR, HARD_BORDER_COLOR, SOFT_TEXT_COLOR, SOFT_BORDER_COLOR} from "./util/Config";
 
@@ -17,6 +18,16 @@ export default class PlanetInfoManager{
 
   refresh(){
     this.tempDevVal.rapidTextRefresh(this.parentPlanet.development);
+  }
+
+  unlinkShip(ship){
+    this.ship=null;
+  }
+
+  linkShip(ship,force=false){
+    if (this.ship==undefined || force){
+      this.ship=ship
+    }
   }
 
   initInfoMenu(){
@@ -154,6 +165,16 @@ export default class PlanetInfoManager{
       slotLbl._thickness=thicknessToUse;
       slotLbl._border_color=HARD_BORDER_COLOR;
       slotLbl._padding=2;
+      slotLbl.interactive=true;
+      slotLbl.buttonMode=true;
+      slotLbl.setHitArea();
+      slotLbl.on("click",(e)=>{
+        console.log("Initing PlayerBuildMenu");
+        const buildMenu=new PlayerBuildMenu(this.parentPlanet, this.renderer,this.top_graphic);
+        const buildMenuGuiObj=buildMenu.initBuildMenu(this.ship);
+        this.top_graphic.addChild(buildMenuGuiObj);
+        buildMenuGuiObj.visible=true;
+      });
       container.addElement(x,y,x,y,slotLbl);
     });
     return container;

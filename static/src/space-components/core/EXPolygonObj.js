@@ -21,6 +21,16 @@ export default class EXPolygonObj extends EXObj{
     }
   }
 
+  getPoints(){
+    const toReturn =[];
+    for(let i=0;i<this._polygon.points.length;i+=2){
+      const x=this._polygon.points[i];
+      const y=this._polygon.points[i+1];
+      toReturn.push([x,y]);
+    }
+    return toReturn;
+  }
+
   setHitArea(){
     this.hitArea=this._polygon;
   }

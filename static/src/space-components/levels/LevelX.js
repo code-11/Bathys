@@ -48,7 +48,7 @@ export default class LevelX extends Level{
   }
 
   cpusInit(planets, resourceManager){
-    const shipOne = new CPUShip();
+    const shipOne = new CPUShip("cpuOne");
     shipOne.planets=planets;
     shipOne.globalResourceManager=resourceManager;
     return [shipOne];
